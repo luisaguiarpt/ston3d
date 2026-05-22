@@ -17,7 +17,7 @@ int	main(int ac, char **av)
 		exit(EXIT_FAILURE);
 	get_endian(&core);
 	core.img_addr = mlx_get_data_addr(core.img, &core.bpp, &core.line_len, &core.endian);
-	draw_img(&core, 0x8ace00ff);
+	draw_img(&core, 0x8ace00);
 	mlx_loop(core.mlx);
 	return (0);
 }
@@ -36,15 +36,15 @@ void	get_endian(t_core *core)
 void	draw_img(t_core *core, int color)
 {
 	char	*dst;
-	int		i;
 
-	i = 0;
-	dst = core->img_addr;
-	while (i < (1280 * 720) * (core->bpp / 8))
+	int bytespp = core->bpp / 8;
+	for (int y = 0; y < 720; y++)
 	{
-		dst = core->img_addr + i;
-		*(unsigned int *)dst = color;
-		i++;
+		for (int x = 0; x < 1280; x++)
+		{
+			dst = core->img_addr + (y * core->line_len + x * bytespp);
+			*(unsigned int *)dst = color;
+		}
 	}
 	mlx_put_image_to_window(core->mlx, core->win, core->img, 0, 0);
 }
