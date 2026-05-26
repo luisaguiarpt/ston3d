@@ -5,6 +5,7 @@ INCL=libft
 LIBS=-lmlx -lXext -lX11 -lm
 
 SRCS=srcs/main.c
+BONUS_SRCS=
 
 OBJS=$(SRCS:%.c=%.o)
 
@@ -13,6 +14,8 @@ LIBFT=libft/libft.a
 NAME=cub3d
 
 all: $(NAME)
+
+bonus: all $(BONUS_SRCS)
 
 $(NAME): $(OBJS) $(MLX) $(LIBFT)
 	$(CC) $(FLAGS) $(OBJS) $(MLX) $(LIBFT) -o $@ -I$(INCS) $(LIBS)
