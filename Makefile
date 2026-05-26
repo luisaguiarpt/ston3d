@@ -8,6 +8,7 @@ SRCS=srcs/main.c
 BONUS_SRCS=
 
 OBJS=$(SRCS:%.c=%.o)
+BONUS_OBJS=$(BONUS_SRCS:%.c=%.o)
 
 MLX=mlx/libmlx.a
 LIBFT=libft/libft.a
@@ -15,7 +16,8 @@ NAME=cub3d
 
 all: $(NAME)
 
-bonus: all $(BONUS_SRCS)
+bonus: $(BONUS_OBJS) $(OBJS) $(MLX) $(LIBFT)
+	$(CC) $(FLAGS) $(OBJS) $(BONUS_OBJS) $(MLX) $(LIBFT) -o $@ -I$(INCS) $(LIBS)
 
 $(NAME): $(OBJS) $(MLX) $(LIBFT)
 	$(CC) $(FLAGS) $(OBJS) $(MLX) $(LIBFT) -o $@ -I$(INCS) $(LIBS)
