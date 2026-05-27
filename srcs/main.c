@@ -1,14 +1,35 @@
 #include "../incs/cub3d.h"
 
+void	init_textures(t_core *core)
+{
+	core->textures = malloc(sizeof(t_textures));
+	//if (!core->textures) TODO
+	//	error_handle TODO
+	core->textures->north = NULL;
+	core->textures->south = NULL;
+	core->textures->east = NULL;
+	core->textures->west = NULL;
+}
+
+void	init_core(t_core *core)
+{
+	core->mlx = mlx_init();
+	if (!core->mlx)
+		exit(EXIT_FAILURE);
+	init_textures(core);
+}
+
 int	main(int ac, char **av)
 {
 	t_core	core;
-	(void)ac;
-	(void)av;
 
-	core.mlx = mlx_init();
-	if (!core.mlx)
+	if (ac != 2)
+	{
+		ft_printf("usage: ./cub3d <path_to_map>\n");
 		exit(EXIT_FAILURE);
+	}
+	init_core(&core);
+	parse_map_file(&core, av[1]);
 	core.win = mlx_new_window(core.mlx, 1280, 720, "ston3d");
 	if (!core.win)
 		exit(EXIT_FAILURE);

@@ -1,9 +1,9 @@
 CC=cc
-FLAGS=-Wall -Wextra -Werror -g
+CFLAGS=-Wall -Wextra -Werror -g
 
 NAME=cub3d
 
-SRCS=srcs/main.c
+SRCS=srcs/main.c srcs/check_map/parsing.c srcs/utils/utils.c
 BONUS_SRCS=
 
 OBJS=$(SRCS:%.c=%.o)
