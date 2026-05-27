@@ -30,13 +30,13 @@ bool	find_textures(t_core *core, char *line)
 	while (is_space(line[i]))
 		i++;
 	if (line[i] == 'N' && line[i + 1] == 'O')
-		core->textures->north = load_texture(line, i + 2);
+		core->textures.north = load_texture(line, i + 2);
 	else if (line[i] == 'S' && line[i + 1] == 'O')
-		core->textures->south = load_texture(line, i + 2);
+		core->textures.south = load_texture(line, i + 2);
 	else if (line[i] == 'W' && line[i + 1] == 'E')
-		core->textures->west = load_texture(line, i + 2);
+		core->textures.west = load_texture(line, i + 2);
 	else if (line[i] == 'E' && line[i + 1] == 'A')
-		core->textures->east = load_texture(line, i + 2);
+		core->textures.east = load_texture(line, i + 2);
 	// else if (line[i] == 'F')
 	// 	core->textures->floor = load_texture(line, i + 2);
 	// else if (line[i] == 'C')

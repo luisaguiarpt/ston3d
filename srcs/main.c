@@ -2,13 +2,10 @@
 
 void	init_textures(t_core *core)
 {
-	core->textures = malloc(sizeof(t_textures));
-	//if (!core->textures) TODO
-	//	error_handle TODO
-	core->textures->north = NULL;
-	core->textures->south = NULL;
-	core->textures->east = NULL;
-	core->textures->west = NULL;
+	core->textures.north = NULL;
+	core->textures.south = NULL;
+	core->textures.east = NULL;
+	core->textures.west = NULL;
 }
 
 void	init_core(t_core *core)

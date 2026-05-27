@@ -33,8 +33,8 @@ typedef struct s_core
 	int			bpp;
 	int			endian;
 	int			line_len;
-	t_textures	*textures;
-	t_map		*map;
+	t_textures	textures;
+	t_map		map;
 }			t_core;
 
 void	get_endian(t_core *core);
