@@ -1,8 +1,7 @@
 CC=cc
 FLAGS=-Wall -Wextra -Werror -g
-INCM=mlx
-INCL=libft
-LIBS=-lmlx -lXext -lX11 -lm
+
+NAME=cub3d
 
 SRCS=srcs/main.c
 BONUS_SRCS=
@@ -10,35 +9,44 @@ BONUS_SRCS=
 OBJS=$(SRCS:%.c=%.o)
 BONUS_OBJS=$(BONUS_SRCS:%.c=%.o)
 
-MLX=mlx/libmlx.a
-LIBFT=libft/libft.a
-NAME=cub3d
+MLX_DIR=mlx
+MLX_LIB=$(MLX_DIR)/libmlx_Linux.a
 
-all: $(NAME)
+LIBFT_DIR=libft
+LIBFT_A=$(LIBFT_DIR)/libft.a
 
-bonus: $(BONUS_OBJS) $(OBJS) $(MLX) $(LIBFT)
-	$(CC) $(FLAGS) $(OBJS) $(BONUS_OBJS) $(MLX) $(LIBFT) -o $@ -I$(INCS) $(LIBS)
+INCLUDES=-I$(MLX_DIR) -I/usr/include -I$(LIBFT_DIR)
 
-$(NAME): $(OBJS) $(MLX) $(LIBFT)
-	$(CC) $(FLAGS) $(OBJS) $(MLX) $(LIBFT) -o $@ -I$(INCS) $(LIBS)
+MLX_LINK=-L$(MLX_DIR) -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
+
+all: $(MLX_LIB) $(LIBFT_A) $(NAME)
+
+$(LIBFT_A):
+	$(MAKE) -C $(LIBFT_DIR)
+
+bonus: $(BONUS_OBJS)
+	$(CC) $(CFLAGS) $(BONUS_OBJS) $(MLX_LINK) $(LIBFT_A) -o $(NAME)
+
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(MLX_LINK) $(LIBFT_A) -o $(NAME)
+
+$(MLX_LIB):
+	if [ ! -d "$(MLX_DIR)" ]; then \
+		git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIR); \
+	fi
+	$(MAKE) -C $(MLX_DIR)
 
 %.o: %.c
-	$(CC) $(FLAGS) -c $< -o $@ -I$(INCM) -I$(INCL)
-
-$(MLX):
-	make -C mlx/ all
-
-$(LIBFT):
-	make -C libft/ all
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -rf $(OBJS)
-	make -C mlx/ clean
-	make -C libft/ clean
+	rm -f $(OBJS)
+	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
-	make -C libft/ fclean
-	rm -rf $(NAME)
+	rm -f $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
+	rm -rf $(MLX_DIR)
 
 re: fclean all
 
