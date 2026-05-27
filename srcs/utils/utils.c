@@ -5,8 +5,8 @@ void	remove_newline(char *str)
 	int	len;
 
 	len = ft_strlen(str);
-	if (len > 0 && s[len - 1] == '\n')
-		s[len - 1] = '\0';
+	if (len > 0 && str[len - 1] == '\n')
+		str[len - 1] = '\0';
 }
 
 bool	is_cub_file(char *line)
@@ -29,15 +29,15 @@ bool	is_xpm_file(char *line)
 {
 	int	len;
 
-	len = ft_strlen(line);
+	len = ft_strlen(line) - 1;
 	if (len < 4)
 		return (false);
-	while (is_space(line[len]))
+	while (len > 0 && is_space(line[len]))
 		len--;
-	if (line[len - 4] != '.'
-	 	|| line[len - 3] != 'x'
-	 	|| line[len - 2] != 'p'
-	 	|| line[len - 1] != 'm')
+	if (line[len - 3] != '.'
+	 	|| line[len - 2] != 'x'
+	 	|| line[len - 1] != 'p'
+	 	|| line[len] != 'm')
 		return (false);
 	else
 		return (true);

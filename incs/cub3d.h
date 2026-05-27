@@ -9,6 +9,13 @@
 # include <stdio.h>
 # include <errno.h>
 
+typedef struct s_player
+{
+	double	x; // double? float? check
+	double	y;
+	char	dir; // direction the player faces when spawned (N, S, E, W)
+}			t_player;
+
 typedef struct s_map
 {
 	char	**grid;
@@ -33,8 +40,9 @@ typedef struct s_core
 	int			bpp;
 	int			endian;
 	int			line_len;
-	t_textures	textures;
+	t_player	player;
 	t_map		map;
+	t_textures	textures;
 }			t_core;
 
 void	get_endian(t_core *core);
@@ -44,6 +52,7 @@ void	draw_img(t_core *core, int color);
 void	parse_map_file(t_core *core, char *map_path);
 
 // utils/utils.c
+void	remove_newline(char *str);
 bool	is_cub_file(char *line);
 bool	is_xpm_file(char *line);
 bool	is_space(char c);
