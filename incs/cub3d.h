@@ -9,6 +9,13 @@
 # include <stdio.h>
 # include <errno.h>
 
+typedef struct s_map
+{
+	char	**grid;
+	int		width;
+	int		height;
+}			t_map;
+
 typedef struct s_textures
 {
 	char		*north;
@@ -17,17 +24,17 @@ typedef struct s_textures
 	char		*west;
 }			t_textures;
 
-typedef struct core
+typedef struct s_core
 {
 	void		*mlx;
 	void		*win;
 	void		*img;
-	char		**map_array;
 	char		*img_addr;
 	int			bpp;
 	int			endian;
 	int			line_len;
 	t_textures	*textures;
+	t_map		*map;
 }			t_core;
 
 void	get_endian(t_core *core);
