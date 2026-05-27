@@ -12,13 +12,14 @@ char	*load_texture(char *line, int i)
 		i++;
 	j = 0;
 	len = ft_strlen(line);
-	file = malloc((len - i) * sizeof(char));
+	file = malloc((len - i + 1) * sizeof(char));
 	while (line[i])
 	{
 		file[j] = line[i];
 		j++;
 		i++;
 	}
+	file[j] = '\0';
 	return (file);
 }
 
@@ -62,7 +63,7 @@ void	parse_map_file(t_core *core, char *map_path)
 	while (i < 4) // i < 4 just to load the North, South, East and West textures
 	{
 		line = get_next_line(map_fd);
-		line = ft_strtrim(line, "\n"); // to remove the \n at the end of the line
+		remove_newline(line);
 		find_textures(core, line);
 		free(line);
 		i++;
