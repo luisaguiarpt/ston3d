@@ -72,10 +72,9 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 
 	core->map.height = get_map_height(map_path);
 	i = 0;
-	core->map.grid = malloc((core->map.height + 1) * sizeof(char *));
+	core->map.grid = ft_calloc(core->map.height + 1, sizeof(char *));
 	if (!core->map.grid)
 		error_parsing(core, "not enough memory", map_fd);
-	core->map.grid[i] = NULL; // rethink logic
 	while((line = get_next_line(map_fd)))
 	{
 		remove_newline(line);
@@ -88,5 +87,4 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 		free(line);
 		i++;
 	}
-	core->map.grid[i] = NULL;
 }

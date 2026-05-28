@@ -22,6 +22,8 @@ void	parse_cub_file(t_core *core, char *map_path)
 
 void	error_parsing(t_core *core, char *message, int map_fd)
 {
+	mlx_destroy_window(core->mlx, core->win); // TODO maybe we'll only want to init the window and display after parsing 
+	mlx_destroy_display(core->mlx);
 	ft_printf("error: %s\n", message);
 	free_core(core);
 	close(map_fd);

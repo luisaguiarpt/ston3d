@@ -55,12 +55,12 @@ int	main(int ac, char **av)
 	core.win = mlx_new_window(core.mlx, WIDTH, HEIGHT, "ston3d");
 	if (!core.win)
 		exit(EXIT_FAILURE);
-	core.img = mlx_new_image(core.mlx, WIDTH, HEIGHT);
-	if (!core.img)
-		exit(EXIT_FAILURE);
-	get_endian(&core);
-	core.img_addr = mlx_get_data_addr(core.img, &core.bpp, &core.line_len, &core.endian);
-	draw_img(&core, 0x8ace00);
+	// core.img = mlx_new_image(core.mlx, WIDTH, HEIGHT);
+	// if (!core.img)
+	// 	exit(EXIT_FAILURE);
+	// get_endian(&core);
+	// core.img_addr = mlx_get_data_addr(core.img, &core.bpp, &core.line_len, &core.endian);
+	// draw_img(&core, 0x8ace00);
 	mlx_key_hook(core.win, handle_input, &core);
 	mlx_loop(core.mlx);
 	return (0);
