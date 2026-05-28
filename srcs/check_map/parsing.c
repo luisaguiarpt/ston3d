@@ -159,13 +159,60 @@ char	*fill_map_grid(t_core *core, int map_fd, char *line)
 	return (grid_line);
 }
 
-void	parse_map(t_core *core, int map_fd)
+void	skip_textures(int fd)
+{
+	int		textures_skipped;
+	char	*line;
+
+	textures_skipped = 0;
+	while (textures_skipped < 4) // TODO change it to handle floor and ceiling colors
+	{
+		line = get_next_line(fd);
+		// TODO add guard if fails
+		remove_newline(line);
+		if (is_empty_line(line))
+		{
+			free(line);
+			continue ;
+		}
+		free(line);
+		textures_skipped++;
+	}
+}
+
+int	get_map_height(char *map_path)
+{
+	int		new_fd;
+	int		height;
+	char	*line;
+
+	new_fd = open(map_path, O_RDONLY);
+	// TODO add guard if fails
+	skip_textures(new_fd);
+	height = 0;
+	while ((line = get_next_line(new_fd)) != NULL)
+	{
+		remove_newline(line);
+		if (height == 0 && is_empty_line(line))
+		{
+			free(line);
+			continue ;
+		}
+		height++;
+		free(line);
+	}
+	close(new_fd);
+	return (height);
+}
+
+void	parse_map(t_core *core, char *map_path, int map_fd)
 {
 	char	*line;
 	int		i;
 
+	core->map.height = get_map_height(map_path);
 	i = 0;
-	core->map.grid = malloc(sizeof(char **));
+	core->map.grid = malloc((core->map.height + 1) * sizeof(char *));
 	if (!core->map.grid)
 		error_parsing(core, "not enough memory", map_fd);
 	core->map.grid[i] = NULL; // rethink logic
@@ -211,7 +258,7 @@ void	parse_cub_file(t_core *core, char *map_path)
 		exit(EXIT_FAILURE);
 	}
 	parse_textures(core, map_fd);
-	parse_map(core, map_fd);
+	parse_map(core, map_path, map_fd);
 	print_debug(core);
 	close(map_fd);
 }
