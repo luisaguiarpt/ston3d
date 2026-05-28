@@ -14,6 +14,9 @@ void	init_core(t_core *core)
 	if (!core->mlx)
 		exit(EXIT_FAILURE);
 	init_textures(core);
+	// init_map(core); TODO - init function
+	// init_player(core); TODO - init function
+
 }
 
 int	handle_input(int keysim, void *param)
@@ -25,7 +28,7 @@ int	handle_input(int keysim, void *param)
 	{
 		mlx_destroy_window(core->mlx, core->win);
 		mlx_destroy_display(core->mlx);
-		free(core->mlx);
+		free_core(core);
 		exit(EXIT_FAILURE);
 	}
 	return (0);
@@ -42,10 +45,10 @@ int	main(int ac, char **av)
 	}
 	init_core(&core);
 	parse_map_file(&core, av[1]);
-	core.win = mlx_new_window(core.mlx, 1280, 720, "ston3d");
+	core.win = mlx_new_window(core.mlx, WIDTH, HEIGHT, "ston3d");
 	if (!core.win)
 		exit(EXIT_FAILURE);
-	core.img = mlx_new_image(core.mlx, 1280, 720);
+	core.img = mlx_new_image(core.mlx, WIDTH, HEIGHT);
 	if (!core.img)
 		exit(EXIT_FAILURE);
 	get_endian(&core);

@@ -10,9 +10,12 @@
 # include <errno.h>
 # include <X11/keysym.h>
 
+# define HEIGHT 720
+# define WIDTH 1280
+
 typedef struct s_player
 {
-	double	x; // double? float? check
+	double	x; // double?? float?? check
 	double	y;
 	char	dir; // direction the player faces when spawned (N, S, E, W)
 }			t_player;
@@ -57,5 +60,8 @@ void	remove_newline(char *str);
 bool	is_cub_file(char *line);
 bool	is_xpm_file(char *line);
 bool	is_space(char c);
+
+// exit/free.c
+void	free_core(t_core *core);
 
 #endif
