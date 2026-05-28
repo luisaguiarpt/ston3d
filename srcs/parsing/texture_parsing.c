@@ -103,8 +103,8 @@ void	parse_textures(t_core *core, int map_fd)
 		}
 		if (!find_textures(core, map_fd, line))
 		{
-			error_parsing(core, "unable to find textures from the .cub file", map_fd);
 			free(line);
+			error_parsing(core, "unable to find textures from the .cub file", map_fd);
 		}
 		free(line);
 		textures_loaded++;
