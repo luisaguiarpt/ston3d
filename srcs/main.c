@@ -16,6 +16,21 @@ void	init_core(t_core *core)
 	init_textures(core);
 }
 
+int	handle_input(int keysim, void *param)
+{
+	t_core	*core;
+
+	core = (t_core *)param;
+	if (keysim == XK_Escape)
+	{
+		mlx_destroy_window(core->mlx, core->win);
+		mlx_destroy_display(core->mlx);
+		free(core->mlx);
+		exit(EXIT_FAILURE);
+	}
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_core	core;
@@ -36,6 +51,7 @@ int	main(int ac, char **av)
 	get_endian(&core);
 	core.img_addr = mlx_get_data_addr(core.img, &core.bpp, &core.line_len, &core.endian);
 	draw_img(&core, 0x8ace00);
+	mlx_key_hook(core.win, handle_input, &core);
 	mlx_loop(core.mlx);
 	return (0);
 }
