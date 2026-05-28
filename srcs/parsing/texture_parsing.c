@@ -25,6 +25,41 @@ static char	*load_texture(t_core *core, int map_fd, char *line, int i)
 	return (file);
 }
 
+static void	load_colour(t_core *core, int map_fd, char *line, int i)
+{
+	int	*array;
+	int	values_loaded;
+	int	num;
+
+	if (line[i++] == 'F')
+		array = core->textures.floor;
+	else
+		array = core->textures.ceiling;
+	values_loaded = 0;
+	while(line[i])
+	{
+		if (values_loaded > 0 && values_loaded < 3)
+		{
+			if (line[i++] != ',')
+				error_parsing(core, "comma expected between colour values", map_fd);
+		}
+		while (is_space(line[i]))
+			i++;
+		if (!line[i])
+			break ;
+		if (!ft_isdigit(line[i]))
+			error_parsing(core, "wrong format, could not load colour", map_fd);
+		num = 0;
+		while (ft_isdigit(line[i]))
+			num = num * 10 + (line[i++] - '0');
+		if (num < 0 || num > 255)
+			error_parsing(core, "colour values must be between 0 and 255", map_fd);
+		array[values_loaded++] = num;
+	}
+	if (values_loaded != 3)
+		error_parsing(core, "colour definition expects 3 values (R, G, B)", map_fd);
+}
+
 static bool	find_textures(t_core *core, int map_fd, char *line)
 {
 	int	i;
@@ -40,10 +75,10 @@ static bool	find_textures(t_core *core, int map_fd, char *line)
 		core->textures.west = load_texture(core, map_fd, line, i + 2);
 	else if (line[i] == 'E' && line[i + 1] == 'A')
 		core->textures.east = load_texture(core, map_fd, line, i + 2);
-	// else if (line[i] == 'F')
-	// 	core->textures->floor = load_texture(core, map_fd, line, i + 2);
-	// else if (line[i] == 'C')
-	// 	core->textures->ceiling = load_texture(core, map_fd, line, i + 2);
+	else if (line[i] == 'F')
+		load_colour(core, map_fd, line, i);
+	else if (line[i] == 'C')
+		load_colour(core, map_fd, line, i);
 	else
 		return (false);
 	return (true);
@@ -55,17 +90,17 @@ void	parse_textures(t_core *core, int map_fd)
 	char	*line;
 
 	textures_loaded = 0;
-	while (textures_loaded < 4) // TODO needs to also parse ceiling and floor colors
+	while (textures_loaded < 6)
 	{
 		line = get_next_line(map_fd);
 		if (!line)
 			error_parsing(core, "not enough memory", map_fd);
+		remove_newline(line);
 		if (is_empty_line(line))
 		{
 			free(line);
 			continue ;
 		}
-		remove_newline(line);
 		if (!find_textures(core, map_fd, line))
 		{
 			error_parsing(core, "unable to find textures from the .cub file", map_fd);

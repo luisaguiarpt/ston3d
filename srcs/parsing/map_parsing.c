@@ -6,7 +6,7 @@ static void	skip_textures(int fd)
 	char	*line;
 
 	textures_skipped = 0;
-	while (textures_skipped < 4) // TODO change it to handle floor and ceiling colors
+	while (textures_skipped < 6) // TODO change it to handle floor and ceiling colors
 	{
 		line = get_next_line(fd);
 		// TODO add guard if fails
