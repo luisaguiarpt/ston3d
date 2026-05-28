@@ -228,18 +228,7 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 		free(line);
 		i++;
 	}
-}
-
-void	print_debug(t_core *core)
-{
-	int	i;
-
-	i = 0;
-	while (core->map.grid[i])
-	{
-		printf("%s\n", core->map.grid[i]);
-		i++;
-	}
+	core->map.grid[i] = NULL;
 }
 
 void	parse_cub_file(t_core *core, char *map_path)
