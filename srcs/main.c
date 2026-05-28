@@ -8,13 +8,20 @@ void	init_textures(t_core *core)
 	core->textures.west = NULL;
 }
 
+void	init_map(t_core *core)
+{
+	core->map.grid = NULL;
+	core->map.width = 0; // TODO maybe initialize right away
+	core->map.height = 0; // TODO maybe initialize right away
+}
+
 void	init_core(t_core *core)
 {
 	core->mlx = mlx_init();
 	if (!core->mlx)
 		exit(EXIT_FAILURE);
 	init_textures(core);
-	// init_map(core); TODO - init function
+	init_map(core);
 	// init_player(core); TODO - init function
 
 }
@@ -44,7 +51,7 @@ int	main(int ac, char **av)
 		exit(EXIT_FAILURE);
 	}
 	init_core(&core);
-	parse_map_file(&core, av[1]);
+	parse_cub_file(&core, av[1]);
 	core.win = mlx_new_window(core.mlx, WIDTH, HEIGHT, "ston3d");
 	if (!core.win)
 		exit(EXIT_FAILURE);

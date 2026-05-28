@@ -55,7 +55,7 @@ void	get_endian(t_core *core);
 void	draw_img(t_core *core, int color);
 
 // check_map/parsing.c
-void	parse_map_file(t_core *core, char *map_path);
+void	parse_cub_file(t_core *core, char *map_path);
 
 // utils/utils.c
 void	remove_newline(char *str);

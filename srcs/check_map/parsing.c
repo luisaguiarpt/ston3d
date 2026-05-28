@@ -82,6 +82,8 @@ bool	is_empty_line(char *line)
 	int	i;
 
 	i = 0;
+	if (!line[i])
+		return (true);
 	while (line[i])
 	{
 		if (is_space(line[i]))
@@ -101,6 +103,8 @@ void	parse_textures(t_core *core, int map_fd)
 	while (textures_loaded < 4) // TODO needs to also parse ceiling and floor colors
 	{
 		line = get_next_line(map_fd);
+		if (!line)
+			error_parsing(core, "not enough memory", map_fd);
 		if (is_empty_line(line))
 		{
 			free(line);
@@ -117,7 +121,81 @@ void	parse_textures(t_core *core, int map_fd)
 	}
 }
 
-void	parse_map_file(t_core *core, char *map_path)
+bool	is_valid_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (!is_space(line[i])
+			&& line[i] != '0'
+	  		&& line[i] != '1'
+	  		&& line[i] != 'N'
+	  		&& line[i] != 'S'
+	  		&& line[i] != 'E'
+	  		&& line[i] != 'W')
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+char	*fill_map_grid(t_core *core, int map_fd, char *line)
+{
+	char	*grid_line;
+
+	if (!is_valid_line(line))
+	{
+		free(line);
+		error_parsing(core, "only the characters 0, 1, N, S, E and W are valid for the map", map_fd);
+	}
+	grid_line = ft_strdup(line);
+	if (!grid_line)
+	{
+		free(line);
+		error_parsing(core, "not enough memory", map_fd);
+	}
+	return (grid_line);
+}
+
+void	parse_map(t_core *core, int map_fd)
+{
+	char	*line;
+	int		i;
+
+	i = 0;
+	core->map.grid = malloc(sizeof(char **));
+	if (!core->map.grid)
+		error_parsing(core, "not enough memory", map_fd);
+	core->map.grid[i] = NULL; // rethink logic
+	while((line = get_next_line(map_fd)))
+	{
+		remove_newline(line);
+		if (is_empty_line(line) && !core->map.grid[i]) // rethink logic
+		{
+			free(line);
+			continue ;
+		}
+		core->map.grid[i] = fill_map_grid(core, map_fd, line);
+		free(line);
+		i++;
+	}
+}
+
+void	print_debug(t_core *core)
+{
+	int	i;
+
+	i = 0;
+	while (core->map.grid[i])
+	{
+		printf("%s\n", core->map.grid[i]);
+		i++;
+	}
+}
+
+void	parse_cub_file(t_core *core, char *map_path)
 {
 	int		map_fd;
 	
@@ -133,5 +211,7 @@ void	parse_map_file(t_core *core, char *map_path)
 		exit(EXIT_FAILURE);
 	}
 	parse_textures(core, map_fd);
+	parse_map(core, map_fd);
+	print_debug(core);
 	close(map_fd);
 }
