@@ -54,16 +54,27 @@ typedef struct s_core
 void	get_endian(t_core *core);
 void	draw_img(t_core *core, int color);
 
-// check_map/parsing.c
+// parsing/parsing.c
 void	parse_cub_file(t_core *core, char *map_path);
+void	error_parsing(t_core *core, char *message, int map_fd);
 
 // utils/utils.c
-void	remove_newline(char *str);
-bool	is_cub_file(char *line);
-bool	is_xpm_file(char *line);
 bool	is_space(char c);
 
-// exit/free.c
+// free/free.c
 void	free_core(t_core *core);
+
+// parsing/textures_parsing.c
+void	parse_textures(t_core *core, int map_fd);
+
+// parsing/map_parsing.c
+void	parse_map(t_core *core, char *map_path, int map_fd);
+
+// parsing/parsing_utils.c
+bool	is_cub_file(char *line);
+bool	is_xpm_file(char *line);
+bool	is_empty_line(char *line);
+bool	is_valid_line(char *line);
+void	remove_newline(char *str);
 
 #endif

@@ -3,7 +3,11 @@ CFLAGS=-Wall -Wextra -Werror -g
 
 NAME=cub3d
 
-SRCS=srcs/main.c srcs/check_map/parsing.c srcs/utils/utils.c
+SRCS=srcs/main.c \
+	srcs/parsing/parsing.c srcs/parsing/texture_parsing.c srcs/parsing/map_parsing.c \
+	srcs/parsing/parsing_utils.c \
+	srcs/free/free.c \
+	srcs/utils/utils.c
 BONUS_SRCS=
 
 OBJS=$(SRCS:%.c=%.o)
