@@ -33,6 +33,8 @@ typedef struct s_textures
 	char		*south;
 	char		*east;
 	char		*west;
+	int			floor[3];
+	int			ceiling[3]; // R, G, B
 }			t_textures;
 
 typedef struct s_core

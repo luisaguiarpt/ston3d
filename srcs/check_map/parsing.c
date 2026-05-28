@@ -77,6 +77,21 @@ bool	find_textures(t_core *core, int map_fd, char *line)
 	return (true);
 }
 
+bool	is_empty_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (is_space(line[i]))
+			i++;
+		else
+			return (false);
+	}
+	return (true);
+}
+
 void	parse_textures(t_core *core, int map_fd)
 {
 	int		textures_loaded;
@@ -86,6 +101,11 @@ void	parse_textures(t_core *core, int map_fd)
 	while (textures_loaded < 4) // TODO needs to also parse ceiling and floor colors
 	{
 		line = get_next_line(map_fd);
+		if (is_empty_line(line))
+		{
+			free(line);
+			continue ;
+		}
 		remove_newline(line);
 		if (!find_textures(core, map_fd, line))
 		{
