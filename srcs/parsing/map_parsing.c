@@ -19,22 +19,22 @@ static void	get_map_width(t_core *core)
 
 static void	set_player_direction(t_core *core, char dir)
 {
-	if (dir = 'N')
+	if (dir == 'N')
 	{
 		core->player.dir_x = 0;
 		core->player.dir_y = -1;
 	}
-	else if (dir = 'S')
+	else if (dir == 'S')
 	{
 		core->player.dir_x = 0;
 		core->player.dir_y = 1;
 	}
-	else if (dir = 'E')
+	else if (dir == 'E')
 	{
 		core->player.dir_x = 1;
 		core->player.dir_y = 0;
 	}
-	else if (dir = 'W')
+	else if (dir == 'W')
 	{
 		core->player.dir_x = -1;
 		core->player.dir_y = 0;

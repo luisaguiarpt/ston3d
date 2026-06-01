@@ -15,6 +15,15 @@ void	init_map(t_core *core)
 	core->map.height = 0; // TODO maybe initialize right away
 }
 
+void	init_minimap(t_core *core)
+{
+	core->minimap.tile_size = 8;
+	core->minimap.offset_x = 1000;
+	core->minimap.offset_y = 100;
+	core->minimap.width = 10;
+	core->minimap.height = 10;
+}
+
 void	init_core(t_core *core)
 {
 	core->win = NULL;
@@ -25,6 +34,7 @@ void	init_core(t_core *core)
 	core->line_len = 0;
 	init_textures(core);
 	init_map(core);
+	init_minimap(core);
 	// init_player(core); TODO - init function
 
 }
@@ -43,12 +53,12 @@ void	init_mlx(t_core *core)
 	core->img_addr = mlx_get_data_addr(core->img, &core->bpp, &core->line_len, &core->endian);
 }
 
-int	handle_input(int keysim, void *param)
+int	handle_esc(int keysym, void *param)
 {
 	t_core	*core;
 
 	core = (t_core *)param;
-	if (keysim == XK_Escape)
+	if (keysym == XK_Escape)
 	{
 		free_core(core);
 		exit(EXIT_FAILURE);

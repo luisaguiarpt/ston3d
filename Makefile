@@ -7,7 +7,7 @@ SRCS=srcs/main.c \
 	srcs/parsing/parsing.c srcs/parsing/texture_parsing.c srcs/parsing/map_parsing.c \
 	srcs/parsing/parsing_utils.c \
 	srcs/parsing/validation.c srcs/parsing/validation_utils.c \
-	srcs/rendering/rendering.c \
+	srcs/rendering/rendering.c srcs/rendering/minimap.c \
 	srcs/free/free.c \
 	srcs/utils/utils.c
 BONUS_SRCS=
@@ -23,7 +23,7 @@ LIBFT_A=$(LIBFT_DIR)/libft.a
 
 INCLUDES=-I$(MLX_DIR) -I/usr/include -I$(LIBFT_DIR)
 
-MLX_LINK=-L$(MLX_DIR) -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
+MLX_LINK=-L$(MLX_DIR) -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz -g
 
 all: $(MLX_LIB) $(LIBFT_A) $(NAME)
 

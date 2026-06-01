@@ -24,9 +24,11 @@ typedef struct s_player
 
 typedef struct s_minimap
 {
-	int	tile_size;
-	int	offset_x;
-	int	offset_y;
+	int		tile_size;
+	int		offset_x;
+	int		offset_y;
+	int		width;
+	int		height;
 }			t_minimap;
 
 typedef struct s_map
@@ -58,6 +60,7 @@ typedef struct s_core
 	t_player	player;
 	t_map		map;
 	t_textures	textures;
+	t_minimap	minimap;
 }			t_core;
 
 // parsing/parsing.c
@@ -74,6 +77,8 @@ char	**copy_map(char **grid);
 void	put_pixel(t_core *core, int x, int y, int color);
 int		render_frame(t_core *core);
 
+// rendering/minimap.c
+void	draw_minimap(t_core *core);
 
 // utils/utils.c
 bool	is_space(char c);
