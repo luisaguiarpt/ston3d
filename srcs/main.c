@@ -53,19 +53,6 @@ void	init_mlx(t_core *core)
 	core->img_addr = mlx_get_data_addr(core->img, &core->bpp, &core->line_len, &core->endian);
 }
 
-int	handle_esc(int keysym, void *param)
-{
-	t_core	*core;
-
-	core = (t_core *)param;
-	if (keysym == XK_Escape)
-	{
-		free_core(core);
-		exit(EXIT_FAILURE);
-	}
-	return (0);
-}
-
 int	main(int ac, char **av)
 {
 	t_core	core;

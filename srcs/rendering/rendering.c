@@ -12,26 +12,6 @@ void	put_pixel(t_core *core, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	draw_img(t_core *core)
-{
-	static int i = 0;
-	int y = 0;
-	int x = 0;
-
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			if (x > 0.2 * WIDTH + i && x < 0.8 * WIDTH && y > 0.2 * HEIGHT)
-				put_pixel(core, x, y, 1);
-			x++;
-		}
-		y++;
-	}
-	i++;
-}
-
 int	render_frame(t_core *core)
 {
 	clear_image(core, 0x8ace00);
