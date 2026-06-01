@@ -1,5 +1,11 @@
 #include "../../incs/cub3d.h"
 
+void	exit_game(t_core *core, int	exit_code)
+{
+	free_core(core);
+	exit(exit_code);
+}
+
 static void	free_map(t_core *core)
 {
 	if (core->map.grid)

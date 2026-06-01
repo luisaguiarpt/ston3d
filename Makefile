@@ -5,6 +5,8 @@ NAME=cub3d
 
 SRCS=srcs/main.c \
 	srcs/parsing/parsing.c srcs/parsing/texture_parsing.c srcs/parsing/map_parsing.c \
+	srcs/init/init.c \
+	srcs/rendering/game_loop.c \
 	srcs/parsing/parsing_utils.c \
 	srcs/parsing/validation.c srcs/parsing/validation_utils.c \
 	srcs/rendering/rendering.c srcs/rendering/minimap.c \
@@ -37,7 +39,7 @@ bonus: $(BONUS_OBJS)
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(MLX_LINK) $(LIBFT_A) -o $(NAME)
 
-$(MLX_LIB):
+$(MLX_LIB): 
 	if [ ! -d "$(MLX_DIR)" ]; then \
 		git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIR); \
 	fi

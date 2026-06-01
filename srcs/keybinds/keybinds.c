@@ -1,35 +1,45 @@
 #include "../../incs/cub3d.h"
 
-void	rotate_dir(t_core *core, int turn_dir)
-{
-	float	angle;
-	float	cos;
-	float	sin;
-	float	old_dir_x;
-
-	angle = (float)DEGREES_PER_PRESS * (float)M_PI / 180.0f;
-	if (turn_dir < 0)
-		angle = -angle;
-	cos = cosf(angle);
-	sin = sinf(angle);
-	old_dir_x = core->player.dir_x;
-	core->player.dir_x = core->player.dir_x * cos - core->player.dir_y * sin;
-	core->player.dir_y = old_dir_x * sin + core->player.dir_y * cos;
-}
-
-int	handle_input(int keysym, void *param)
+int	handle_input_press(int keysym, int x, void *param)
 {
 	t_core	*core;
 
+	(void)x;
 	core = (t_core *)param;
 	if (keysym == XK_Escape)
-	{
-		free_core(core);
-		exit(EXIT_FAILURE);
-	}
+		exit_game(core, EXIT_SUCCESS);
 	else if (keysym == XK_Left)
-		rotate_dir(core, -1);
+		core->input.left = true;
 	else if (keysym == XK_Right)
-		rotate_dir(core, 1);
+		core->input.right = true;
+	else if (keysym == XK_w)
+		core->input.w = true;
+	else if (keysym == XK_a)
+		core->input.a = true;
+	else if (keysym == XK_s)
+		core->input.s = true;
+	else if (keysym == XK_d)
+		core->input.d = true;
+	return (0);
+}
+
+int	handle_input_release(int keysym, int x, void *param)
+{
+	t_core	*core;
+
+	(void)x;
+	core = (t_core *)param;
+	if (keysym == XK_Left)
+		core->input.left = false;
+	else if (keysym == XK_Right)
+		core->input.right = false;
+	else if (keysym == XK_w)
+		core->input.w = false;
+	else if (keysym == XK_a)
+		core->input.a = false;
+	else if (keysym == XK_s)
+		core->input.s = false;
+	else if (keysym == XK_d)
+		core->input.d = false;
 	return (0);
 }
