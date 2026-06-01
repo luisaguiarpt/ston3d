@@ -1,5 +1,52 @@
 #include "../../incs/cub3d.h"
 
+static void	get_map_width(t_core *core)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (core->map.grid[i])
+	{
+		j = 0;
+		while (core->map.grid[i][j])
+			j++;
+		if (j > core->map.width)
+			core->map.width = j;
+		i++;
+	}
+}
+
+static void	get_player_position(t_core *core)
+{
+	int		x;
+	int		y;
+	bool	player_found;
+
+	y = 0;
+	while (core->map.grid[y])
+	{
+		x = 0;
+		while (core->map.grid[y][x])
+		{
+			if (core->map.grid[y][x] == 'N'
+				|| core->map.grid[y][x] == 'S'
+				|| core->map.grid[y][x] == 'E'
+				|| core->map.grid[y][x] == 'W')
+			{
+				if (player_found)
+					error_parsing(core, "map can't have more than one player spawn point", 0); // TODO mabe use another function that doesnt need to close fds
+				core->player.x = x;
+				core->player.y = y;
+				core->player.dir = core->map.grid[y][x];
+				player_found = true;
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
 static void	skip_textures(int fd)
 {
 	int		textures_skipped;
@@ -87,4 +134,6 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 		free(line);
 		i++;
 	}
+	get_player_position(core);
+	get_map_width(core);
 }

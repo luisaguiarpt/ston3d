@@ -24,6 +24,7 @@ void	error_parsing(t_core *core, char *message, int map_fd)
 {
 	ft_printf("error: %s\n", message);
 	free_core(core);
-	close(map_fd);
+	if (map_fd)
+		close(map_fd);
 	exit(EXIT_FAILURE);
 }
