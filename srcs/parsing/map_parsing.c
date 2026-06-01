@@ -56,7 +56,8 @@ static void	skip_textures(int fd)
 	while (textures_skipped < 6) // TODO change it to handle floor and ceiling colors
 	{
 		line = get_next_line(fd);
-		// TODO add guard if fails
+		if (!line)
+			error_parsing(core, "not enough memory", map_fd);
 		remove_newline(line);
 		if (is_empty_line(line))
 		{
@@ -125,7 +126,7 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 	while((line = get_next_line(map_fd)))
 	{
 		remove_newline(line);
-		if (is_empty_line(line) && !core->map.grid[i]) // rethink logic
+		if (is_empty_line(line) && i == 0)
 		{
 			free(line);
 			continue ;

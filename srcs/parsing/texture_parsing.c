@@ -67,17 +67,17 @@ static bool	find_textures(t_core *core, int map_fd, char *line)
 	i = 0;
 	while (is_space(line[i]))
 		i++;
-	if (line[i] == 'N' && line[i + 1] == 'O')
+	if (line[i] == 'N' && line[i + 1] == 'O' && !core->textures.north)
 		core->textures.north = load_texture(core, map_fd, line, i + 2);
-	else if (line[i] == 'S' && line[i + 1] == 'O')
+	else if (line[i] == 'S' && line[i + 1] == 'O' && !core->textures.south)
 		core->textures.south = load_texture(core, map_fd, line, i + 2);
-	else if (line[i] == 'W' && line[i + 1] == 'E')
+	else if (line[i] == 'W' && line[i + 1] == 'E' && !core->textures.west)
 		core->textures.west = load_texture(core, map_fd, line, i + 2);
-	else if (line[i] == 'E' && line[i + 1] == 'A')
+	else if (line[i] == 'E' && line[i + 1] == 'A' && !core->textures.east)
 		core->textures.east = load_texture(core, map_fd, line, i + 2);
-	else if (line[i] == 'F')
+	else if (line[i] == 'F' && !core->textures.floor)
 		load_colour(core, map_fd, line, i);
-	else if (line[i] == 'C')
+	else if (line[i] == 'C' && !core->textures.ceiling)
 		load_colour(core, map_fd, line, i);
 	else
 		return (false);
