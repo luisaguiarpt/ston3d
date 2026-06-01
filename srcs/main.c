@@ -66,7 +66,7 @@ int	main(int ac, char **av)
 	parse_cub_file(&core, av[1]);
 	validate_map(&core);
 	init_mlx(&core);
-	mlx_key_hook(core.win, handle_input, &core);
+	mlx_hook(core.win, 2, 0, handle_input, &core);
 	mlx_loop_hook(core.mlx, render_frame, &core);
 	mlx_loop(core.mlx);
 	return (0);

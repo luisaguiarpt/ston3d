@@ -10,9 +10,11 @@
 # include <errno.h>
 # include <string.h>
 # include <X11/keysym.h>
+# include <math.h>
 
 # define HEIGHT 720
 # define WIDTH 1280
+# define DEGREES_PER_PRESS 3
 
 typedef struct s_player
 {
@@ -80,6 +82,8 @@ int		render_frame(t_core *core);
 // rendering/minimap.c
 void	draw_minimap(t_core *core);
 
+// keybinds/keybinds.c
+int	handle_input(int keysym, void *param);
 // utils/utils.c
 bool	is_space(char c);
 

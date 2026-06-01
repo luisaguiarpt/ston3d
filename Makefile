@@ -8,6 +8,7 @@ SRCS=srcs/main.c \
 	srcs/parsing/parsing_utils.c \
 	srcs/parsing/validation.c srcs/parsing/validation_utils.c \
 	srcs/rendering/rendering.c srcs/rendering/minimap.c \
+	srcs/keybinds/keybinds.c \
 	srcs/free/free.c \
 	srcs/utils/utils.c
 BONUS_SRCS=
