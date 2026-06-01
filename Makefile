@@ -6,6 +6,7 @@ NAME=cub3d
 SRCS=srcs/main.c \
 	srcs/parsing/parsing.c srcs/parsing/texture_parsing.c srcs/parsing/map_parsing.c \
 	srcs/parsing/parsing_utils.c \
+	srcs/parsing/validation.c srcs/parsing/validation_utils.c \
 	srcs/free/free.c \
 	srcs/utils/utils.c
 BONUS_SRCS=

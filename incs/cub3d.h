@@ -58,6 +58,11 @@ void	draw_img(t_core *core, int color);
 // parsing/parsing.c
 void	parse_cub_file(t_core *core, char *map_path);
 void	error_parsing(t_core *core, char *message, int map_fd);
+// validation.c
+int		validate_map(t_core *core);
+
+// parsing/validation_utils.c
+char	**copy_map(char **grid);
 
 // utils/utils.c
 bool	is_space(char c);
