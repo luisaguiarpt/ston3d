@@ -75,9 +75,9 @@ static bool	find_textures(t_core *core, int map_fd, char *line)
 		core->textures.west = load_texture(core, map_fd, line, i + 2);
 	else if (line[i] == 'E' && line[i + 1] == 'A' && !core->textures.east)
 		core->textures.east = load_texture(core, map_fd, line, i + 2);
-	else if (line[i] == 'F' && !core->textures.floor)
+	else if (line[i] == 'F') // TODO think of the best way to verify there are nor F and C duplicates
 		load_colour(core, map_fd, line, i);
-	else if (line[i] == 'C' && !core->textures.ceiling)
+	else if (line[i] == 'C')
 		load_colour(core, map_fd, line, i);
 	else
 		return (false);

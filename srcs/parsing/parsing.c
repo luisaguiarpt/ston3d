@@ -22,7 +22,7 @@ void	parse_cub_file(t_core *core, char *map_path)
 
 void	error_parsing(t_core *core, char *message, int map_fd)
 {
-	ft_printf("error: %s\n", message);
+	ft_printf("Error\n%s\n", message);
 	free_core(core);
 	if (map_fd)
 		close(map_fd);

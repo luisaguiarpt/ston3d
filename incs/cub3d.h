@@ -8,6 +8,7 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <errno.h>
+# include <string.h>
 # include <X11/keysym.h>
 
 # define HEIGHT 720

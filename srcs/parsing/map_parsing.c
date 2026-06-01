@@ -47,7 +47,7 @@ static void	get_player_position(t_core *core)
 	}
 }
 
-static void	skip_textures(int fd)
+static void	skip_textures(t_core *core, int fd, int old_fd)
 {
 	int		textures_skipped;
 	char	*line;
@@ -57,7 +57,10 @@ static void	skip_textures(int fd)
 	{
 		line = get_next_line(fd);
 		if (!line)
-			error_parsing(core, "not enough memory", map_fd);
+		{
+			close(old_fd);
+			error_parsing(core, "not enough memory", fd);
+		}
 		remove_newline(line);
 		if (is_empty_line(line))
 		{
@@ -69,15 +72,16 @@ static void	skip_textures(int fd)
 	}
 }
 
-static int	get_map_height(char *map_path)
+static int	get_map_height(t_core *core, char *map_path, int old_fd)
 {
 	int		new_fd;
 	int		height;
 	char	*line;
 
 	new_fd = open(map_path, O_RDONLY);
-	// TODO add guard if fails
-	skip_textures(new_fd);
+	if (new_fd < 0)
+		error_parsing(core, strerror(errno), old_fd); // TODO verify if strerror is correct in this case
+	skip_textures(core, new_fd, old_fd);
 	height = 0;
 	while ((line = get_next_line(new_fd)) != NULL)
 	{
@@ -118,7 +122,7 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 	char	*line;
 	int		i;
 
-	core->map.height = get_map_height(map_path);
+	core->map.height = get_map_height(core, map_path, map_fd);
 	i = 0;
 	core->map.grid = ft_calloc(core->map.height + 1, sizeof(char *));
 	if (!core->map.grid)
