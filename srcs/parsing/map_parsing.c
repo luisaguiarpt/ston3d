@@ -24,6 +24,7 @@ static void	get_player_position(t_core *core)
 	bool	player_found;
 
 	y = 0;
+	player_found = false;
 	while (core->map.grid[y])
 	{
 		x = 0;
