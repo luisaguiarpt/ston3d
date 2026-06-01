@@ -52,6 +52,7 @@ int	main(int ac, char **av)
 	}
 	init_core(&core);
 	parse_cub_file(&core, av[1]);
+	validate_map(&core);
 	core.win = mlx_new_window(core.mlx, WIDTH, HEIGHT, "ston3d");
 	if (!core.win)
 		exit(EXIT_FAILURE);
