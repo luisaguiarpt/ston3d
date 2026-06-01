@@ -23,9 +23,15 @@ static void	free_textures(t_core *core)
 
 void	free_core(t_core *core)
 {
+	if (core->img)
+		mlx_destroy_image(core->mlx, core->img);
+	if (core->win)
+		mlx_destroy_window(core->mlx, core->win);
 	if (core->mlx)
+	{
+		mlx_destroy_display(core->mlx);
 		free(core->mlx);
-	// TODO check if window also needs to be freed
+	}
 	free_textures(core);
 	free_map(core);
 }

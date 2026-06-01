@@ -17,6 +17,31 @@ static void	get_map_width(t_core *core)
 	}
 }
 
+static void	set_player_direction(t_core *core, char dir)
+{
+	if (dir = 'N')
+	{
+		core->player.dir_x = 0;
+		core->player.dir_y = -1;
+	}
+	else if (dir = 'S')
+	{
+		core->player.dir_x = 0;
+		core->player.dir_y = 1;
+	}
+	else if (dir = 'E')
+	{
+		core->player.dir_x = 1;
+		core->player.dir_y = 0;
+	}
+	else if (dir = 'W')
+	{
+		core->player.dir_x = -1;
+		core->player.dir_y = 0;
+	}
+
+}
+
 static void	get_player_position(t_core *core)
 {
 	int		x;
@@ -39,13 +64,15 @@ static void	get_player_position(t_core *core)
 					error_parsing(core, "map can't have more than one player spawn point", 0); // TODO mabe use another function that doesnt need to close fds
 				core->player.x = x;
 				core->player.y = y;
-				core->player.dir = core->map.grid[y][x];
+				set_player_direction(core, core->map.grid[y][x]);
 				player_found = true;
 			}
 			x++;
 		}
 		y++;
 	}
+	if (!player_found)
+		error_parsing(core, "No player found", 0);
 }
 
 static void	skip_textures(t_core *core, int fd, int old_fd)

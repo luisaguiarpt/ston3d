@@ -16,10 +16,18 @@
 
 typedef struct s_player
 {
-	double	x; // double?? float?? check
-	double	y;
-	char	dir; // direction the player faces when spawned (N, S, E, W)
+	float	x;
+	float	y;
+	float	dir_x;
+	float	dir_y;
 }			t_player;
+
+typedef struct s_minimap
+{
+	int	tile_size;
+	int	offset_x;
+	int	offset_y;
+}			t_minimap;
 
 typedef struct s_map
 {
@@ -52,17 +60,20 @@ typedef struct s_core
 	t_textures	textures;
 }			t_core;
 
-void	get_endian(t_core *core);
-void	draw_img(t_core *core, int color);
-
 // parsing/parsing.c
 void	parse_cub_file(t_core *core, char *map_path);
 void	error_parsing(t_core *core, char *message, int map_fd);
+//
 // validation.c
 int		validate_map(t_core *core);
 
 // parsing/validation_utils.c
 char	**copy_map(char **grid);
+
+// rendering/rendering.c
+void	put_pixel(t_core *core, int x, int y, int color);
+int		render_frame(t_core *core);
+
 
 // utils/utils.c
 bool	is_space(char c);

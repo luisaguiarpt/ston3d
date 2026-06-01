@@ -67,6 +67,7 @@ static bool	find_textures(t_core *core, int map_fd, char *line)
 	i = 0;
 	while (is_space(line[i]))
 		i++;
+	// TODO - starts_with function for readability
 	if (line[i] == 'N' && line[i + 1] == 'O' && !core->textures.north)
 		core->textures.north = load_texture(core, map_fd, line, i + 2);
 	else if (line[i] == 'S' && line[i + 1] == 'O' && !core->textures.south)
