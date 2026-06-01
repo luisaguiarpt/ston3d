@@ -36,7 +36,7 @@ static void	get_player_position(t_core *core)
 				|| core->map.grid[y][x] == 'W')
 			{
 				if (player_found)
-					error_parsing(core, "map can't have more than one player spawn point", 0); // TODO mabe use another function that doesnt need to close fds
+					error_parsing(core, "map can't have more than one player spawn point", -1);
 				core->player.x = x;
 				core->player.y = y;
 				core->player.dir = core->map.grid[y][x];
@@ -46,100 +46,114 @@ static void	get_player_position(t_core *core)
 		}
 		y++;
 	}
+	if (!player_found)
+		error_parsing(core, "map must contain one player spawn point", -1);
 }
 
-static void	skip_textures(t_core *core, int fd, int old_fd)
+static void	free_map_list(t_list *list)
 {
-	int		textures_skipped;
-	char	*line;
+	t_list	*tmp;
 
-	textures_skipped = 0;
-	while (textures_skipped < 6) // TODO change it to handle floor and ceiling colors
+	while (list)
 	{
-		line = get_next_line(fd);
-		if (!line)
-		{
-			close(old_fd);
-			error_parsing(core, "not enough memory", fd);
-		}
-		remove_newline(line);
-		if (is_empty_line(line))
-		{
-			free(line);
-			continue ;
-		}
-		free(line);
-		textures_skipped++;
+		tmp = list->next;
+		free(list->content);
+		free(list);
+		list = tmp;
 	}
 }
 
-static int	get_map_height(t_core *core, char *map_path, int old_fd)
+static void	append_map_line(t_core *core, int map_fd, t_list **lines, char *line)
 {
-	int		new_fd;
-	int		height;
-	char	*line;
-
-	new_fd = open(map_path, O_RDONLY);
-	if (new_fd < 0)
-		error_parsing(core, strerror(errno), old_fd); // TODO verify if strerror is correct in this case
-	skip_textures(core, new_fd, old_fd);
-	height = 0;
-	while ((line = get_next_line(new_fd)) != NULL)
-	{
-		remove_newline(line);
-		if (height == 0 && is_empty_line(line))
-		{
-			free(line);
-			continue ;
-		}
-		height++;
-		free(line);
-	}
-	close(new_fd);
-	return (height);
-}
-
-static char	*fill_map_grid(t_core *core, int map_fd, char *line)
-{
-	char	*grid_line;
+	t_list	*node;
+	char	*dup;
 
 	if (!is_valid_line(line))
 	{
+		free_map_list(*lines);
 		free(line);
-		error_parsing(core, "only the characters 0, 1, N, S, E and W are valid for the map", map_fd);
+		error_parsing(core,
+			"only the characters 0, 1, N, S, E and W are valid for the map",
+			map_fd);
 	}
-	grid_line = ft_strdup(line);
-	if (!grid_line)
+	dup = ft_strdup(line);
+	if (!dup)
 	{
+		free_map_list(*lines);
 		free(line);
 		error_parsing(core, "not enough memory", map_fd);
 	}
-	return (grid_line);
+	node = ft_lstnew(dup);
+	if (!node)
+	{
+		free_map_list(*lines);
+		free(dup);
+		free(line);
+		error_parsing(core, "not enough memory", map_fd);
+	}
+	ft_lstadd_back(lines, node);
+	free(line);
 }
 
-
-void	parse_map(t_core *core, char *map_path, int map_fd)
+static void	map_list_to_grid(t_core *core, int map_fd, t_list *lines, int height)
 {
-	char	*line;
+	t_list	*tmp;
+	t_list	*next;
 	int		i;
 
-	core->map.height = get_map_height(core, map_path, map_fd);
-	i = 0;
-	core->map.grid = ft_calloc(core->map.height + 1, sizeof(char *));
+	core->map.grid = ft_calloc(height + 1, sizeof(char *));
 	if (!core->map.grid)
-		error_parsing(core, "not enough memory", map_fd);
-	while((line = get_next_line(map_fd)))
 	{
+		free_map_list(lines);
+		error_parsing(core, "not enough memory", map_fd);
+	}
+	i = 0;
+	tmp = lines;
+	while (tmp)
+	{
+		core->map.grid[i++] = tmp->content;
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
+	}
+}
+
+void	parse_map(t_core *core, int map_fd, t_parse_ctx *ctx)
+{
+	t_list	*lines;
+	char	*line;
+	int		height;
+	bool	found_empty;
+
+	lines = NULL;
+	height = 0;
+	found_empty = false;
+	line = ft_strdup(ctx->first_map_line);
+	if (!line)
+		error_parsing(core, "not enough memory", map_fd);
+	append_map_line(core, map_fd, &lines, line);
+	height++;
+	while ((line = get_next_line(map_fd)))
+	{
+		ctx->line_no++;
 		remove_newline(line);
-		if (is_empty_line(line) && i == 0)
+		if (is_empty_line(line))
 		{
+			found_empty = true;
 			free(line);
 			continue ;
 		}
-		core->map.grid[i] = fill_map_grid(core, map_fd, line);
-		free(line);
-		i++;
+		if (found_empty)
+		{
+			free_map_list(lines);
+			free(line);
+			error_parsing(core, "map cannot contain empty lines between rows", map_fd);
+		}
+		append_map_line(core, map_fd, &lines, line);
+		height++;
 	}
+	core->map.height = height;
+	map_list_to_grid(core, map_fd, lines, height);
 	get_player_position(core);
 	get_map_width(core);
 }

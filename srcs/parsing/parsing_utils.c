@@ -79,3 +79,38 @@ void	remove_newline(char *str)
 	if (len > 0 && str[len - 1] == '\n')
 		str[len - 1] = '\0';
 }
+
+bool	lex_header_line(char *line, char **key, char **value)
+{
+	int		i;
+	int		start;
+	char	*trimmed;
+
+	i = 0;
+	while (is_space(line[i]))
+		i++;
+	if (!line[i])
+		return (false);
+	start = i;
+	while (line[i] && !is_space(line[i]))
+		i++;
+	*key = ft_substr(line, start, i - start);
+	if (!*key)
+		return (false);
+	while (is_space(line[i]))
+		i++;
+	trimmed = ft_strtrim(line + i, " \t");
+	if (!trimmed)
+	{
+		free(*key);
+		return (false);
+	}
+	if (!trimmed[0])
+	{
+		free(*key);
+		free(trimmed);
+		return (false);
+	}
+	*value = trimmed;
+	return (true);
+}
