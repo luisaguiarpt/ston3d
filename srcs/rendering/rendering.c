@@ -26,13 +26,13 @@ void	clear_image(t_core *core, int color)
 {
 	int				y;
 	int				x;
-	int				bytespp;
+//	int				bytespp;
 	unsigned int	*row;
 
 	if (!core || !core->img_addr)
 		return ;
 
-	bytespp = core->bpp / 8;
+//	bytespp = core->bpp / 8;
 	y = 0;
 	while (y < HEIGHT)
 	{

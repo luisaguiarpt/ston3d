@@ -24,6 +24,16 @@ void	init_minimap(t_core *core)
 	core->minimap.height = 10;
 }
 
+void	init_player(t_core *core)
+{
+	core->input.w = false;
+	core->input.a = false;
+	core->input.s = false;
+	core->input.d = false;
+	core->input.left = false;
+	core->input.right = false;
+}
+
 void	init_core(t_core *core)
 {
 	core->win = NULL;
@@ -35,7 +45,7 @@ void	init_core(t_core *core)
 	init_textures(core);
 	init_map(core);
 	init_minimap(core);
-	// init_player(core); TODO - init function
+	init_player(core); //TODO - init function
 
 }
 

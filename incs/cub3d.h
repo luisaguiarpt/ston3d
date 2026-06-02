@@ -15,6 +15,7 @@
 # define HEIGHT 720
 # define WIDTH 1280
 # define DEGREES_PER_PRESS 3
+# define SPEED 5
 
 typedef struct s_player
 {
@@ -58,6 +59,7 @@ typedef struct s_input
 	bool	a;
 	bool	s;
 	bool	d;
+	bool	esc;
 }				t_input;
 
 typedef struct s_core
@@ -126,5 +128,6 @@ bool	is_space(char c);
 
 // free/free.c
 void	free_core(t_core *core);
+void	exit_game(t_core *core, int	exit_code);
 
 #endif

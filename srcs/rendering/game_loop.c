@@ -1,6 +1,7 @@
 #include "../incs/cub3d.h"
 
 void	rotate_dir(t_core *core, int turn_dir);
+void	move_forward(t_core *core);
 
 int	game_loop(void *param)
 {
@@ -13,12 +14,12 @@ int	game_loop(void *param)
 		rotate_dir(core, -1);
 	if (core->input.w)
 		move_forward(core);
-	if (core->input.a)
-		move_backwards(core);
-	if (core->input.s)
-		strafe_left(core);
-	if (core->input.d)
-		strafe_right(core);
+	// if (core->input.a)
+	// 	move_backwards(core);
+	// if (core->input.s)
+	// 	strafe_left(core);
+	// if (core->input.d)
+	// 	strafe_right(core);
 	render_frame(core);
 	return (0);
 }
@@ -42,5 +43,6 @@ void	rotate_dir(t_core *core, int turn_dir)
 
 void	move_forward(t_core *core)
 {
-	
+	if (core->input.w == true)
+		core->player.x += core->player.dir_x * SPEED;
 }
