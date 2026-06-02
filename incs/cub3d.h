@@ -14,8 +14,8 @@
 
 # define HEIGHT 720
 # define WIDTH 1280
-# define DEGREES_PER_PRESS 3
-# define SPEED 5
+# define DEGREES_PER_PRESS 1
+# define SPEED 0.01
 
 typedef struct s_player
 {
