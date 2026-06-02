@@ -20,3 +20,9 @@ int	rgb_to_int(int rgb[3])
 {
 	return ((rgb[0] << 16) | (rgb[1] << 8) | rgb[2]);
 }
+
+void	exit_error(t_core *core, char *message)
+{
+	free_core(core);
+	ft_printf("Error\n%s", message);
+}

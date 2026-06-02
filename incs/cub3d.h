@@ -149,6 +149,7 @@ int		handle_input_release(int key, void *param);
 bool	is_space(char c);
 int		absolute_value(int n);
 int		rgb_to_int(int rgb[3]);
+void	exit_error(t_core *core, char *message);
 
 // free/free.c
 void	free_core(t_core *core);
