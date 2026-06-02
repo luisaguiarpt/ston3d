@@ -7,3 +7,16 @@ bool	is_space(char c)
 	else 
 		return (false);
 }
+
+int	absolute_value(int	n)
+{
+	if (n >= 0)
+		return (n);
+	else
+		return (-n);
+}
+
+int	rgb_to_int(int rgb[3])
+{
+	return ((rgb[0] << 16) | (rgb[1] << 8) | rgb[2]);
+}

@@ -1,5 +1,11 @@
 #include "../../incs/cub3d.h"
 
+void	setup_keybinds(t_core *core)
+{
+	mlx_hook(core->win, 2, 1L << 0, (int (*)())(void *)handle_input_press, core);
+	mlx_hook(core->win, 3, 1L << 1, (int (*)())(void *)handle_input_release, core);
+	mlx_hook(core->win, 17, 1 << 0, (int (*)())(void *)exit_game, core);
+}
 int	handle_input_press(int key, void *param)
 {
 	t_core	*core;

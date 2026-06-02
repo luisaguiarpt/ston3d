@@ -15,7 +15,8 @@ void	put_pixel(t_core *core, int x, int y, int color)
 int	render_frame(t_core *core)
 {
 	clear_image(core, 0x8ace00);
-	draw_minimap(core);
+	draw_3d(core);
+	draw_minimap(core); // TODO - bonus only
 	//draw_player(core); TODO - Render player
 	mlx_put_image_to_window(core->mlx, core->win, core->img, 0, 0);
 	return (0);

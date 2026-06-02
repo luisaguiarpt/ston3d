@@ -1,6 +1,6 @@
 #include "../../incs/cub3d.h"
 
-void	exit_game(t_core *core, int	exit_code)
+void	exit_game(t_core *core, int exit_code)
 {
 	free_core(core);
 	exit(exit_code);

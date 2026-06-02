@@ -33,6 +33,7 @@ void	rotate_dir(t_core *core, int turn_dir)
 	float	cos;
 	float	sin;
 	float	old_dir_x;
+	float	old_plane_x;
 
 	angle = (float)DEGREES_PER_PRESS * (float)M_PI / 180.0f;
 	if (turn_dir > 0)
@@ -42,18 +43,21 @@ void	rotate_dir(t_core *core, int turn_dir)
 	old_dir_x = core->player.dir_x;
 	core->player.dir_x = core->player.dir_x * cos - core->player.dir_y * sin;
 	core->player.dir_y = old_dir_x * sin + core->player.dir_y * cos;
+	old_plane_x = core->player.plane_x;
+	core->player.plane_x = core->player.plane_x * cos - core->player.plane_y * sin;
+	core->player.plane_y = old_plane_x * sin + core->player.plane_y * cos;
 }
 
 int	check_collision_x(t_core *core, float new_x)
 {
-	if (core->map.grid[(int)roundf(core->player.y)][(int)roundf(new_x)] == '1')
+	if (core->map.grid[(int)(core->player.y)][(int)(new_x)] == '1')
 		return (1);
 	return (0);
 }
 
 int	check_collision_y(t_core *core, float new_y)
 {
-	if (core->map.grid[(int)roundf(new_y)][(int)roundf(core->player.x)] == '1')
+	if (core->map.grid[(int)(new_y)][(int)(core->player.x)] == '1')
 		return (1);
 	return (0);
 }

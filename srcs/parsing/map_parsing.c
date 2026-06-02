@@ -17,6 +17,31 @@ static void	get_map_width(t_core *core)
 	}
 }
 
+static void	set_planes(t_core *core, char dir)
+{
+	if (dir == 'N')
+	{
+		core->player.plane_x = FOV;
+		core->player.plane_y = 0;
+	}
+	else if (dir == 'S')
+	{
+		core->player.plane_x = -FOV;
+		core->player.plane_y = 0;
+	}
+	else if (dir == 'E')
+	{
+		core->player.plane_x = 0;
+		core->player.plane_y = FOV;
+	}
+	else if (dir == 'W')
+	{
+		core->player.plane_x = 0;
+		core->player.plane_y = -FOV;
+	}
+	
+}
+
 static void	set_player_direction(t_core *core, char dir)
 {
 	if (dir == 'N')
@@ -39,7 +64,7 @@ static void	set_player_direction(t_core *core, char dir)
 		core->player.dir_x = -1;
 		core->player.dir_y = 0;
 	}
-
+	set_planes(core, dir);
 }
 
 static void	get_player_position(t_core *core)

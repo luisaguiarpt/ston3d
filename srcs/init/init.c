@@ -26,6 +26,8 @@ void	init_minimap(t_core *core)
 
 void	init_player(t_core *core)
 {
+	// TODO - initialize core->player values here and
+	// create a new funciton for the inputs
 	core->input.w = false;
 	core->input.a = false;
 	core->input.s = false;

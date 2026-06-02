@@ -15,7 +15,9 @@
 # define HEIGHT 720
 # define WIDTH 1280
 # define DEGREES_PER_PRESS 1
-# define SPEED 0.01
+# define SPEED 0.03
+# define FOV 0.70
+// # define PLAYER_PADDING 0.20
 
 typedef struct s_player
 {
@@ -23,6 +25,8 @@ typedef struct s_player
 	float	y;
 	float	dir_x;
 	float	dir_y;
+	float	plane_x;
+	float	plane_y;
 }			t_player;
 
 typedef struct s_minimap
@@ -109,7 +113,7 @@ bool	is_empty_line(char *line);
 bool	is_valid_line(char *line);
 void	remove_newline(char *str);
 
-// RENDERING
+// *** RENDERING ***
 //	rendering.c
 void	put_pixel(t_core *core, int x, int y, int color);
 int		render_frame(t_core *core);
@@ -117,17 +121,22 @@ int		render_frame(t_core *core);
 void	draw_minimap(t_core *core);
 // game_loop.c
 int		game_loop(void *param);
+//raycast.c
+void	draw_3d(t_core *core);
 
-// KEYBINDS
+// *** KEYBINDS ***
 // keybinds.c
-int	handle_input_press(int key, void *param);
-int	handle_input_release(int key, void *param);
+void	setup_keybinds(t_core *core);
+int		handle_input_press(int key, void *param);
+int		handle_input_release(int key, void *param);
 
 // utils/utils.c
 bool	is_space(char c);
+int		absolute_value(int n);
+int		rgb_to_int(int rgb[3]);
 
 // free/free.c
 void	free_core(t_core *core);
-void	exit_game(t_core *core, int	exit_code);
+void	exit_game(t_core *core, int exit_code);
 
 #endif
