@@ -13,9 +13,9 @@ int	main(int ac, char **av)
 	parse_cub_file(&core, av[1]);
 	validate_map(&core);
 	init_mlx(&core);
-	mlx_hook(core.win, 2, 1L << 0, handle_input_press, &core);
-	mlx_hook(core.win, 2, 1L << 1, handle_input_release, &core);
-	mlx_loop_hook(core.mlx, game_loop, &core);
+	mlx_hook(core.win, 2, 1L << 0, (int (*)())(void *)handle_input_press, &core);
+	mlx_hook(core.win, 2, 1L << 1, (int (*)())(void *)handle_input_release, &core);
+	mlx_loop_hook(core.mlx, (int (*)())(void *)game_loop, &core);
 	mlx_loop(core.mlx);
 	return (0);
 }

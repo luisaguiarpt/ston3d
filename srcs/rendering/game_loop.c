@@ -1,5 +1,7 @@
 #include "../incs/cub3d.h"
 
+void	rotate_dir(t_core *core, int turn_dir);
+
 int	game_loop(void *param)
 {
 	t_core	*core;
@@ -36,4 +38,9 @@ void	rotate_dir(t_core *core, int turn_dir)
 	old_dir_x = core->player.dir_x;
 	core->player.dir_x = core->player.dir_x * cos - core->player.dir_y * sin;
 	core->player.dir_y = old_dir_x * sin + core->player.dir_y * cos;
+}
+
+void	move_forward(t_core *core)
+{
+	
 }

@@ -1,10 +1,9 @@
 #include "../../incs/cub3d.h"
 
-int	handle_input_press(int keysym, int x, void *param)
+int	handle_input_press(int key, void *param)
 {
 	t_core	*core;
 
-	(void)x;
 	core = (t_core *)param;
 	if (keysym == XK_Escape)
 		exit_game(core, EXIT_SUCCESS);
@@ -23,11 +22,10 @@ int	handle_input_press(int keysym, int x, void *param)
 	return (0);
 }
 
-int	handle_input_release(int keysym, int x, void *param)
+int	handle_input_release(int key, void *param)
 {
 	t_core	*core;
 
-	(void)x;
 	core = (t_core *)param;
 	if (keysym == XK_Left)
 		core->input.left = false;

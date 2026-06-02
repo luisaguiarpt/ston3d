@@ -113,11 +113,13 @@ void	put_pixel(t_core *core, int x, int y, int color);
 int		render_frame(t_core *core);
 // minimap.c
 void	draw_minimap(t_core *core);
+// game_loop.c
+int		game_loop(void *param);
 
 // KEYBINDS
 // keybinds.c
-int	handle_input_press(int keysym, int x, void *param);
-int	handle_input_release(int keysym, int x, void *param);
+int	handle_input_press(int key, void *param);
+int	handle_input_release(int key, void *param);
 
 // utils/utils.c
 bool	is_space(char c);
