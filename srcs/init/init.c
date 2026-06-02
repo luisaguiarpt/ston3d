@@ -2,10 +2,10 @@
 
 void	init_textures(t_core *core)
 {
-	core->textures.north = NULL;
-	core->textures.south = NULL;
-	core->textures.east = NULL;
-	core->textures.west = NULL;
+	core->textures.no_path = NULL;
+	core->textures.so_path = NULL;
+	core->textures.ea_path = NULL;
+	core->textures.we_path = NULL;
 }
 
 void	init_map(t_core *core)

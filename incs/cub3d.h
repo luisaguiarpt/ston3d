@@ -45,12 +45,27 @@ typedef struct s_map
 	int		height;
 }			t_map;
 
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		height;
+	int		width;
+	int		bpp;
+	int		line_len; // TODO check
+	int		endian;
+}			t_img;
+
 typedef struct s_textures
 {
-	char		*north;
-	char		*south;
-	char		*east;
-	char		*west;
+	char		*no_path;
+	char		*so_path;
+	char		*ea_path;
+	char		*we_path;
+	t_img		no_img;
+	t_img		so_img;
+	t_img		ea_img;
+	t_img		we_img;
 	int			floor[3];
 	int			ceiling[3]; // R, G, B
 }			t_textures;

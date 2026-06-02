@@ -9,7 +9,7 @@ SRCS=srcs/main.c \
 	srcs/rendering/game_loop.c \
 	srcs/parsing/parsing_utils.c \
 	srcs/parsing/validation.c srcs/parsing/validation_utils.c \
-	srcs/rendering/rendering.c srcs/rendering/minimap.c srcs/rendering/raycast.c \
+	srcs/rendering/rendering.c srcs/rendering/minimap.c srcs/rendering/raycast.c srcs/rendering/texture_rendering.c \
 	srcs/keybinds/keybinds.c \
 	srcs/free/free.c \
 	srcs/utils/utils.c

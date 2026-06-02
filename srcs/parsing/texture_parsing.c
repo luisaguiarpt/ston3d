@@ -68,14 +68,14 @@ static bool	find_textures(t_core *core, int map_fd, char *line)
 	while (is_space(line[i]))
 		i++;
 	// TODO - starts_with function for readability
-	if (line[i] == 'N' && line[i + 1] == 'O' && !core->textures.north)
-		core->textures.north = store_texture(core, map_fd, line, i + 2);
-	else if (line[i] == 'S' && line[i + 1] == 'O' && !core->textures.south)
-		core->textures.south = store_texture(core, map_fd, line, i + 2);
-	else if (line[i] == 'W' && line[i + 1] == 'E' && !core->textures.west)
-		core->textures.west = store_texture(core, map_fd, line, i + 2);
-	else if (line[i] == 'E' && line[i + 1] == 'A' && !core->textures.east)
-		core->textures.east = store_texture(core, map_fd, line, i + 2);
+	if (line[i] == 'N' && line[i + 1] == 'O' && !core->textures.no_path)
+		core->textures.no_path = store_texture(core, map_fd, line, i + 2);
+	else if (line[i] == 'S' && line[i + 1] == 'O' && !core->textures.so_path)
+		core->textures.so_path = store_texture(core, map_fd, line, i + 2);
+	else if (line[i] == 'W' && line[i + 1] == 'E' && !core->textures.we_path)
+		core->textures.we_path = store_texture(core, map_fd, line, i + 2);
+	else if (line[i] == 'E' && line[i + 1] == 'A' && !core->textures.ea_path)
+		core->textures.ea_path = store_texture(core, map_fd, line, i + 2);
 	else if (line[i] == 'F') // TODO think of the best way to verify there are nor F and C duplicates
 		load_colour(core, map_fd, line, i);
 	else if (line[i] == 'C')

@@ -1,6 +1,6 @@
 #include "../../incs/cub3d.h"
 
-static int	shade_color(int color, float factor)
+static int	shade_color(int color, float factor) // TODO debug only delete later
 {
 	int	r;
 	int	g;

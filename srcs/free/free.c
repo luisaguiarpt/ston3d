@@ -17,14 +17,22 @@ static void	free_map(t_core *core)
 
 static void	free_textures(t_core *core)
 {
-	if (core->textures.north)
-		free(core->textures.north);
-	if (core->textures.south)
-		free(core->textures.south);
-	if (core->textures.east)
-		free(core->textures.east);
-	if (core->textures.west)
-		free(core->textures.west);
+	if (core->textures.no_path)
+		free(core->textures.no_path);
+	if (core->textures.so_path)
+		free(core->textures.so_path);
+	if (core->textures.ea_path)
+		free(core->textures.ea_path);
+	if (core->textures.we_path)
+		free(core->textures.we_path);
+	if (core->textures.no_img.img)
+		(void)core->textures.we_img.img; // TODO
+	if (core->textures.so_img.img)
+		(void)core->textures.we_img.img; // TODO
+	if (core->textures.ea_img.img)
+		(void)core->textures.we_img.img; // TODO
+	if (core->textures.we_img.img)
+		(void)core->textures.we_img.img; // TODO
 }
 
 void	free_core(t_core *core)
