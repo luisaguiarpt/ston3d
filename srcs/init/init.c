@@ -36,6 +36,7 @@ void	init_player(t_core *core)
 
 void	init_core(t_core *core)
 {
+	core->mlx = NULL;
 	core->win = NULL;
 	core->img = NULL;
 	core->img_addr = NULL;
