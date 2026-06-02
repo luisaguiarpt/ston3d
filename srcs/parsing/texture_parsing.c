@@ -1,6 +1,6 @@
 #include "../../incs/cub3d.h"
 
-static char	*load_texture(t_core *core, int map_fd, char *line, int i)
+static char	*store_texture(t_core *core, int map_fd, char *line, int i)
 {
 	int		j;
 	int		len;
@@ -69,13 +69,13 @@ static bool	find_textures(t_core *core, int map_fd, char *line)
 		i++;
 	// TODO - starts_with function for readability
 	if (line[i] == 'N' && line[i + 1] == 'O' && !core->textures.north)
-		core->textures.north = load_texture(core, map_fd, line, i + 2);
+		core->textures.north = store_texture(core, map_fd, line, i + 2);
 	else if (line[i] == 'S' && line[i + 1] == 'O' && !core->textures.south)
-		core->textures.south = load_texture(core, map_fd, line, i + 2);
+		core->textures.south = store_texture(core, map_fd, line, i + 2);
 	else if (line[i] == 'W' && line[i + 1] == 'E' && !core->textures.west)
-		core->textures.west = load_texture(core, map_fd, line, i + 2);
+		core->textures.west = store_texture(core, map_fd, line, i + 2);
 	else if (line[i] == 'E' && line[i + 1] == 'A' && !core->textures.east)
-		core->textures.east = load_texture(core, map_fd, line, i + 2);
+		core->textures.east = store_texture(core, map_fd, line, i + 2);
 	else if (line[i] == 'F') // TODO think of the best way to verify there are nor F and C duplicates
 		load_colour(core, map_fd, line, i);
 	else if (line[i] == 'C')
@@ -87,11 +87,11 @@ static bool	find_textures(t_core *core, int map_fd, char *line)
 
 void	parse_textures(t_core *core, int map_fd)
 {
-	int		textures_loaded;
+	int		textures_stored;
 	char	*line;
 
-	textures_loaded = 0;
-	while (textures_loaded < 6)
+	textures_stored = 0;
+	while (textures_stored < 6)
 	{
 		line = get_next_line(map_fd);
 		if (!line)
@@ -108,6 +108,6 @@ void	parse_textures(t_core *core, int map_fd)
 			error_parsing(core, "unable to find textures from the .cub file", map_fd);
 		}
 		free(line);
-		textures_loaded++;
+		textures_stored++;
 	}
 }
