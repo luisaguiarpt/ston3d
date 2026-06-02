@@ -6,6 +6,14 @@ void	init_textures(t_core *core)
 	core->textures.so_path = NULL;
 	core->textures.ea_path = NULL;
 	core->textures.we_path = NULL;
+	core->textures.no_img.img = NULL;
+	core->textures.so_img.img = NULL;
+	core->textures.ea_img.img = NULL;
+	core->textures.we_img.img = NULL;
+	core->textures.no_img.addr = NULL;
+	core->textures.so_img.addr = NULL;
+	core->textures.ea_img.addr = NULL;
+	core->textures.we_img.addr = NULL;
 }
 
 void	init_map(t_core *core)
