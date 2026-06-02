@@ -44,12 +44,25 @@ void	rotate_dir(t_core *core, int turn_dir)
 	core->player.dir_y = old_dir_x * sin + core->player.dir_y * cos;
 }
 
+int	check_collision(t_core *core)
+{
+	int	check_x;
+	int	check_y;
+
+	check_x = core->player.x + core->player.dir_x * SPEED;
+	check_y = core->player.y + core->player.dir_y * SPEED;
+	printf("check_y -> %i | check_x -> %i\n", check_y, check_x);
+	if (core->map.grid[check_y][check_x] == '1')
+		return (1);
+	return (0);
+}
+
 void	move_forward(t_core *core)
 {
 	if (core->input.w == true)
 	{
-		printf("x -> %f | y -> %f\n", core->player.x, core->player.y);
-		printf("dir x -> %f | dir y -> %f\n", core->player.dir_x, core->player.dir_y);
+		if (check_collision(core))
+			return;
 		core->player.x += core->player.dir_x * SPEED;
 		core->player.y += core->player.dir_y * SPEED;
 	}
@@ -59,8 +72,10 @@ void	move_backward(t_core *core)
 {
 	if (core->input.s == true)
 	{
-		printf("x -> %f | y -> %f\n", core->player.x, core->player.y);
-		printf("dir x -> %f | dir y -> %f\n", core->player.dir_x, core->player.dir_y);
+		//printf("x -> %f | y -> %f\n", core->player.x, core->player.y);
+		//printf("dir x -> %f | dir y -> %f\n", core->player.dir_x, core->player.dir_y);
+		if (check_collision(core))
+			return;
 		core->player.x -= core->player.dir_x * SPEED;
 		core->player.y -= core->player.dir_y * SPEED;
 	}
@@ -70,8 +85,10 @@ void	strafe_left(t_core *core)
 {
 	if (core->input.a == true)
 	{
-		printf("x -> %f | y -> %f\n", core->player.x, core->player.y);
-		printf("dir x -> %f | dir y -> %f\n", core->player.dir_x, core->player.dir_y);
+		//printf("x -> %f | y -> %f\n", core->player.x, core->player.y);
+		//printf("dir x -> %f | dir y -> %f\n", core->player.dir_x, core->player.dir_y);
+		if (check_collision(core))
+			return;
 		core->player.x += core->player.dir_y * SPEED;
 		core->player.y += core->player.dir_x * SPEED;
 	}
@@ -81,8 +98,10 @@ void	strafe_right(t_core *core)
 {
 	if (core->input.d == true)
 	{
-		printf("x -> %f | y -> %f\n", core->player.x, core->player.y);
-		printf("dir x -> %f | dir y -> %f\n", core->player.dir_x, core->player.dir_y);
+		//printf("x -> %f | y -> %f\n", core->player.x, core->player.y);
+		//printf("dir x -> %f | dir y -> %f\n", core->player.dir_x, core->player.dir_y);
+		if (check_collision(core))
+			return;
 		core->player.x -= core->player.dir_y * SPEED;
 		core->player.y -= core->player.dir_x * SPEED;
 	}
