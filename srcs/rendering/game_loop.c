@@ -44,14 +44,16 @@ void	rotate_dir(t_core *core, int turn_dir)
 	core->player.dir_y = old_dir_x * sin + core->player.dir_y * cos;
 }
 
-int	check_collision(t_core *core)
+int	check_collision_x(t_core *core, float new_x)
 {
-	float	check_x;
-	float	check_y;
+	if (core->map.grid[(int)roundf(core->player.y)][(int)roundf(new_x)] == '1')
+		return (1);
+	return (0);
+}
 
-	check_x = core->player.x + core->player.dir_x * SPEED;
-	check_y = core->player.y + core->player.dir_y * SPEED;
-	if (core->map.grid[(int)roundf(check_y)][(int)roundf(check_x)] == '1')
+int	check_collision_y(t_core *core, float new_y)
+{
+	if (core->map.grid[(int)roundf(new_y)][(int)roundf(core->player.x)] == '1')
 		return (1);
 	return (0);
 }
@@ -60,10 +62,13 @@ void	move_forward(t_core *core)
 {
 	if (core->input.w == true)
 	{
-		if (check_collision(core))
-			return;
-		core->player.x += core->player.dir_x * SPEED;
-		core->player.y += core->player.dir_y * SPEED;
+		float	new_x = core->player.x + core->player.dir_x * SPEED;
+		float	new_y = core->player.y + core->player.dir_y * SPEED;
+		
+		if (!check_collision_x(core, new_x))
+			core->player.x = new_x;
+		if (!check_collision_y(core, new_y))
+			core->player.y = new_y;
 	}
 }
 
@@ -71,12 +76,13 @@ void	move_backward(t_core *core)
 {
 	if (core->input.s == true)
 	{
-		//printf("x -> %f | y -> %f\n", core->player.x, core->player.y);
-		//printf("dir x -> %f | dir y -> %f\n", core->player.dir_x, core->player.dir_y);
-		if (check_collision(core))
-			return;
-		core->player.x -= core->player.dir_x * SPEED;
-		core->player.y -= core->player.dir_y * SPEED;
+		float	new_x = core->player.x - core->player.dir_x * SPEED;
+		float	new_y = core->player.y - core->player.dir_y * SPEED;
+		
+		if (!check_collision_x(core, new_x))
+			core->player.x = new_x;
+		if (!check_collision_y(core, new_y))
+			core->player.y = new_y;
 	}
 }
 
@@ -84,12 +90,13 @@ void	strafe_left(t_core *core)
 {
 	if (core->input.a == true)
 	{
-		//printf("x -> %f | y -> %f\n", core->player.x, core->player.y);
-		//printf("dir x -> %f | dir y -> %f\n", core->player.dir_x, core->player.dir_y);
-		if (check_collision(core))
-			return;
-		core->player.x += core->player.dir_y * SPEED;
-		core->player.y += core->player.dir_x * SPEED;
+		float	new_x = core->player.x + core->player.dir_y * SPEED;
+		float	new_y = core->player.y - core->player.dir_x * SPEED;
+		
+		if (!check_collision_x(core, new_x))
+			core->player.x = new_x;
+		if (!check_collision_y(core, new_y))
+			core->player.y = new_y;
 	}
 }
 
@@ -97,11 +104,12 @@ void	strafe_right(t_core *core)
 {
 	if (core->input.d == true)
 	{
-		//printf("x -> %f | y -> %f\n", core->player.x, core->player.y);
-		//printf("dir x -> %f | dir y -> %f\n", core->player.dir_x, core->player.dir_y);
-		if (check_collision(core))
-			return;
-		core->player.x -= core->player.dir_y * SPEED;
-		core->player.y -= core->player.dir_x * SPEED;
+		float	new_x = core->player.x - core->player.dir_y * SPEED;
+		float	new_y = core->player.y + core->player.dir_x * SPEED;
+		
+		if (!check_collision_x(core, new_x))
+			core->player.x = new_x;
+		if (!check_collision_y(core, new_y))
+			core->player.y = new_y;
 	}
 }
