@@ -46,13 +46,12 @@ void	rotate_dir(t_core *core, int turn_dir)
 
 int	check_collision(t_core *core)
 {
-	int	check_x;
-	int	check_y;
+	float	check_x;
+	float	check_y;
 
 	check_x = core->player.x + core->player.dir_x * SPEED;
 	check_y = core->player.y + core->player.dir_y * SPEED;
-	printf("check_y -> %i | check_x -> %i\n", check_y, check_x);
-	if (core->map.grid[check_y][check_x] == '1')
+	if (core->map.grid[(int)roundf(check_y)][(int)roundf(check_x)] == '1')
 		return (1);
 	return (0);
 }
