@@ -1,5 +1,7 @@
 #include "../incs/cub3d.h"
 
+# define COLLISION_BUFFER 0.15
+
 void	rotate_dir(t_core *core, int turn_dir);
 void	move_forward(t_core *core);
 void	move_backward(t_core *core);
@@ -48,16 +50,44 @@ void	rotate_dir(t_core *core, int turn_dir)
 	core->player.plane_y = old_plane_x * sin + core->player.plane_y * cos;
 }
 
-int	check_collision_x(t_core *core, float new_x)
+static int	is_wall_at(t_core *core, float x, float y)
 {
-	if (core->map.grid[(int)(core->player.y)][(int)(new_x)] == '1')
+	int	map_x;
+	int	map_y;
+
+	map_x = (int)x;
+	map_y = (int)y;
+	if (map_y < 0 || map_x < 0)
 		return (1);
-	return (0);
+	if (map_y >= core->map.height)
+		return (1);
+	if (map_x >= core->map.width)
+		return (1);
+	if ((int)ft_strlen(core->map.grid[map_y]) <= map_x)
+		return (1);
+	return (core->map.grid[map_y][map_x] == '1');
 }
 
-int	check_collision_y(t_core *core, float new_y)
+static int	check_collision(t_core *core, float new_x, float new_y)
 {
-	if (core->map.grid[(int)(new_y)][(int)(core->player.x)] == '1')
+	float	test_x;
+	float	test_y;
+
+	test_x = new_x + COLLISION_BUFFER;
+	test_y = new_y + COLLISION_BUFFER;
+	if (is_wall_at(core, test_x, test_y))
+		return (1);
+	test_x = new_x - COLLISION_BUFFER;
+	test_y = new_y + COLLISION_BUFFER;
+	if (is_wall_at(core, test_x, test_y))
+		return (1);
+	test_x = new_x + COLLISION_BUFFER;
+	test_y = new_y - COLLISION_BUFFER;
+	if (is_wall_at(core, test_x, test_y))
+		return (1);
+	test_x = new_x - COLLISION_BUFFER;
+	test_y = new_y - COLLISION_BUFFER;
+	if (is_wall_at(core, test_x, test_y))
 		return (1);
 	return (0);
 }
@@ -69,10 +99,11 @@ void	move_forward(t_core *core)
 		float	new_x = core->player.x + core->player.dir_x * SPEED;
 		float	new_y = core->player.y + core->player.dir_y * SPEED;
 		
-		if (!check_collision_x(core, new_x))
+		if (!check_collision(core, new_x, new_y))
+		{
 			core->player.x = new_x;
-		if (!check_collision_y(core, new_y))
 			core->player.y = new_y;
+		}
 	}
 }
 
@@ -83,10 +114,11 @@ void	move_backward(t_core *core)
 		float	new_x = core->player.x - core->player.dir_x * SPEED;
 		float	new_y = core->player.y - core->player.dir_y * SPEED;
 		
-		if (!check_collision_x(core, new_x))
+		if (!check_collision(core, new_x, new_y))
+		{
 			core->player.x = new_x;
-		if (!check_collision_y(core, new_y))
 			core->player.y = new_y;
+		}
 	}
 }
 
@@ -97,10 +129,11 @@ void	strafe_left(t_core *core)
 		float	new_x = core->player.x + core->player.dir_y * SPEED;
 		float	new_y = core->player.y - core->player.dir_x * SPEED;
 		
-		if (!check_collision_x(core, new_x))
+		if (!check_collision(core, new_x, new_y))
+		{
 			core->player.x = new_x;
-		if (!check_collision_y(core, new_y))
 			core->player.y = new_y;
+		}
 	}
 }
 
@@ -111,9 +144,10 @@ void	strafe_right(t_core *core)
 		float	new_x = core->player.x - core->player.dir_y * SPEED;
 		float	new_y = core->player.y + core->player.dir_x * SPEED;
 		
-		if (!check_collision_x(core, new_x))
+		if (!check_collision(core, new_x, new_y))
+		{
 			core->player.x = new_x;
-		if (!check_collision_y(core, new_y))
 			core->player.y = new_y;
+		}
 	}
 }
