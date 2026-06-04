@@ -16,8 +16,22 @@
 # define WIDTH 1280
 # define DEGREES_PER_PRESS 1
 # define SPEED 0.03
-# define FOV 0.70
-# define COLLISION_BUFFER 0
+# define FOV 0.66
+
+typedef struct s_ray
+{
+	double	camera_x;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	int		step_x;
+	int		step_y;
+	int		map_x;
+	int		map_y;
+}			t_ray;
 
 typedef struct s_player
 {
@@ -95,6 +109,7 @@ typedef struct s_core
 	t_map		map;
 	t_textures	textures;
 	t_minimap	minimap;
+	t_ray		ray;
 }			t_core;
 
 // INIT

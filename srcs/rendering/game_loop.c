@@ -48,104 +48,127 @@ void	rotate_dir(t_core *core, int turn_dir)
 	core->player.plane_y = old_plane_x * sin + core->player.plane_y * cos;
 }
 
-static int	is_wall_at(t_core *core, float x, float y)
+// static int	is_wall_at(t_core *core, float x, float y)
+// {
+// 	int	map_x;
+// 	int	map_y;
+//
+// 	map_x = (int)x;
+// 	map_y = (int)y;
+// 	if (map_y < 0 || map_x < 0)
+// 		return (1);
+// 	if (map_y >= core->map.height)
+// 		return (1);
+// 	if (map_x >= core->map.width)
+// 		return (1);
+// 	if ((int)ft_strlen(core->map.grid[map_y]) <= map_x)
+// 		return (1);
+// 	return (core->map.grid[map_y][map_x] == '1');
+// }
+//
+static int	collides_x(t_core *core, float new_x)
 {
-	int	map_x;
-	int	map_y;
-
-	map_x = (int)x;
-	map_y = (int)y;
-	if (map_y < 0 || map_x < 0)
+	if (core->map.grid[(int)(core->player.y)][(int)(new_x)] == '1')
 		return (1);
-	if (map_y >= core->map.height)
-		return (1);
-	if (map_x >= core->map.width)
-		return (1);
-	if ((int)ft_strlen(core->map.grid[map_y]) <= map_x)
-		return (1);
-	return (core->map.grid[map_y][map_x] == '1');
+	else
+		return (0);
 }
 
-static int	check_collision(t_core *core, float new_x, float new_y)
+static int	collides_y(t_core *core, float new_y)
 {
-	float	test_x;
-	float	test_y;
-
-	test_x = new_x + COLLISION_BUFFER;
-	test_y = new_y + COLLISION_BUFFER;
-	if (is_wall_at(core, test_x, test_y))
+	if (core->map.grid[(int)(new_y)][(int)(core->player.x)] == '1')
 		return (1);
-	test_x = new_x - COLLISION_BUFFER;
-	test_y = new_y + COLLISION_BUFFER;
-	if (is_wall_at(core, test_x, test_y))
-		return (1);
-	test_x = new_x + COLLISION_BUFFER;
-	test_y = new_y - COLLISION_BUFFER;
-	if (is_wall_at(core, test_x, test_y))
-		return (1);
-	test_x = new_x - COLLISION_BUFFER;
-	test_y = new_y - COLLISION_BUFFER;
-	if (is_wall_at(core, test_x, test_y))
-		return (1);
-	return (0);
+	else
+		return (0);
 }
-
+// static int	check_collision(t_core *core, float new_x, float new_y)
+// {
+// 	float	test_x;
+// 	float	test_y;
+//
+// 	test_x = new_x;
+// 	test_y = new_y;
+// 	if (is_wall_at(core, test_x, test_y))
+// 		return (1);
+// 	test_x = new_x;
+// 	test_y = new_y;
+// 	if (is_wall_at(core, test_x, test_y))
+// 		return (1);
+// 	test_x = new_x;
+// 	test_y = new_y;
+// 	if (is_wall_at(core, test_x, test_y))
+// 		return (1);
+// 	test_x = new_x;
+// 	test_y = new_y;
+// 	if (is_wall_at(core, test_x, test_y))
+// 		return (1);
+// 	return (0);
+// }
+//
 void	move_forward(t_core *core)
 {
+	float	new_x;
+	float	new_y;
+
 	if (core->input.w == true)
 	{
-		float	new_x = core->player.x + core->player.dir_x * SPEED;
-		float	new_y = core->player.y + core->player.dir_y * SPEED;
+		new_x = core->player.x + core->player.dir_x * SPEED;
+		new_y = core->player.y + core->player.dir_y * SPEED;
 		
-		if (!check_collision(core, new_x, new_y))
-		{
+		if (!collides_x(core, new_x))
 			core->player.x = new_x;
+		if (!collides_y(core, new_y))
 			core->player.y = new_y;
-		}
 	}
 }
 
 void	move_backward(t_core *core)
 {
+	float	new_x;
+	float	new_y;
+
 	if (core->input.s == true)
 	{
-		float	new_x = core->player.x - core->player.dir_x * SPEED;
-		float	new_y = core->player.y - core->player.dir_y * SPEED;
+		new_x = core->player.x - core->player.dir_x * SPEED;
+		new_y = core->player.y - core->player.dir_y * SPEED;
 		
-		if (!check_collision(core, new_x, new_y))
-		{
+		if (!collides_x(core, new_x))
 			core->player.x = new_x;
+		if (!collides_y(core, new_y))
 			core->player.y = new_y;
-		}
 	}
 }
 
 void	strafe_left(t_core *core)
 {
+	float	new_x;
+	float	new_y;
+
 	if (core->input.a == true)
 	{
-		float	new_x = core->player.x + core->player.dir_y * SPEED;
-		float	new_y = core->player.y - core->player.dir_x * SPEED;
+		new_x = core->player.x + core->player.dir_y * SPEED;
+		new_y = core->player.y - core->player.dir_x * SPEED;
 		
-		if (!check_collision(core, new_x, new_y))
-		{
+		if (!collides_x(core, new_x))
 			core->player.x = new_x;
+		if (!collides_y(core, new_y))
 			core->player.y = new_y;
-		}
 	}
 }
 
 void	strafe_right(t_core *core)
 {
+	float	new_x;
+	float	new_y;
+
 	if (core->input.d == true)
 	{
-		float	new_x = core->player.x - core->player.dir_y * SPEED;
-		float	new_y = core->player.y + core->player.dir_x * SPEED;
+		new_x = core->player.x - core->player.dir_y * SPEED;
+		new_y = core->player.y + core->player.dir_x * SPEED;
 		
-		if (!check_collision(core, new_x, new_y))
-		{
+		if (!collides_x(core, new_x))
 			core->player.x = new_x;
+		if (!collides_y(core, new_y))
 			core->player.y = new_y;
-		}
 	}
 }

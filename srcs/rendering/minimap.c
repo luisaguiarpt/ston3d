@@ -23,8 +23,8 @@ void	draw_dir_line(t_core *core)
 	float	step_y;
 	int		i;
 
-	x = core->minimap.offset_x + (core->player.x + 0.5f) * core->minimap.tile_size;
-	y = core->minimap.offset_y + (core->player.y + 0.5f) * core->minimap.tile_size;
+	x = core->minimap.offset_x + (core->player.x) * core->minimap.tile_size;
+	y = core->minimap.offset_y + (core->player.y) * core->minimap.tile_size;
 	step_x = core->player.dir_x;
 	step_y = core->player.dir_y;
 
@@ -38,36 +38,15 @@ void	draw_dir_line(t_core *core)
 	}
 }
 
-static void	draw_player_collision_zone(t_core *core, int center_x, int center_y)
-{
-	int	buffer_pixels;
-	int	x;
-	int	y;
-
-	buffer_pixels = (int)(COLLISION_BUFFER * core->minimap.tile_size);
-	y = center_y - buffer_pixels;
-	while (y <= center_y + buffer_pixels)
-	{
-		x = center_x - buffer_pixels;
-		while (x <= center_x + buffer_pixels)
-		{
-			put_pixel(core, x, y, 0x00FF6600);
-			x++;
-		}
-		y++;
-	}
-}
-
 void	draw_player_dot(t_core *core)
 {
 	int	x;
 	int	y;
 
 	x = core->minimap.offset_x
-		+ (int)((core->player.x + 0.5) * core->minimap.tile_size);
+		+ (int)((core->player.x) * core->minimap.tile_size);
 	y = core->minimap.offset_y
-		+ (int)((core->player.y + 0.5) * core->minimap.tile_size);
-	draw_player_collision_zone(core, x, y);
+		+ (int)((core->player.y) * core->minimap.tile_size);
 	draw_rect(core, x - 4, y - 4, 0x00FF0000);
 }
 

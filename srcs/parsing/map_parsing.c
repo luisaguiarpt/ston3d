@@ -87,8 +87,8 @@ static void	get_player_position(t_core *core)
 			{
 				if (player_found)
 					error_parsing(core, "map can't have more than one player spawn point", 0); // TODO mabe use another function that doesnt need to close fds
-				core->player.x = x;
-				core->player.y = y;
+				core->player.x = x + 0.5f;
+				core->player.y = y + 0.5f;
 				set_player_direction(core, core->map.grid[y][x]);
 				player_found = true;
 			}

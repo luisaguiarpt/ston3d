@@ -50,103 +50,121 @@ static int	is_wall(t_core *core, int map_x, int map_y)
 	return (core->map.grid[map_y][map_x] == '1');
 }
 
-void	draw_3d(t_core *core)
+static void	setup_ray(t_core *core, int x)
 {
-	int		x;
-	int		ceil_color;
-	int		floor_color;
+	core->ray.camera_x = 2.0 * x / (double)WIDTH - 1.0;
+	core->ray.ray_dir_x = core->player.dir_x + core->player.plane_x * core->ray.camera_x;
+	core->ray.ray_dir_y = core->player.dir_y + core->player.plane_y * core->ray.camera_x;
+	core->ray.map_x = (int)core->player.x;
+	core->ray.map_y = (int)core->player.y;
+	core->ray.delta_dist_x = (core->ray.ray_dir_x == 0.0) ? 1e30 : fabs(1.0 / core->ray.ray_dir_x);
+	core->ray.delta_dist_y = (core->ray.ray_dir_y == 0.0) ? 1e30 : fabs(1.0 / core->ray.ray_dir_y);
+}
+
+static void	set_step(t_core *core)
+{
+	if (core->ray.ray_dir_x < 0)
+	{
+		core->ray.step_x = -1;
+		core->ray.side_dist_x = (core->player.x - core->ray.map_x) * core->ray.delta_dist_x;
+	}
+	else
+	{
+		core->ray.step_x = 1;
+		core->ray.side_dist_x = (core->ray.map_x + 1.0 - core->player.x) * core->ray.delta_dist_x;
+	}
+	if (core->ray.ray_dir_y < 0)
+	{
+		core->ray.step_y = -1;
+		core->ray.side_dist_y = (core->player.y - core->ray.map_y) * core->ray.delta_dist_y;
+	}
+	else
+	{
+		core->ray.step_y = 1;
+		core->ray.side_dist_y = (core->ray.map_y + 1.0 - core->player.y) * core->ray.delta_dist_y;
+	}
+}
+
+static int	dda(t_core *core)
+{
+	int	hit;
+	int	side;
+
+	hit = 0;
+	side = 0; // 0 = hit x-side, 1 = hit y-sid,
+	while (!hit)
+	{
+		if (core->ray.side_dist_x < core->ray.side_dist_y)
+		{
+			core->ray.side_dist_x += core->ray.delta_dist_x;
+			core->ray.map_x += core->ray.step_x;
+			side = 0;
+		}
+		else
+		{
+			core->ray.side_dist_y += core->ray.delta_dist_y;
+			core->ray.map_y += core->ray.step_y;
+			side = 1;
+		}
+		if (is_wall(core, core->ray.map_x, core->ray.map_y))
+			hit = 1;
+	}
+	return (side);
+}
+
+static double	calc_perp_wall_dist(t_core *core, int side)
+{
+	double	perp_wall_dist;
+
+	if (side == 0)
+		perp_wall_dist = (core->ray.side_dist_x - core->ray.delta_dist_x);
+	else
+		perp_wall_dist = (core->ray.side_dist_y - core->ray.delta_dist_y);
+
+	if (perp_wall_dist <= 0.0001)
+		perp_wall_dist = 0.0001;
+	return (perp_wall_dist);
+}
+
+static void	draw_to_screen(t_core *core, double perp_wall_dist, int x, int side)
+{
+	int	line_height;
+	int	draw_start;
+	int	draw_end;
+	int	ceil_color;
+	int	floor_color;
 
 	ceil_color = rgb_to_int(core->textures.ceiling);
 	floor_color = rgb_to_int(core->textures.floor);
+	line_height = (int)(HEIGHT / perp_wall_dist);
+	draw_start = -line_height / 2 + HEIGHT / 2;
+	draw_end = line_height / 2 + HEIGHT / 2;
+
+	/* 6) Colors (simple) */
+	int	wall_color = 0x00FFFFFF; /* white */
+	if (side == 1)
+		wall_color = shade_color(wall_color, 0.70f); /* darken y-sides */
+
+	/* 7) Draw ceiling, wall, floor */
+	draw_vertical(core, x, 0, draw_start - 1, ceil_color);
+	draw_vertical(core, x, draw_start, draw_end, wall_color);
+	draw_vertical(core, x, draw_end + 1, HEIGHT - 1, floor_color);
+}
+
+void	draw_3d(t_core *core)
+{
+	int		x;
+	int		side;
+	double	perp_wall_dist;
 
 	x = 0;
 	while (x < WIDTH)
 	{
-		/* 1) Ray setup */
-		double	camera_x = 2.0 * x / (double)WIDTH - 1.0;
-		double	ray_dir_x = core->player.dir_x + core->player.plane_x * camera_x;
-		double	ray_dir_y = core->player.dir_y + core->player.plane_y * camera_x;
-
-		int		map_x = (int)core->player.x;
-		int		map_y = (int)core->player.y;
-
-		double	delta_dist_x = (ray_dir_x == 0.0) ? 1e30 : fabs(1.0 / ray_dir_x);
-		double	delta_dist_y = (ray_dir_y == 0.0) ? 1e30 : fabs(1.0 / ray_dir_y);
-
-		int		step_x;
-		int		step_y;
-		double	side_dist_x;
-		double	side_dist_y;
-
-		/* 2) Step + initial sideDist */
-		if (ray_dir_x < 0)
-		{
-			step_x = -1;
-			side_dist_x = (core->player.x - map_x) * delta_dist_x;
-		}
-		else
-		{
-			step_x = 1;
-			side_dist_x = (map_x + 1.0 - core->player.x) * delta_dist_x;
-		}
-		if (ray_dir_y < 0)
-		{
-			step_y = -1;
-			side_dist_y = (core->player.y - map_y) * delta_dist_y;
-		}
-		else
-		{
-			step_y = 1;
-			side_dist_y = (map_y + 1.0 - core->player.y) * delta_dist_y;
-		}
-
-		/* 3) DDA */
-		int	hit = 0;
-		int	side = 0; /* 0 = hit x-side, 1 = hit y-side */
-		while (!hit)
-		{
-			if (side_dist_x < side_dist_y)
-			{
-				side_dist_x += delta_dist_x;
-				map_x += step_x;
-				side = 0;
-			}
-			else
-			{
-				side_dist_y += delta_dist_y;
-				map_y += step_y;
-				side = 1;
-			}
-			if (is_wall(core, map_x, map_y))
-				hit = 1;
-		}
-
-		/* 4) Perpendicular distance (prevents fish-eye) */
-		double	perp_wall_dist;
-		if (side == 0)
-			perp_wall_dist = (side_dist_x - delta_dist_x);
-		else
-			perp_wall_dist = (side_dist_y - delta_dist_y);
-
-		if (perp_wall_dist <= 0.0001)
-			perp_wall_dist = 0.0001;
-
-		/* 5) Project to screen: line height */
-		int	line_height = (int)(HEIGHT / perp_wall_dist);
-
-		int	draw_start = -line_height / 2 + HEIGHT / 2;
-		int	draw_end = line_height / 2 + HEIGHT / 2;
-
-		/* 6) Colors (simple) */
-		int	wall_color = 0x00FFFFFF; /* white */
-		if (side == 1)
-			wall_color = shade_color(wall_color, 0.70f); /* darken y-sides */
-
-		/* 7) Draw ceiling, wall, floor */
-		draw_vertical(core, x, 0, draw_start - 1, ceil_color);
-		draw_vertical(core, x, draw_start, draw_end, wall_color);
-		draw_vertical(core, x, draw_end + 1, HEIGHT - 1, floor_color);
-
+		setup_ray(core, x);
+		set_step(core);
+		side = dda(core);
+		perp_wall_dist = calc_perp_wall_dist(core, side);
+		draw_to_screen(core, perp_wall_dist, x, side);
 		x++;
 	}
 }
