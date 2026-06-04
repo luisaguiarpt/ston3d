@@ -158,7 +158,7 @@ static char	*fill_map_grid(t_core *core, int map_fd, char *line)
 	if (!is_valid_line(line))
 	{
 		free(line);
-		error_parsing(core, "only the characters 0, 1, N, S, E and W are valid for the map", map_fd);
+		error_parsing(core, "only the characters ' ', '0', '1', 'N', 'S', 'E' and 'W' are valid for the map", map_fd);
 	}
 	grid_line = ft_strdup(line);
 	if (!grid_line)

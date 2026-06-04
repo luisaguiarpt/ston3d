@@ -58,7 +58,7 @@ bool	is_valid_line(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (!is_space(line[i])
+		if (line[i] != ' '
 			&& line[i] != '0'
 	  		&& line[i] != '1'
 	  		&& line[i] != 'N'
