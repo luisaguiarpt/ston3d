@@ -147,6 +147,7 @@ void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
 	int	tex_x;
 	int	tex_y;
 	int	y;
+	t_img	*tex;
 	
 	if (x < 0 || x >= WIDTH)
 		return;
@@ -156,26 +157,38 @@ void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
 	// 	draw_end = HEIGHT - 1;
 	y = draw_start;
 	if (core->ray.side == 0)
+	{
 		wall_x = core->player.y + core->ray.perp_wall_dist * core->ray.ray_dir_y;
+		if (core->ray.ray_dir_y > 0)
+			tex = &core->textures.no_img;
+		else
+			tex = &core->textures.so_img;
+	}
 	else
+	{
 		wall_x = core->player.x + core->ray.perp_wall_dist * core->ray.ray_dir_x;
+		if (core->ray.ray_dir_x > 0)
+			tex = &core->textures.we_img;
+		else
+			tex = &core->textures.ea_img;
+	}
 	wall_x -= floor(wall_x);
-	tex_x = (int)(wall_x * (double)core->textures.no_img.width);
+	tex_x = (int)(wall_x * (double)tex->width);
 	if (tex_x < 0)
 		tex_x = 0;
-	if (tex_x >= core->textures.no_img.width)
-		tex_x = core->textures.no_img.width - 1;
+	if (tex_x >= tex->width)
+		tex_x = tex->width - 1;
 	if(core->ray.side == 0 && core->ray.ray_dir_x < 0)
-		tex_x = core->textures.no_img.width - tex_x - 1;
+		tex_x = tex->width - tex_x - 1;
 	if(core->ray.side == 1 && core->ray.ray_dir_y > 0)
-		tex_x = core->textures.no_img.width - tex_x - 1;
-	double	step = (double)core->textures.no_img.height / (double)(draw_end - draw_start + 1);
+		tex_x = tex->width - tex_x - 1;
+	double	step = (double)tex->height / (double)(draw_end - draw_start + 1);
 	float	tex_pos = 0;
 	tex_y = 0;
 	while (y <= draw_end)
 	{
 		tex_y = (int)tex_pos;
-		put_pixel(core, x, y, get_pixel_from_texture(&core->textures.no_img,
+		put_pixel(core, x, y, get_pixel_from_texture(tex,
 					tex_x,
 					tex_y));
 		tex_pos += step;
