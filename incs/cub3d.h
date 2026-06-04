@@ -17,7 +17,7 @@
 # define DEGREES_PER_PRESS 1
 # define SPEED 0.03
 # define FOV 0.70
-// # define PLAYER_PADDING 0.20
+# define COLLISION_BUFFER 0
 
 typedef struct s_player
 {

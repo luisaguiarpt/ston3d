@@ -1,7 +1,5 @@
 #include "../incs/cub3d.h"
 
-# define COLLISION_BUFFER 0.15
-
 void	rotate_dir(t_core *core, int turn_dir);
 void	move_forward(t_core *core);
 void	move_backward(t_core *core);

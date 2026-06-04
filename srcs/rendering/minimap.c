@@ -1,6 +1,5 @@
 #include "../../incs/cub3d.h"
 
-# define COLLISION_BUFFER 0.15
 
 static void	draw_rect(t_core *core, int start_x, int start_y, int color);
 static int	cell_color(char c);

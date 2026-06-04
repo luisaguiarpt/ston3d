@@ -95,7 +95,7 @@ void	parse_textures(t_core *core, int map_fd)
 	{
 		line = get_next_line(map_fd);
 		if (!line)
-			error_parsing(core, "not enough memory", map_fd);
+			error_parsing(core, "unable to read map", map_fd);
 		remove_newline(line);
 		if (is_empty_line(line))
 		{
