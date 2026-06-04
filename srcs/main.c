@@ -13,6 +13,7 @@ int	main(int ac, char **av)
 	parse_cub_file(&core, av[1]);
 	validate_map(&core);
 	init_mlx(&core);
+	load_textures(&core);
 	setup_keybinds(&core);
 	mlx_loop_hook(core.mlx, (int (*)())(void *)game_loop, &core);
 	mlx_loop(core.mlx);

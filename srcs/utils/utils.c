@@ -25,4 +25,5 @@ void	exit_error(t_core *core, char *message)
 {
 	free_core(core);
 	ft_printf("Error\n%s", message);
+	exit(EXIT_FAILURE);
 }

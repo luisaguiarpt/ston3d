@@ -15,9 +15,9 @@ static void	free_map(t_core *core)
 	}
 }
 
-static void	free_image(t_img *img)
+static void	free_image(t_core *core, t_img *img)
 {
-	free(img->img);
+	mlx_destroy_image(core->mlx, img->img);
 	if (img->addr)
 		free(img->addr);
 }
@@ -33,13 +33,13 @@ static void	free_textures(t_core *core)
 	if (core->textures.we_path)
 		free(core->textures.we_path);
 	if (core->textures.no_img.img)
-		free_image(&core->textures.no_img);
+		free_image(core, &core->textures.no_img);
 	if (core->textures.so_img.img)
-		free_image(&core->textures.so_img);
+		free_image(core, &core->textures.so_img);
 	if (core->textures.ea_img.img)
-		free_image(&core->textures.ea_img);
+		free_image(core, &core->textures.ea_img);
 	if (core->textures.we_img.img)
-		free_image(&core->textures.we_img);
+		free_image(core, &core->textures.we_img);
 }
 
 void	free_core(t_core *core)

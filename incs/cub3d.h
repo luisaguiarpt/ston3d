@@ -31,6 +31,8 @@ typedef struct s_ray
 	int		step_y;
 	int		map_x;
 	int		map_y;
+	int		side;
+	double	perp_wall_dist;
 }			t_ray;
 
 typedef struct s_player
@@ -147,6 +149,9 @@ void	remove_newline(char *str);
 //	rendering.c
 void	put_pixel(t_core *core, int x, int y, int color);
 int		render_frame(t_core *core);
+//	texture_rendering.c
+void	load_textures(t_core *core);
+
 // minimap.c
 void	draw_minimap(t_core *core);
 // game_loop.c

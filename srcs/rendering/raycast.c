@@ -23,21 +23,6 @@ static int	shade_color(int color, float factor) // TODO debug only delete later
 	return ((r << 16) | (g << 8) | b);
 }
 
-static void	draw_vertical(t_core *core, int x, int y0, int y1, int color)
-{
-	int	y;
-
-	if (x < 0 || x >= WIDTH)
-		return;
-	if (y0 < 0)
-		y0 = 0;
-	if (y1 >= HEIGHT)
-		y1 = HEIGHT - 1;
-	y = y0;
-	while (y <= y1)
-		put_pixel(core, x, y++, color);
-}
-
 static int	is_wall(t_core *core, int map_x, int map_y)
 {
 	if (map_x < 0 || map_y < 0)
@@ -85,48 +70,95 @@ static void	set_step(t_core *core)
 	}
 }
 
-static int	dda(t_core *core)
+static void	dda(t_core *core)
 {
 	int	hit;
-	int	side;
 
 	hit = 0;
-	side = 0; // 0 = hit x-side, 1 = hit y-sid,
+	core->ray.side = 0; // 0 = hit x-side, 1 = hit y-sid,
 	while (!hit)
 	{
 		if (core->ray.side_dist_x < core->ray.side_dist_y)
 		{
 			core->ray.side_dist_x += core->ray.delta_dist_x;
 			core->ray.map_x += core->ray.step_x;
-			side = 0;
+			core->ray.side = 0;
 		}
 		else
 		{
 			core->ray.side_dist_y += core->ray.delta_dist_y;
 			core->ray.map_y += core->ray.step_y;
-			side = 1;
+			core->ray.side = 1;
 		}
 		if (is_wall(core, core->ray.map_x, core->ray.map_y))
 			hit = 1;
 	}
-	return (side);
 }
 
-static double	calc_perp_wall_dist(t_core *core, int side)
+static void	calc_perp_wall_dist(t_core *core)
 {
-	double	perp_wall_dist;
-
-	if (side == 0)
-		perp_wall_dist = (core->ray.side_dist_x - core->ray.delta_dist_x);
+	if (core->ray.side == 0)
+		core->ray.perp_wall_dist = (core->ray.side_dist_x - core->ray.delta_dist_x);
 	else
-		perp_wall_dist = (core->ray.side_dist_y - core->ray.delta_dist_y);
+		core->ray.perp_wall_dist = (core->ray.side_dist_y - core->ray.delta_dist_y);
 
-	if (perp_wall_dist <= 0.0001)
-		perp_wall_dist = 0.0001;
-	return (perp_wall_dist);
+	if (core->ray.perp_wall_dist <= 0.0001)
+		core->ray.perp_wall_dist = 0.0001;
 }
 
-static void	draw_to_screen(t_core *core, double perp_wall_dist, int x, int side)
+static void	draw_vertical(t_core *core, int x, int y0, int y1, int color)
+{
+	int	y;
+
+	if (x < 0 || x >= WIDTH)
+		return;
+	if (y0 < 0)
+		y0 = 0;
+	if (y1 >= HEIGHT)
+		y1 = HEIGHT - 1;
+	y = y0;
+	while (y <= y1)
+		put_pixel(core, x, y++, color);
+}
+
+int	get_pixel_from_texture(t_core *core, t_img *img, int tex_x, int tex_y)
+{
+	int	pixel;
+
+	(void)core;
+	pixel = *(img->addr + tex_y * img->line_len * img->bpp + tex_x * img->bpp);
+	return (pixel);
+}
+
+void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
+{
+	int	wall_x;
+	// int	wall_y;
+	// int	tex_x;
+	// int	tex_y;
+	// int	color;
+	int	y;
+	
+	if (x < 0 || x >= WIDTH)
+		return;
+	if (draw_start < 0)
+		draw_start = 0;
+	if (draw_end >= HEIGHT)
+		draw_end = HEIGHT - 1;
+	y = draw_start;
+	if (core->ray.side == 0)
+		wall_x = core->player.y + core->ray.perp_wall_dist * core->ray.ray_dir_y;
+	else
+		wall_x = core->player.x + core->ray.perp_wall_dist * core->ray.ray_dir_x;
+	//wall_x -= floor(wall_x);
+	while (y <= draw_end)
+	{
+		put_pixel(core, x, y, get_pixel_from_texture(core, &core->textures.no_img, x, y));
+		y++;
+	}
+}
+
+static void	draw_to_screen(t_core *core, int x)
 {
 	int	line_height;
 	int	draw_start;
@@ -136,35 +168,33 @@ static void	draw_to_screen(t_core *core, double perp_wall_dist, int x, int side)
 
 	ceil_color = rgb_to_int(core->textures.ceiling);
 	floor_color = rgb_to_int(core->textures.floor);
-	line_height = (int)(HEIGHT / perp_wall_dist);
+	line_height = (int)(HEIGHT / core->ray.perp_wall_dist);
 	draw_start = -line_height / 2 + HEIGHT / 2;
 	draw_end = line_height / 2 + HEIGHT / 2;
 
 	/* 6) Colors (simple) */
 	int	wall_color = 0x00FFFFFF; /* white */
-	if (side == 1)
+	if (core->ray.side == 1)
 		wall_color = shade_color(wall_color, 0.70f); /* darken y-sides */
 
 	/* 7) Draw ceiling, wall, floor */
 	draw_vertical(core, x, 0, draw_start - 1, ceil_color);
-	draw_vertical(core, x, draw_start, draw_end, wall_color);
+	draw_vertical_texture(core, x, draw_start, draw_end);
 	draw_vertical(core, x, draw_end + 1, HEIGHT - 1, floor_color);
 }
 
 void	draw_3d(t_core *core)
 {
 	int		x;
-	int		side;
-	double	perp_wall_dist;
 
 	x = 0;
 	while (x < WIDTH)
 	{
 		setup_ray(core, x);
 		set_step(core);
-		side = dda(core);
-		perp_wall_dist = calc_perp_wall_dist(core, side);
-		draw_to_screen(core, perp_wall_dist, x, side);
+		dda(core);
+		calc_perp_wall_dist(core);
+		draw_to_screen(core, x);
 		x++;
 	}
 }
