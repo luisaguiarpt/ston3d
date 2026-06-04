@@ -182,6 +182,8 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 		error_parsing(core, "not enough memory", map_fd);
 	while((line = get_next_line(map_fd)))
 	{
+		if (!line)
+			error_parsing(core, "unable to read map", map_fd);
 		remove_newline(line);
 		if (is_empty_line(line) && i == 0)
 		{
