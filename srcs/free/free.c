@@ -18,8 +18,8 @@ static void	free_map(t_core *core)
 static void	free_image(t_core *core, t_img *img)
 {
 	mlx_destroy_image(core->mlx, img->img);
-	if (img->addr)
-		free(img->addr);
+	// if (img->addr)
+	// 	free(img->addr);
 }
 
 static void	free_textures(t_core *core)
@@ -44,6 +44,8 @@ static void	free_textures(t_core *core)
 
 void	free_core(t_core *core)
 {
+	free_textures(core);
+	free_map(core);
 	if (core->img)
 		mlx_destroy_image(core->mlx, core->img);
 	if (core->win)
@@ -53,6 +55,4 @@ void	free_core(t_core *core)
 		mlx_destroy_display(core->mlx);
 		free(core->mlx);
 	}
-	free_textures(core);
-	free_map(core);
 }

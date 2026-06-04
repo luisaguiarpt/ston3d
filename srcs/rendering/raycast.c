@@ -121,13 +121,24 @@ static void	draw_vertical(t_core *core, int x, int y0, int y1, int color)
 		put_pixel(core, x, y++, color);
 }
 
-int	get_pixel_from_texture(t_core *core, t_img *img, int tex_x, int tex_y)
+int	get_pixel_from_texture(t_img *img, int tex_x, int tex_y)
 {
-	int	pixel;
+	char	*pixel;
+	int		bpp;
 
-	(void)core;
-	pixel = *(img->addr + tex_y * img->line_len * img->bpp + tex_x * img->bpp);
-	return (pixel);
+	if (!img || !img->addr || img->width <= 0 || img->height <= 0)
+		return (0);
+	if (tex_x < 0)
+		tex_x = 0;
+	if (tex_y < 0)
+		tex_y = 0;
+	if (tex_x >= img->width)
+		tex_x = img->width - 1;
+	if (tex_y >= img->height)
+		tex_y = img->height - 1;
+	bpp = img->bpp / 8;
+	pixel = img->addr + (tex_y * img->line_len + tex_x * bpp);
+	return (*(int *)pixel);
 }
 
 void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
@@ -153,7 +164,9 @@ void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
 	//wall_x -= floor(wall_x);
 	while (y <= draw_end)
 	{
-		put_pixel(core, x, y, get_pixel_from_texture(core, &core->textures.no_img, x, y));
+		put_pixel(core, x, y, get_pixel_from_texture(&core->textures.no_img,
+					x % core->textures.no_img.width,
+					y % core->textures.no_img.height));
 		y++;
 	}
 }
