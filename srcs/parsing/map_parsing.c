@@ -86,10 +86,11 @@ static void	get_player_position(t_core *core)
 				|| core->map.grid[y][x] == 'W')
 			{
 				if (player_found)
-					error_parsing(core, "map can't have more than one player spawn point", 0); // TODO mabe use another function that doesnt need to close fds
+					error_parsing(core, "map can't have more than one player spawn point", 0);
 				core->player.x = x + 0.5f;
 				core->player.y = y + 0.5f;
 				set_player_direction(core, core->map.grid[y][x]);
+				core->map.grid[y][x] = '0';
 				player_found = true;
 			}
 			x++;
@@ -106,7 +107,7 @@ static void	skip_textures(t_core *core, int fd, int old_fd)
 	char	*line;
 
 	textures_skipped = 0;
-	while (textures_skipped < 6) // TODO change it to handle floor and ceiling colors
+	while (textures_skipped < 6)
 	{
 		line = get_next_line(fd);
 		if (!line)
@@ -133,7 +134,7 @@ static int	get_map_height(t_core *core, char *map_path, int old_fd)
 
 	new_fd = open(map_path, O_RDONLY);
 	if (new_fd < 0)
-		error_parsing(core, strerror(errno), old_fd); // TODO verify if strerror is correct in this case
+		error_parsing(core, strerror(errno), old_fd);
 	skip_textures(core, new_fd, old_fd);
 	height = 0;
 	while ((line = get_next_line(new_fd)) != NULL)
@@ -144,10 +145,18 @@ static int	get_map_height(t_core *core, char *map_path, int old_fd)
 			free(line);
 			continue ;
 		}
+		if (is_empty_line(line))
+		{
+			free(line);
+			close(new_fd);
+			error_parsing(core, "map can't contain empty lines", old_fd);
+		}
 		height++;
 		free(line);
 	}
 	close(new_fd);
+	if (height == 0)
+		error_parsing(core, "map missing", old_fd);
 	return (height);
 }
 
@@ -174,9 +183,11 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 {
 	char	*line;
 	int		i;
+	bool	map_started;
 
 	core->map.height = get_map_height(core, map_path, map_fd);
 	i = 0;
+	map_started = false;
 	core->map.grid = ft_calloc(core->map.height + 1, sizeof(char *));
 	if (!core->map.grid)
 		error_parsing(core, "not enough memory", map_fd);
@@ -190,10 +201,18 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 			free(line);
 			continue ;
 		}
+		if (is_empty_line(line))
+		{
+			free(line);
+			error_parsing(core, "map can't contain empty lines", map_fd);
+		}
+		map_started = true;
 		core->map.grid[i] = fill_map_grid(core, map_fd, line);
 		free(line);
 		i++;
 	}
+	if (!map_started)
+		error_parsing(core, "map missing", map_fd);
 	get_player_position(core);
 	get_map_width(core);
 }

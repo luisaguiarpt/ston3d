@@ -14,13 +14,19 @@ void	init_textures(t_core *core)
 	core->textures.so_img.addr = NULL;
 	core->textures.ea_img.addr = NULL;
 	core->textures.we_img.addr = NULL;
+	core->textures.floor[0] = -1;
+	core->textures.floor[1] = -1;
+	core->textures.floor[2] = -1;
+	core->textures.ceiling[0] = -1;
+	core->textures.ceiling[1] = -1;
+	core->textures.ceiling[2] = -1;
 }
 
 void	init_map(t_core *core)
 {
 	core->map.grid = NULL;
-	core->map.width = 0; // TODO maybe initialize right away
-	core->map.height = 0; // TODO maybe initialize right away
+	core->map.width = 0;
+	core->map.height = 0;
 }
 
 void	init_minimap(t_core *core)
@@ -34,8 +40,12 @@ void	init_minimap(t_core *core)
 
 void	init_player(t_core *core)
 {
-	// TODO - initialize core->player values here and
-	// create a new funciton for the inputs
+	core->player.x = 0;
+	core->player.y = 0;
+	core->player.dir_x = 0;
+	core->player.dir_y = 0;
+	core->player.plane_x = 0;
+	core->player.plane_y = 0;
 	core->input.w = false;
 	core->input.a = false;
 	core->input.s = false;
@@ -56,8 +66,7 @@ void	init_core(t_core *core)
 	init_textures(core);
 	init_map(core);
 	init_minimap(core);
-	init_player(core); //TODO - init function
-
+	init_player(core);
 }
 
 void	init_mlx(t_core *core)

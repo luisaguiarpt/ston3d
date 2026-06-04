@@ -66,7 +66,7 @@ typedef struct s_img
 	int		height;
 	int		width;
 	int		bpp;
-	int		line_len; // TODO check
+	int		line_len;
 	int		endian;
 }			t_img;
 
@@ -153,18 +153,22 @@ void	draw_minimap(t_core *core);
 int		game_loop(void *param);
 //raycast.c
 void	draw_3d(t_core *core);
+// texture_rendering.c
+void	load_textures(t_core *core);
 
 // *** KEYBINDS ***
 // keybinds.c
 void	setup_keybinds(t_core *core);
 int		handle_input_press(int key, void *param);
 int		handle_input_release(int key, void *param);
+int		handle_window_close(void *param);
 
 // utils/utils.c
 bool	is_space(char c);
 int		absolute_value(int n);
 int		rgb_to_int(int rgb[3]);
 void	exit_error(t_core *core, char *message);
+char	get_map_cell(t_core *core, int x, int y);
 
 // free/free.c
 void	free_core(t_core *core);

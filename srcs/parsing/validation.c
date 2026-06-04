@@ -1,6 +1,7 @@
 #include "../../incs/cub3d.h"
 
 static int	flood_fill(int y, int x, char **grid, t_core *core);
+static char	get_grid_cell(char **grid, int x, int y);
 
 int	validate_map(t_core *core)
 {
@@ -26,7 +27,7 @@ static int	flood_fill(int y, int x, char **grid, t_core *core)
 		return (1);
 	if (y >= core->map.height || x >= core->map.width)
 		return (1);
-	cell = grid[y][x];
+	cell = get_grid_cell(grid, x, y);
 	if (cell == ' ' || cell == '\0')
 		return (1);
 	if (cell == '1')
@@ -43,4 +44,18 @@ static int	flood_fill(int y, int x, char **grid, t_core *core)
 	if (flood_fill(y, x - 1, grid, core))
 		return (1);
 	return (0);
+}
+
+static char	get_grid_cell(char **grid, int x, int y)
+{
+	int	row_len;
+
+	if (x < 0 || y < 0)
+		return (' ');
+	if (!grid[y])
+		return (' ');
+	row_len = (int)ft_strlen(grid[y]);
+	if (x >= row_len)
+		return (' ');
+	return (grid[y][x]);
 }

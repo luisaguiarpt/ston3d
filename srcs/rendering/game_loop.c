@@ -48,27 +48,9 @@ void	rotate_dir(t_core *core, int turn_dir)
 	core->player.plane_y = old_plane_x * sin + core->player.plane_y * cos;
 }
 
-// static int	is_wall_at(t_core *core, float x, float y)
-// {
-// 	int	map_x;
-// 	int	map_y;
-//
-// 	map_x = (int)x;
-// 	map_y = (int)y;
-// 	if (map_y < 0 || map_x < 0)
-// 		return (1);
-// 	if (map_y >= core->map.height)
-// 		return (1);
-// 	if (map_x >= core->map.width)
-// 		return (1);
-// 	if ((int)ft_strlen(core->map.grid[map_y]) <= map_x)
-// 		return (1);
-// 	return (core->map.grid[map_y][map_x] == '1');
-// }
-//
 static int	collides_x(t_core *core, float new_x)
 {
-	if (core->map.grid[(int)(core->player.y)][(int)(new_x)] == '1')
+	if (get_map_cell(core, (int)new_x, (int)core->player.y) != '0')
 		return (1);
 	else
 		return (0);
@@ -76,35 +58,12 @@ static int	collides_x(t_core *core, float new_x)
 
 static int	collides_y(t_core *core, float new_y)
 {
-	if (core->map.grid[(int)(new_y)][(int)(core->player.x)] == '1')
+	if (get_map_cell(core, (int)core->player.x, (int)new_y) != '0')
 		return (1);
 	else
 		return (0);
 }
-// static int	check_collision(t_core *core, float new_x, float new_y)
-// {
-// 	float	test_x;
-// 	float	test_y;
-//
-// 	test_x = new_x;
-// 	test_y = new_y;
-// 	if (is_wall_at(core, test_x, test_y))
-// 		return (1);
-// 	test_x = new_x;
-// 	test_y = new_y;
-// 	if (is_wall_at(core, test_x, test_y))
-// 		return (1);
-// 	test_x = new_x;
-// 	test_y = new_y;
-// 	if (is_wall_at(core, test_x, test_y))
-// 		return (1);
-// 	test_x = new_x;
-// 	test_y = new_y;
-// 	if (is_wall_at(core, test_x, test_y))
-// 		return (1);
-// 	return (0);
-// }
-//
+
 void	move_forward(t_core *core)
 {
 	float	new_x;

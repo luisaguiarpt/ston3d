@@ -4,8 +4,18 @@ void	setup_keybinds(t_core *core)
 {
 	mlx_hook(core->win, 2, 1L << 0, (int (*)())(void *)handle_input_press, core);
 	mlx_hook(core->win, 3, 1L << 1, (int (*)())(void *)handle_input_release, core);
-	mlx_hook(core->win, 17, 1 << 0, (int (*)())(void *)exit_game, core);
+	mlx_hook(core->win, 17, 1 << 0, (int (*)())(void *)handle_window_close, core);
 }
+
+int	handle_window_close(void *param)
+{
+	t_core	*core;
+
+	core = (t_core *)param;
+	exit_game(core, EXIT_SUCCESS);
+	return (0);
+}
+
 int	handle_input_press(int key, void *param)
 {
 	t_core	*core;
