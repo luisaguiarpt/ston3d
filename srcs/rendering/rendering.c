@@ -33,9 +33,9 @@ int	render_frame(t_core *core)
 	if (FX_ZOOM_PULSE)
 		zoom_pulse(core);
 	if (FX_SCANLINE_WARP)
-	scanline_warp(core);
+		scanline_warp(core);
 	if (FX_CHANNEL_ROTATION)
-	post_process(core);
+		post_process(core);
 	mlx_put_image_to_window(core->mlx, core->win, core->img, 0, 0);
 	return (0);
 }
