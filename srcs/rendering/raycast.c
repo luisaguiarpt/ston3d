@@ -102,8 +102,8 @@ static void	calc_perp_wall_dist(t_core *core)
 	else
 		core->ray.perp_wall_dist = (core->ray.side_dist_y - core->ray.delta_dist_y);
 
-	if (core->ray.perp_wall_dist <= 0.0001)
-		core->ray.perp_wall_dist = 0.0001;
+	if (core->ray.perp_wall_dist <= 0.1)
+		core->ray.perp_wall_dist = 0.1;
 }
 
 static void	draw_vertical(t_core *core, int x, int y0, int y1, int color)
@@ -178,6 +178,14 @@ int	get_tex_x(t_core *core, double wall_x, t_img *tex)
 	return (tex_x);
 }
 
+static inline unsigned int	get_tex_pixel(t_img *tex, int tex_x, int tex_y)
+{
+	char	*dst;
+
+	dst = tex->addr + (tex_y * tex->line_len + tex_x * (tex->bpp / 8));
+	return (*(unsigned int *)dst);
+}
+
 void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
 {
 	double	wall_x;
@@ -185,24 +193,32 @@ void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
 	int		tex_y;
 	int		y;
 	t_img	*tex;
+	double	step;
+	float	tex_pos;
 	
-	if (x < 0 || x >= WIDTH)
+	if (x < 0 || x >= WIDTH || draw_start > draw_end)
 		return;
 	if (core->ray.side == 0)
 		wall_x = core->player.y + core->ray.perp_wall_dist * core->ray.ray_dir_y;
 	else
 		wall_x = core->player.x + core->ray.perp_wall_dist * core->ray.ray_dir_x;
 	wall_x -= floor(wall_x);
+
 	tex = get_texture(core);
 	tex_x = get_tex_x(core, wall_x, tex);
-	double	step = (double)tex->height / (double)(draw_end - draw_start + 1);
-	float	tex_pos = 0;
-	tex_y = 0;
+	int	line_height = (int)(HEIGHT / core->ray.perp_wall_dist);
+	int	true_draw_start = -line_height / 2 + HEIGHT / 2;
+	step = (double)tex->height / (double)(line_height);
+	tex_pos = (draw_start - true_draw_start) * step;
 	y = draw_start;
 	while (y <= draw_end)
 	{
 		tex_y = (int)tex_pos;
-		put_pixel(core, x, y, get_pixel_from_texture(tex, tex_x, tex_y));
+		if (tex_y < 0)
+			tex_y = 0;
+		if (tex_y >= tex->height)
+			tex_y = tex->height - 1;
+		put_pixel(core, x, y, get_tex_pixel(tex, tex_x, tex_y));
 		tex_pos += step;
 		y++;
 	}
@@ -221,6 +237,11 @@ static void	draw_to_screen(t_core *core, int x)
 	line_height = (int)(HEIGHT / core->ray.perp_wall_dist);
 	draw_start = -line_height / 2 + HEIGHT / 2;
 	draw_end = line_height / 2 + HEIGHT / 2;
+	// Test
+	if (draw_start < 0)
+		draw_start = 0;
+	if (draw_end >= HEIGHT)
+		draw_end = HEIGHT - 1;
 
 	/* 6) Colors (simple) */
 	int	wall_color = 0x00FFFFFF; /* white */
