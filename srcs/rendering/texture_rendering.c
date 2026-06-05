@@ -8,6 +8,8 @@ void	load_textures(t_core *core)
 	load_xpm(core, &core->textures.so_img, core->textures.so_path);
 	load_xpm(core, &core->textures.ea_img, core->textures.ea_path);
 	load_xpm(core, &core->textures.we_img, core->textures.we_path);
+	core->textures.floor_int = rgb_to_int(core->textures.floor);
+	core->textures.ceiling_int = rgb_to_int(core->textures.ceiling);
 }
 
 void	load_xpm(t_core *core, t_img *img, char *path)

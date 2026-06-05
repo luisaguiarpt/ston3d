@@ -1,28 +1,5 @@
 #include "../../incs/cub3d.h"
 
-static int	shade_color(int color, float factor) // TODO debug only delete later
-{
-	int	r;
-	int	g;
-	int	b;
-
-	r = (int)(((color >> 16) & 0xFF) * factor);
-	g = (int)(((color >> 8) & 0xFF) * factor);
-	b = (int)((color & 0xFF) * factor);
-	if (r < 0)
-		r = 0;
-	if (r > 255)
-		r = 255;
-	if (g < 0)
-		g = 0;
-	if (g > 255)
-		g = 255;
-	if (b < 0)
-		b = 0;
-	if (b > 255) b = 255;
-	return ((r << 16) | (g << 8) | b);
-}
-
 static int	is_wall(t_core *core, int map_x, int map_y)
 {
 	if (map_x < 0 || map_y < 0)
@@ -162,7 +139,7 @@ static void	get_texture(t_core *core)
 	core->ray.tex = tex;
 }
 
-static void	get_tex_x(t_core *core)
+static void	calc_tex_x(t_core *core)
 {
 	int	tex_x;
 	double	wall_x;
@@ -190,7 +167,7 @@ static inline unsigned int	get_tex_pixel(t_img *tex, int tex_x, int tex_y)
 	return (*(unsigned int *)dst);
 }
 
-static void	get_wall_x(t_core *core)
+static void	calc_wall_x(t_core *core)
 {
 	double	wall_x;
 	
@@ -204,7 +181,6 @@ static void	get_wall_x(t_core *core)
 
 void	get_draw_info(t_core *core)
 {
-	core->ray.line_height = (int)(HEIGHT / core->ray.perp_wall_dist);
 	core->ray.true_draw_start = -core->ray.line_height / 2 + HEIGHT / 2;
 	core->ray.draw_step = (double)core->ray.tex->height / (double)(core->ray.line_height);
 }
@@ -214,20 +190,14 @@ void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
 	int		tex_y;
 	int		y;
 	float	tex_pos;
-	int		scroll_offset;
 	
 	if (x < 0 || x >= WIDTH || draw_start > draw_end)
 		return;
-	get_wall_x(core); 
-	get_texture(core);
-	get_tex_x(core);
-	get_draw_info(core);
 	tex_pos = (draw_start - core->ray.true_draw_start) * core->ray.draw_step;
 	y = draw_start;
-	scroll_offset = (core->anim_tick * 2) % core->ray.tex->height;
 	while (y <= draw_end)
 	{
-		tex_y = ((int)tex_pos + scroll_offset) % core->ray.tex->height;
+		tex_y = (int)tex_pos;
 		if (tex_y < 0)
 			tex_y = 0;
 		if (tex_y >= core->ray.tex->height)
@@ -238,32 +208,30 @@ void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
 	}
 }
 
+void	calc_wall_slice(t_core *core)
+{
+	int	half;
+
+	half = (int)(HEIGHT / core->ray.perp_wall_dist) / 2;
+	core->ray.draw_start = HEIGHT / 2 - half;
+	core->ray.draw_end = HEIGHT / 2 + half;
+	if (core->ray.draw_start < 0)
+		core->ray.draw_start = 0;
+	if (core->ray.draw_end >= HEIGHT)
+		core->ray.draw_end = HEIGHT - 1;
+	core->ray.line_height = half * 2;
+}
+
 static void	draw_to_screen(t_core *core, int x)
 {
-	int	line_height;
-	int	draw_start;
-	int	draw_end;
-
-	core->textures.ceiling_int = rgb_to_int(core->textures.ceiling);
-	core->textures.floor_int = rgb_to_int(core->textures.floor);
-	line_height = (int)(HEIGHT / core->ray.perp_wall_dist);
-	draw_start = -line_height / 2 + HEIGHT / 2;
-	draw_end = line_height / 2 + HEIGHT / 2;
-	// Test
-	if (draw_start < 0)
-		draw_start = 0;
-	if (draw_end >= HEIGHT)
-		draw_end = HEIGHT - 1;
-
-	/* 6) Colors (simple) */
-	int	wall_color = 0x00FFFFFF; /* white */
-	if (core->ray.side == 1)
-		wall_color = shade_color(wall_color, 0.70f); /* darken y-sides */
-
-	/* 7) Draw ceiling, wall, floor */
-	draw_vertical(core, x, 0, draw_start - 1, core->textures.ceiling_int);
-	draw_vertical_texture(core, x, draw_start, draw_end);
-	draw_vertical(core, x, draw_end + 1, HEIGHT - 1, core->textures.floor_int);
+	calc_wall_slice(core);
+	calc_wall_x(core); 
+	get_texture(core);
+	calc_tex_x(core);
+	get_draw_info(core);
+	draw_vertical(core, x, 0, core->ray.draw_start - 1, core->textures.ceiling_int);
+	draw_vertical_texture(core, x, core->ray.draw_start, core->ray.draw_end);
+	draw_vertical(core, x, core->ray.draw_end + 1, HEIGHT - 1, core->textures.floor_int);
 }
 
 void	draw_3d(t_core *core)
