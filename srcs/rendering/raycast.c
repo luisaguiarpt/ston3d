@@ -141,7 +141,7 @@ int	get_pixel_from_texture(t_img *img, int tex_x, int tex_y)
 	return (*(int *)pixel);
 }
 
-t_img	*get_texture(t_core *core)
+static void	get_texture(t_core *core)
 {
 	t_img	*tex;
 
@@ -159,13 +159,17 @@ t_img	*get_texture(t_core *core)
 		else
 			tex = &core->textures.so_img;
 	}
-	return (tex);
+	core->ray.tex = tex;
 }
 
-int	get_tex_x(t_core *core, double wall_x, t_img *tex)
+static void	get_tex_x(t_core *core)
 {
 	int	tex_x;
+	double	wall_x;
+	t_img	*tex;
 
+	wall_x = core->ray.wall_x;
+	tex = core->ray.tex;
 	tex_x = (int)(wall_x * (double)tex->width);
 	if (tex_x < 0)
 		tex_x = 0;
@@ -175,7 +179,7 @@ int	get_tex_x(t_core *core, double wall_x, t_img *tex)
 		tex_x = tex->width - tex_x - 1;
 	if(core->ray.side == 1 && core->ray.ray_dir_y > 0)
 		tex_x = tex->width - tex_x - 1;
-	return (tex_x);
+	core->ray.tex_x = tex_x;
 }
 
 static inline unsigned int	get_tex_pixel(t_img *tex, int tex_x, int tex_y)
@@ -186,40 +190,48 @@ static inline unsigned int	get_tex_pixel(t_img *tex, int tex_x, int tex_y)
 	return (*(unsigned int *)dst);
 }
 
-void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
+static void	get_wall_x(t_core *core)
 {
 	double	wall_x;
-	int		tex_x;
-	int		tex_y;
-	int		y;
-	t_img	*tex;
-	double	step;
-	float	tex_pos;
 	
-	if (x < 0 || x >= WIDTH || draw_start > draw_end)
-		return;
 	if (core->ray.side == 0)
 		wall_x = core->player.y + core->ray.perp_wall_dist * core->ray.ray_dir_y;
 	else
 		wall_x = core->player.x + core->ray.perp_wall_dist * core->ray.ray_dir_x;
 	wall_x -= floor(wall_x);
+	core->ray.wall_x = wall_x;
+}
 
-	tex = get_texture(core);
-	tex_x = get_tex_x(core, wall_x, tex);
-	int	line_height = (int)(HEIGHT / core->ray.perp_wall_dist);
-	int	true_draw_start = -line_height / 2 + HEIGHT / 2;
-	step = (double)tex->height / (double)(line_height);
-	tex_pos = (draw_start - true_draw_start) * step;
+void	get_draw_info(t_core *core)
+{
+	core->ray.line_height = (int)(HEIGHT / core->ray.perp_wall_dist);
+	core->ray.true_draw_start = -core->ray.line_height / 2 + HEIGHT / 2;
+	core->ray.draw_step = (double)core->ray.tex->height / (double)(core->ray.line_height);
+}
+
+void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
+{
+	int		tex_y;
+	int		y;
+	float	tex_pos;
+	
+	if (x < 0 || x >= WIDTH || draw_start > draw_end)
+		return;
+	get_wall_x(core); 
+	get_texture(core);
+	get_tex_x(core);
+	get_draw_info(core);
+	tex_pos = (draw_start - core->ray.true_draw_start) * core->ray.draw_step;
 	y = draw_start;
 	while (y <= draw_end)
 	{
 		tex_y = (int)tex_pos;
 		if (tex_y < 0)
 			tex_y = 0;
-		if (tex_y >= tex->height)
-			tex_y = tex->height - 1;
-		put_pixel(core, x, y, get_tex_pixel(tex, tex_x, tex_y));
-		tex_pos += step;
+		if (tex_y >= core->ray.tex->height)
+			tex_y = core->ray.tex->height - 1;
+		put_pixel(core, x, y, get_tex_pixel(core->ray.tex, core->ray.tex_x, tex_y));
+		tex_pos += core->ray.draw_step;
 		y++;
 	}
 }

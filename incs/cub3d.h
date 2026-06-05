@@ -18,6 +18,17 @@
 # define SPEED 0.03
 # define FOV 0.66
 
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		height;
+	int		width;
+	int		bpp;
+	int		line_len; // TODO check
+	int		endian;
+}			t_img;
+
 typedef struct s_ray
 {
 	double	camera_x;
@@ -27,12 +38,18 @@ typedef struct s_ray
 	double	delta_dist_y;
 	double	side_dist_x;
 	double	side_dist_y;
+	double	wall_x;
+	double	perp_wall_dist;
+	double	draw_step;
+	int		line_height;
+	int		true_draw_start;
 	int		step_x;
 	int		step_y;
 	int		map_x;
 	int		map_y;
 	int		side;
-	double	perp_wall_dist;
+	int		tex_x;
+	t_img	*tex;
 }			t_ray;
 
 typedef struct s_player
@@ -60,17 +77,6 @@ typedef struct s_map
 	int		width;
 	int		height;
 }			t_map;
-
-typedef struct s_img
-{
-	void	*img;
-	char	*addr;
-	int		height;
-	int		width;
-	int		bpp;
-	int		line_len; // TODO check
-	int		endian;
-}			t_img;
 
 typedef struct s_textures
 {
