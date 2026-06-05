@@ -5,9 +5,9 @@
 ** Set to 1 to enable, 0 to disable each independently.
 ** Recompile after changing.
 */
-#define FX_CHANNEL_ROTATION  1
-#define FX_SCANLINE_WARP     1
-#define FX_ZOOM_PULSE        0
+#define FX_CHANNEL_ROTATION  0
+#define FX_SCANLINE_WARP     0
+#define FX_ZOOM_PULSE        1
 
 void	clear_image(t_core *core, int color);
 static void	post_process(t_core *core);
@@ -30,15 +30,12 @@ int	render_frame(t_core *core)
 	clear_image(core, 0x8ace00);
 	draw_3d(core);
 	draw_minimap(core);
-#if FX_ZOOM_PULSE
-	zoom_pulse(core);
-#endif
-#if FX_SCANLINE_WARP
+	if (FX_ZOOM_PULSE)
+		zoom_pulse(core);
+	if (FX_SCANLINE_WARP)
 	scanline_warp(core);
-#endif
-#if FX_CHANNEL_ROTATION
+	if (FX_CHANNEL_ROTATION)
 	post_process(core);
-#endif
 	mlx_put_image_to_window(core->mlx, core->win, core->img, 0, 0);
 	return (0);
 }
