@@ -13,7 +13,7 @@ SRCS=srcs/main.c \
 	srcs/keybinds/keybinds.c \
 	srcs/free/free.c \
 	srcs/utils/utils.c
-BONUS_SRCS=
+BONUS_SRCS=$(SRCS) \
 
 OBJS=$(SRCS:%.c=%.o)
 BONUS_OBJS=$(BONUS_SRCS:%.c=%.o)
@@ -30,11 +30,11 @@ MLX_LINK=-L$(MLX_DIR) -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz -g
 
 all: $(MLX_LIB) $(LIBFT_A) $(NAME)
 
+bonus: $(MLX_LIB) $(LIBFT_A) $(BONUS_OBJS)
+	$(CC) $(CFLAGS) $(BONUS_OBJS) $(MLX_LINK) $(LIBFT_A) -o $(NAME)
+
 $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
-
-bonus: $(BONUS_OBJS)
-	$(CC) $(CFLAGS) $(BONUS_OBJS) $(MLX_LINK) $(LIBFT_A) -o $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(MLX_LINK) $(LIBFT_A) -o $(NAME)
