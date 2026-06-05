@@ -53,6 +53,7 @@ void	init_core(t_core *core)
 	core->bpp = 0;
 	core->endian = 0;
 	core->line_len = 0;
+	core->anim_tick = 0;
 	init_textures(core);
 	init_map(core);
 	init_minimap(core);

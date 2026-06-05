@@ -90,6 +90,8 @@ typedef struct s_textures
 	t_img		we_img;
 	int			floor[3];
 	int			ceiling[3]; // R, G, B
+	int			floor_int;
+	int			ceiling_int;
 }			t_textures;
 
 typedef struct s_input
@@ -112,6 +114,7 @@ typedef struct s_core
 	int			bpp;
 	int			endian;
 	int			line_len;
+	unsigned int	anim_tick;
 	t_input		input;
 	t_player	player;
 	t_map		map;

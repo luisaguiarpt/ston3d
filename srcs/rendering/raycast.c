@@ -214,6 +214,7 @@ void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
 	int		tex_y;
 	int		y;
 	float	tex_pos;
+	int		scroll_offset;
 	
 	if (x < 0 || x >= WIDTH || draw_start > draw_end)
 		return;
@@ -223,9 +224,10 @@ void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
 	get_draw_info(core);
 	tex_pos = (draw_start - core->ray.true_draw_start) * core->ray.draw_step;
 	y = draw_start;
+	scroll_offset = (core->anim_tick * 2) % core->ray.tex->height;
 	while (y <= draw_end)
 	{
-		tex_y = (int)tex_pos;
+		tex_y = ((int)tex_pos + scroll_offset) % core->ray.tex->height;
 		if (tex_y < 0)
 			tex_y = 0;
 		if (tex_y >= core->ray.tex->height)
@@ -241,11 +243,9 @@ static void	draw_to_screen(t_core *core, int x)
 	int	line_height;
 	int	draw_start;
 	int	draw_end;
-	int	ceil_color;
-	int	floor_color;
 
-	ceil_color = rgb_to_int(core->textures.ceiling);
-	floor_color = rgb_to_int(core->textures.floor);
+	core->textures.ceiling_int = rgb_to_int(core->textures.ceiling);
+	core->textures.floor_int = rgb_to_int(core->textures.floor);
 	line_height = (int)(HEIGHT / core->ray.perp_wall_dist);
 	draw_start = -line_height / 2 + HEIGHT / 2;
 	draw_end = line_height / 2 + HEIGHT / 2;
@@ -261,9 +261,9 @@ static void	draw_to_screen(t_core *core, int x)
 		wall_color = shade_color(wall_color, 0.70f); /* darken y-sides */
 
 	/* 7) Draw ceiling, wall, floor */
-	draw_vertical(core, x, 0, draw_start - 1, ceil_color);
+	draw_vertical(core, x, 0, draw_start - 1, core->textures.ceiling_int);
 	draw_vertical_texture(core, x, draw_start, draw_end);
-	draw_vertical(core, x, draw_end + 1, HEIGHT - 1, floor_color);
+	draw_vertical(core, x, draw_end + 1, HEIGHT - 1, core->textures.floor_int);
 }
 
 void	draw_3d(t_core *core)

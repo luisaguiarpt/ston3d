@@ -14,6 +14,7 @@ void	put_pixel(t_core *core, int x, int y, int color)
 
 int	render_frame(t_core *core)
 {
+	core->anim_tick++;
 	clear_image(core, 0x8ace00);
 	draw_3d(core);
 	draw_minimap(core); // TODO - bonus only
