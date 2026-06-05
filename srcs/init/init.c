@@ -1,5 +1,17 @@
 #include "../../incs/cub3d.h"
 
+void	init_sin_table(t_core *core)
+{
+	int	i;
+
+	i = 0;
+	while (i < SIN_TABLE_SIZE)
+	{
+		core->sin_table[i] = sinf(2.0f * M_PI * (float)i / (float)SIN_TABLE_SIZE);
+		i++;
+	}
+}
+
 void	init_textures(t_core *core)
 {
 	core->textures.no_path = NULL;
@@ -19,8 +31,8 @@ void	init_textures(t_core *core)
 void	init_map(t_core *core)
 {
 	core->map.grid = NULL;
-	core->map.width = 0; // TODO maybe initialize right away
-	core->map.height = 0; // TODO maybe initialize right away
+	core->map.width = 0;
+	core->map.height = 0;
 }
 
 void	init_minimap(t_core *core)
@@ -34,8 +46,6 @@ void	init_minimap(t_core *core)
 
 void	init_player(t_core *core)
 {
-	// TODO - initialize core->player values here and
-	// create a new funciton for the inputs
 	core->input.w = false;
 	core->input.a = false;
 	core->input.s = false;
@@ -54,11 +64,11 @@ void	init_core(t_core *core)
 	core->endian = 0;
 	core->line_len = 0;
 	core->anim_tick = 0;
+	init_sin_table(core);
 	init_textures(core);
 	init_map(core);
 	init_minimap(core);
-	init_player(core); //TODO - init function
-
+	init_player(core);
 }
 
 void	init_mlx(t_core *core)
@@ -72,5 +82,6 @@ void	init_mlx(t_core *core)
 	core->img = mlx_new_image(core->mlx, WIDTH, HEIGHT);
 	if (!core->img)
 		exit(EXIT_FAILURE);
-	core->img_addr = mlx_get_data_addr(core->img, &core->bpp, &core->line_len, &core->endian);
+	core->img_addr = mlx_get_data_addr(core->img, &core->bpp,
+			&core->line_len, &core->endian);
 }

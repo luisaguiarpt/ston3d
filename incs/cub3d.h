@@ -18,16 +18,14 @@
 # define SPEED 0.03
 # define FOV 0.66
 
-typedef struct s_img
-{
-	void	*img;
-	char	*addr;
-	int		height;
-	int		width;
-	int		bpp;
-	int		line_len; // TODO check
-	int		endian;
-}			t_img;
+/* ------------------------------------------------------------------ */
+/* Sine lookup table                                                    */
+/* ------------------------------------------------------------------ */
+# define SIN_TABLE_SIZE 1024
+/* sin lookup — index is wrapped with bitmask (power-of-2 size)        */
+# define LSIN(core, i) ((core)->sin_table[((int)(i)) & (SIN_TABLE_SIZE - 1)])
+/* cos = sin shifted by quarter period                                  */
+# define LCOS(core, i) ((core)->sin_table[(((int)(i)) + SIN_TABLE_SIZE / 4) & (SIN_TABLE_SIZE - 1)])
 
 typedef struct s_ray
 {
@@ -38,18 +36,12 @@ typedef struct s_ray
 	double	delta_dist_y;
 	double	side_dist_x;
 	double	side_dist_y;
-	double	wall_x;
-	double	perp_wall_dist;
-	double	draw_step;
-	int		line_height;
-	int		true_draw_start;
 	int		step_x;
 	int		step_y;
 	int		map_x;
 	int		map_y;
 	int		side;
-	int		tex_x;
-	t_img	*tex;
+	double	perp_wall_dist;
 }			t_ray;
 
 typedef struct s_player
@@ -78,6 +70,17 @@ typedef struct s_map
 	int		height;
 }			t_map;
 
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		height;
+	int		width;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}			t_img;
+
 typedef struct s_textures
 {
 	char		*no_path;
@@ -89,9 +92,7 @@ typedef struct s_textures
 	t_img		ea_img;
 	t_img		we_img;
 	int			floor[3];
-	int			ceiling[3]; // R, G, B
-	int			floor_int;
-	int			ceiling_int;
+	int			ceiling[3];
 }			t_textures;
 
 typedef struct s_input
@@ -114,73 +115,61 @@ typedef struct s_core
 	int			bpp;
 	int			endian;
 	int			line_len;
-	unsigned int	anim_tick;
 	t_input		input;
 	t_player	player;
 	t_map		map;
 	t_textures	textures;
 	t_minimap	minimap;
 	t_ray		ray;
+	unsigned int	anim_tick;
+	float		sin_table[SIN_TABLE_SIZE];
 }			t_core;
 
 // INIT
-// init.c
 void	init_textures(t_core *core);
 void	init_map(t_core *core);
 void	init_minimap(t_core *core);
 void	init_core(t_core *core);
 void	init_mlx(t_core *core);
+void	init_sin_table(t_core *core);
 
 // PARSING
-// parsing.c
 void	parse_cub_file(t_core *core, char *map_path);
 void	error_parsing(t_core *core, char *message, int map_fd);
 
 // VALIDATION
-// validation.c
 int		validate_map(t_core *core);
 
-// PARSING
-// validation_utils.c
+// PARSING utils
 char	**copy_map(char **grid);
-// textures_parsing.c
 void	parse_textures(t_core *core, int map_fd);
-// map_parsing.c
 void	parse_map(t_core *core, char *map_path, int map_fd);
-// parsing_utils.c
 bool	is_cub_file(char *line);
 bool	is_xpm_file(char *line);
 bool	is_empty_line(char *line);
 bool	is_valid_line(char *line);
 void	remove_newline(char *str);
 
-// *** RENDERING ***
-//	rendering.c
+// RENDERING
 void	put_pixel(t_core *core, int x, int y, int color);
 int		render_frame(t_core *core);
-//	texture_rendering.c
 void	load_textures(t_core *core);
-
-// minimap.c
 void	draw_minimap(t_core *core);
-// game_loop.c
 int		game_loop(void *param);
-//raycast.c
 void	draw_3d(t_core *core);
 
-// *** KEYBINDS ***
-// keybinds.c
+// KEYBINDS
 void	setup_keybinds(t_core *core);
 int		handle_input_press(int key, void *param);
 int		handle_input_release(int key, void *param);
 
-// utils/utils.c
+// UTILS
 bool	is_space(char c);
 int		absolute_value(int n);
 int		rgb_to_int(int rgb[3]);
 void	exit_error(t_core *core, char *message);
 
-// free/free.c
+// FREE
 void	free_core(t_core *core);
 void	exit_game(t_core *core, int exit_code);
 

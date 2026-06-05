@@ -29,7 +29,6 @@ static int	is_wall(t_core *core, int map_x, int map_y)
 		return (1);
 	if (map_y >= core->map.height)
 		return (1);
-	/* row length may be smaller than map.width; treat outside as wall */
 	if ((int)ft_strlen(core->map.grid[map_y]) <= map_x)
 		return (1);
 	return (core->map.grid[map_y][map_x] == '1');
@@ -75,7 +74,7 @@ static void	dda(t_core *core)
 	int	hit;
 
 	hit = 0;
-	core->ray.side = 0; // 0 = hit x-side, 1 = hit y-sid,
+	core->ray.side = 0;
 	while (!hit)
 	{
 		if (core->ray.side_dist_x < core->ray.side_dist_y)
@@ -101,7 +100,6 @@ static void	calc_perp_wall_dist(t_core *core)
 		core->ray.perp_wall_dist = (core->ray.side_dist_x - core->ray.delta_dist_x);
 	else
 		core->ray.perp_wall_dist = (core->ray.side_dist_y - core->ray.delta_dist_y);
-
 	if (core->ray.perp_wall_dist <= 0.1)
 		core->ray.perp_wall_dist = 0.1;
 }
@@ -141,45 +139,38 @@ int	get_pixel_from_texture(t_img *img, int tex_x, int tex_y)
 	return (*(int *)pixel);
 }
 
-static void	get_texture(t_core *core)
+t_img	*get_texture(t_core *core)
 {
-	t_img	*tex;
-
 	if (core->ray.side == 0)
 	{
 		if (core->ray.ray_dir_x > 0)
-			tex = &core->textures.we_img;
+			return (&core->textures.we_img);
 		else
-			tex = &core->textures.ea_img;
+			return (&core->textures.ea_img);
 	}
 	else
 	{
 		if (core->ray.ray_dir_y > 0)
-			tex = &core->textures.no_img;
+			return (&core->textures.no_img);
 		else
-			tex = &core->textures.so_img;
+			return (&core->textures.so_img);
 	}
-	core->ray.tex = tex;
 }
 
-static void	get_tex_x(t_core *core)
+int	get_tex_x(t_core *core, double wall_x, t_img *tex)
 {
 	int	tex_x;
-	double	wall_x;
-	t_img	*tex;
 
-	wall_x = core->ray.wall_x;
-	tex = core->ray.tex;
 	tex_x = (int)(wall_x * (double)tex->width);
 	if (tex_x < 0)
 		tex_x = 0;
 	if (tex_x >= tex->width)
 		tex_x = tex->width - 1;
-	if(core->ray.side == 0 && core->ray.ray_dir_x < 0)
+	if (core->ray.side == 0 && core->ray.ray_dir_x < 0)
 		tex_x = tex->width - tex_x - 1;
-	if(core->ray.side == 1 && core->ray.ray_dir_y > 0)
+	if (core->ray.side == 1 && core->ray.ray_dir_y > 0)
 		tex_x = tex->width - tex_x - 1;
-	core->ray.tex_x = tex_x;
+	return (tex_x);
 }
 
 static inline unsigned int	get_tex_pixel(t_img *tex, int tex_x, int tex_y)
@@ -190,50 +181,75 @@ static inline unsigned int	get_tex_pixel(t_img *tex, int tex_x, int tex_y)
 	return (*(unsigned int *)dst);
 }
 
-static void	get_wall_x(t_core *core)
+/*
+** Psychedelic wall effect:
+**   1. Warp tex_x and tex_y using sine-table waves (no math.h sin per pixel)
+**   2. Palette cycle: shift RGB channels at different speeds
+*/
+void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
 {
-	double	wall_x;
-	
+	double		wall_x;
+	int			tex_x;
+	int			tex_y;
+	int			warped_x;
+	int			warped_y;
+	int			y;
+	t_img		*tex;
+	double		step;
+	float		tex_pos;
+	int			line_height;
+	int			true_draw_start;
+	float		t;
+	unsigned int	color;
+	int			r, g, b;
+	int			shift;
+
+	if (x < 0 || x >= WIDTH || draw_start > draw_end)
+		return ;
 	if (core->ray.side == 0)
 		wall_x = core->player.y + core->ray.perp_wall_dist * core->ray.ray_dir_y;
 	else
 		wall_x = core->player.x + core->ray.perp_wall_dist * core->ray.ray_dir_x;
 	wall_x -= floor(wall_x);
-	core->ray.wall_x = wall_x;
-}
 
-void	get_draw_info(t_core *core)
-{
-	core->ray.line_height = (int)(HEIGHT / core->ray.perp_wall_dist);
-	core->ray.true_draw_start = -core->ray.line_height / 2 + HEIGHT / 2;
-	core->ray.draw_step = (double)core->ray.tex->height / (double)(core->ray.line_height);
-}
+	tex				= get_texture(core);
+	tex_x			= get_tex_x(core, wall_x, tex);
+	line_height		= (int)(HEIGHT / core->ray.perp_wall_dist);
+	true_draw_start	= -line_height / 2 + HEIGHT / 2;
+	step			= (double)tex->height / (double)line_height;
+	tex_pos			= (draw_start - true_draw_start) * step;
 
-void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
-{
-	int		tex_y;
-	int		y;
-	float	tex_pos;
-	int		scroll_offset;
-	
-	if (x < 0 || x >= WIDTH || draw_start > draw_end)
-		return;
-	get_wall_x(core); 
-	get_texture(core);
-	get_tex_x(core);
-	get_draw_info(core);
-	tex_pos = (draw_start - core->ray.true_draw_start) * core->ray.draw_step;
+	/* time index scaled into table units */
+	t = (float)core->anim_tick * ((float)SIN_TABLE_SIZE * 0.07f / (2.0f * (float)M_PI));
+
 	y = draw_start;
-	scroll_offset = (core->anim_tick * 2) % core->ray.tex->height;
 	while (y <= draw_end)
 	{
-		tex_y = ((int)tex_pos + scroll_offset) % core->ray.tex->height;
-		if (tex_y < 0)
-			tex_y = 0;
-		if (tex_y >= core->ray.tex->height)
-			tex_y = core->ray.tex->height - 1;
-		put_pixel(core, x, y, get_tex_pixel(core->ray.tex, core->ray.tex_x, tex_y));
-		tex_pos += core->ray.draw_step;
+		tex_y = (int)tex_pos;
+
+		/* --- WARP: two-wave interference on both axes --- */
+		warped_x = tex_x
+			+ (int)(LSIN(core, (int)(tex_y * 0.08f * SIN_TABLE_SIZE / (2.0f * (float)M_PI)) + (int)t) * 12.0f)
+			+ (int)(LSIN(core, (int)(tex_y * 0.03f * SIN_TABLE_SIZE / (2.0f * (float)M_PI)) - (int)(t * 1.3f)) * 8.0f);
+		warped_y = tex_y
+			+ (int)(LCOS(core, (int)(tex_x * 0.10f * SIN_TABLE_SIZE / (2.0f * (float)M_PI)) + (int)(t * 0.9f)) * 10.0f)
+			+ (int)(LCOS(core, (int)(y    * 0.05f * SIN_TABLE_SIZE / (2.0f * (float)M_PI)) + (int)(t * 1.7f)) * 6.0f);
+
+		/* wrap into texture bounds */
+		warped_x = ((warped_x % tex->width)  + tex->width)  % tex->width;
+		warped_y = ((warped_y % tex->height) + tex->height) % tex->height;
+
+		color = get_tex_pixel(tex, warped_x, warped_y);
+
+		/* --- PALETTE CYCLE: shift RGB channels at different speeds --- */
+		shift = (int)(core->anim_tick * 2) & 0xFF;
+		r = (int)(((color >> 16) & 0xFF) + shift)        & 0xFF;
+		g = (int)(((color >> 8)  & 0xFF) + shift * 2)    & 0xFF;
+		b = (int)((color         & 0xFF) + shift * 3)     & 0xFF;
+		color = ((unsigned int)r << 16) | ((unsigned int)g << 8) | (unsigned int)b;
+
+		put_pixel(core, x, y, (int)color);
+		tex_pos += step;
 		y++;
 	}
 }
@@ -243,32 +259,30 @@ static void	draw_to_screen(t_core *core, int x)
 	int	line_height;
 	int	draw_start;
 	int	draw_end;
+	int	ceil_color;
+	int	floor_color;
+	int	wall_color;
 
-	core->textures.ceiling_int = rgb_to_int(core->textures.ceiling);
-	core->textures.floor_int = rgb_to_int(core->textures.floor);
-	line_height = (int)(HEIGHT / core->ray.perp_wall_dist);
-	draw_start = -line_height / 2 + HEIGHT / 2;
-	draw_end = line_height / 2 + HEIGHT / 2;
-	// Test
+	ceil_color	= rgb_to_int(core->textures.ceiling);
+	floor_color	= rgb_to_int(core->textures.floor);
+	line_height	= (int)(HEIGHT / core->ray.perp_wall_dist);
+	draw_start	= -line_height / 2 + HEIGHT / 2;
+	draw_end	= line_height / 2 + HEIGHT / 2;
 	if (draw_start < 0)
 		draw_start = 0;
 	if (draw_end >= HEIGHT)
 		draw_end = HEIGHT - 1;
-
-	/* 6) Colors (simple) */
-	int	wall_color = 0x00FFFFFF; /* white */
+	wall_color = 0x00FFFFFF;
 	if (core->ray.side == 1)
-		wall_color = shade_color(wall_color, 0.70f); /* darken y-sides */
-
-	/* 7) Draw ceiling, wall, floor */
-	draw_vertical(core, x, 0, draw_start - 1, core->textures.ceiling_int);
+		wall_color = shade_color(wall_color, 0.70f);
+	draw_vertical(core, x, 0, draw_start - 1, ceil_color);
 	draw_vertical_texture(core, x, draw_start, draw_end);
-	draw_vertical(core, x, draw_end + 1, HEIGHT - 1, core->textures.floor_int);
+	draw_vertical(core, x, draw_end + 1, HEIGHT - 1, floor_color);
 }
 
 void	draw_3d(t_core *core)
 {
-	int		x;
+	int	x;
 
 	x = 0;
 	while (x < WIDTH)
