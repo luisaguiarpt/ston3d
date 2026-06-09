@@ -9,7 +9,8 @@ void	draw_left_arm(t_core *core, int offset)
 	int	color;
 
 	start_x = 0;
-	start_y = (HEIGHT - core->sprites.left_arm.height);
+	start_y = 400 + offset;
+	//start_y = (HEIGHT - core->sprites.left_arm.height + offset);
 	y = 0;
 	while (y < core->sprites.left_arm.height)
 	{
@@ -33,9 +34,8 @@ void	draw_right_arm(t_core *core, int offset)
 	int	y;
 	int	color;
 
-	(void)offset;
-	start_x = 0;
-	start_y = (HEIGHT - core->sprites.right_arm.height);
+	start_x = 250;
+	start_y = (350 - offset);
 	y = 0;
 	while (y < core->sprites.right_arm.height)
 	{
@@ -53,14 +53,14 @@ void	draw_right_arm(t_core *core, int offset)
 
 int	calculate_animation_offset(t_core *core)
 {
-	static int	offset;
+	static float	offset;
 
 	if (core->input.w
 	 	|| core->input.a
 	 	|| core->input.s
 	 	|| core->input.d)
-		offset++;
-	return (offset);
+		offset += 0.15f; // BOB_SPEED
+	return ((int)(sinf(offset) * 28.0f)); // BOB_RANGE
 }
 
 void	draw_arms(t_core *core)

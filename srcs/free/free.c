@@ -22,6 +22,14 @@ static void	free_image(t_core *core, t_img *img)
 	// 	free(img->addr);
 }
 
+static void	free_sprites(t_core *core)
+{
+	if (core->sprites.left_arm.img)
+		free_image(core, &core->sprites.left_arm);
+	if (core->sprites.right_arm.img)
+		free_image(core, &core->sprites.right_arm);
+}
+
 static void	free_textures(t_core *core)
 {
 	if (core->textures.no_path)
@@ -44,6 +52,8 @@ static void	free_textures(t_core *core)
 
 void	free_core(t_core *core)
 {
+	if (BONUS)
+		free_sprites(core);
 	free_textures(core);
 	free_map(core);
 	if (core->img)
