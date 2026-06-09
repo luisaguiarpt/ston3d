@@ -3,6 +3,8 @@ CFLAGS=-Wall -Wextra -Werror -g
 
 NAME=cub3d
 
+BONUS = 0
+
 SRCS=srcs/main.c \
 	srcs/parsing/parsing.c srcs/parsing/texture_parsing.c srcs/parsing/map_parsing.c \
 	srcs/init/init.c \
@@ -10,13 +12,12 @@ SRCS=srcs/main.c \
 	srcs/parsing/parsing_utils.c \
 	srcs/parsing/validation.c srcs/parsing/validation_utils.c \
 	srcs/rendering/rendering.c srcs/rendering/minimap.c srcs/rendering/raycast.c srcs/rendering/texture_rendering.c \
+	srcs/rendering/sprites.c \
 	srcs/keybinds/keybinds.c \
 	srcs/free/free.c \
 	srcs/utils/utils.c
-BONUS_SRCS=$(SRCS) \
 
 OBJS=$(SRCS:%.c=%.o)
-BONUS_OBJS=$(BONUS_SRCS:%.c=%.o)
 
 MLX_DIR=mlx
 MLX_LIB=$(MLX_DIR)/libmlx_Linux.a
@@ -30,14 +31,14 @@ MLX_LINK=-L$(MLX_DIR) -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz -g
 
 all: $(MLX_LIB) $(LIBFT_A) $(NAME)
 
-bonus: $(MLX_LIB) $(LIBFT_A) $(BONUS_OBJS)
-	$(CC) $(CFLAGS) $(BONUS_OBJS) $(MLX_LINK) $(LIBFT_A) -o $(NAME)
+bonus:
+	make all BONUS=1
 
 $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(MLX_LINK) $(LIBFT_A) -o $(NAME)
+	$(CC) $(CFLAGS) -DBONUS=$(BONUS) $(OBJS) $(MLX_LINK) $(LIBFT_A) -o $(NAME)
 
 $(MLX_LIB): 
 	if [ ! -d "$(MLX_DIR)" ]; then \
@@ -46,7 +47,7 @@ $(MLX_LIB):
 	$(MAKE) -C $(MLX_DIR)
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) -DBONUS=$(BONUS) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)

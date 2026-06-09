@@ -10,6 +10,11 @@ void	load_textures(t_core *core)
 	load_xpm(core, &core->textures.we_img, core->textures.we_path);
 	core->textures.floor_int = rgb_to_int(core->textures.floor);
 	core->textures.ceiling_int = rgb_to_int(core->textures.ceiling);
+	if (BONUS)
+	{
+		load_xpm(core, &core->sprites.left_arm, "sprites/left_arm.xpm");
+		load_xpm(core, &core->sprites.right_arm, "sprites/right_arm.xpm");
+	}
 }
 
 void	load_xpm(t_core *core, t_img *img, char *path)

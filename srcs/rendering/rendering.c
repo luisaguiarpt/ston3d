@@ -14,10 +14,14 @@ void	put_pixel(t_core *core, int x, int y, int color)
 
 int	render_frame(t_core *core)
 {
-	core->anim_tick++;
+	//core->anim_tick++;
 	clear_image(core, 0x8ace00);
 	draw_3d(core);
-	draw_minimap(core); // TODO - bonus only
+	if (BONUS)
+	{
+		draw_minimap(core);
+		draw_arms(core);
+	}
 	//draw_player(core); TODO - Render player
 	mlx_put_image_to_window(core->mlx, core->win, core->img, 0, 0);
 	return (0);

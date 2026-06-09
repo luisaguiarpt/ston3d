@@ -1,5 +1,13 @@
 #include "../../incs/cub3d.h"
 
+void	init_sprites(t_core *core)
+{
+	core->sprites.left_arm.img = NULL;
+	core->sprites.left_arm.addr = NULL;
+	core->sprites.right_arm.img = NULL;
+	core->sprites.right_arm.addr = NULL;
+}
+
 void	init_textures(t_core *core)
 {
 	core->textures.no_path = NULL;
@@ -58,7 +66,8 @@ void	init_core(t_core *core)
 	init_map(core);
 	init_minimap(core);
 	init_player(core); //TODO - init function
-
+	if (BONUS)
+		init_sprites(core);
 }
 
 void	init_mlx(t_core *core)

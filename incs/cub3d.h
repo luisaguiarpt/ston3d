@@ -14,9 +14,15 @@
 
 # define HEIGHT 720
 # define WIDTH 1280
-# define DEGREES_PER_PRESS 1
+# define DEGREES_PER_PRESS 2
 # define SPEED 0.03
 # define FOV 0.66
+
+# define SPRITES_BG_COLOR 0xFF00FF // magenta to remove in order to have a transparent background
+
+# ifndef BONUS // TODO - check if guard necessary
+#  define BONUS 0
+# endif
 
 typedef struct s_img
 {
@@ -80,6 +86,12 @@ typedef struct s_map
 	int		height;
 }			t_map;
 
+typedef struct s_sprites
+{
+	t_img	left_arm;
+	t_img	right_arm;
+}			t_sprites;
+
 typedef struct s_textures
 {
 	char		*no_path;
@@ -121,6 +133,7 @@ typedef struct s_core
 	t_player	player;
 	t_map		map;
 	t_textures	textures;
+	t_sprites	sprites;
 	t_minimap	minimap;
 	t_ray		ray;
 }			t_core;
@@ -162,13 +175,15 @@ void	put_pixel(t_core *core, int x, int y, int color);
 int		render_frame(t_core *core);
 //	texture_rendering.c
 void	load_textures(t_core *core);
-
 // minimap.c
 void	draw_minimap(t_core *core);
 // game_loop.c
 int		game_loop(void *param);
 //raycast.c
 void	draw_3d(t_core *core);
+int		get_pixel_from_texture(t_img *img, int tex_x, int tex_y);
+//sprites.c
+void draw_arms(t_core *core);
 
 // *** KEYBINDS ***
 // keybinds.c
