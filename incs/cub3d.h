@@ -16,7 +16,6 @@
 # define WIDTH 1280
 # define MOUSE_SENSITIVITY 0.00005f
 # define DEGREES_PER_PRESS 2
-# define SPEED 0.07
 # define FOV 0.66
 
 # define SPRITES_BG_COLOR 0xFF00FF // magenta to remove from bg
@@ -24,6 +23,14 @@
 # ifndef BONUS // TODO - check if guard necessary
 #  define BONUS 0
 # endif
+
+typedef struct s_collectible
+{
+	float	x;
+	float	y;
+	bool	collected;
+	double	dist;
+}			t_collectible;
 
 typedef struct s_img
 {
@@ -126,9 +133,11 @@ typedef struct s_core
 	void		*win;
 	void		*img;
 	char		*img_addr;
+	int			num_collectibles;
 	int			bpp;
 	int			endian;
 	int			line_len;
+	double		zbuffer[WIDTH];
 	unsigned int	anim_tick;
 	t_input		input;
 	t_player	player;
@@ -137,6 +146,7 @@ typedef struct s_core
 	t_sprites	sprites;
 	t_minimap	minimap;
 	t_ray		ray;
+	t_collectible	*collectibles;
 }			t_core;
 
 // INIT
