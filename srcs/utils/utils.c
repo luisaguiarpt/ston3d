@@ -4,11 +4,11 @@ bool	is_space(char c)
 {
 	if (c == ' ' || c == '\t')
 		return (true);
-	else 
+	else
 		return (false);
 }
 
-int	absolute_value(int	n)
+int	absolute_value(int n)
 {
 	if (n >= 0)
 		return (n);

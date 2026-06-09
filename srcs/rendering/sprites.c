@@ -59,8 +59,8 @@ int	calculate_animation_offset(t_core *core)
 	 	|| core->input.a
 	 	|| core->input.s
 	 	|| core->input.d)
-		offset += 0.15f; // BOB_SPEED
-	return ((int)(sinf(offset) * 28.0f)); // BOB_RANGE
+		offset += 0.15f; // arm bob speed
+	return ((int)(sinf(offset) * 28.0f)); // arm bob range
 }
 
 void	draw_arms(t_core *core)

@@ -16,10 +16,10 @@
 # define WIDTH 1280
 # define MOUSE_SENSITIVITY 0.00005f
 # define DEGREES_PER_PRESS 2
-# define SPEED 0.03
+# define SPEED 0.07
 # define FOV 0.66
 
-# define SPRITES_BG_COLOR 0xFF00FF // magenta to remove in order to have a transparent background
+# define SPRITES_BG_COLOR 0xFF00FF // magenta to remove from bg
 
 # ifndef BONUS // TODO - check if guard necessary
 #  define BONUS 0
@@ -184,7 +184,7 @@ int		game_loop(void *param);
 void	draw_3d(t_core *core);
 int		get_pixel_from_texture(t_img *img, int tex_x, int tex_y);
 //sprites.c
-void draw_arms(t_core *core);
+void	draw_arms(t_core *core);
 
 // *** KEYBINDS ***
 // keybinds.c

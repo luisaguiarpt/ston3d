@@ -2,7 +2,7 @@
 
 void	parse_cub_file(t_core *core, char *map_path)
 {
-	int		map_fd;
+	int	map_fd;
 	
 	if (!is_cub_file(map_path))
 	{
