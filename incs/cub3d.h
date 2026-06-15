@@ -14,6 +14,7 @@
 
 # define HEIGHT 720
 # define WIDTH 1280
+# define SPEED 0.07
 # define MOUSE_SENSITIVITY 0.00005f
 # define DEGREES_PER_PRESS 2
 # define FOV 0.66
