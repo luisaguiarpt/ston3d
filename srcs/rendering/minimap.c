@@ -8,9 +8,33 @@ void	draw_tiles(t_core *core);
 void	draw_player_dot(t_core *core);
 void	draw_dir_line(t_core *core);
 
+static void	draw_collectible_dots(t_core *core)
+{
+	int	i;
+	int	dot_x;
+	int	dot_y;
+
+	if (!core->collectibles)
+		return ;
+	i = 0;
+	while (i < core->num_collectibles)
+	{
+		if (!core->collectibles[i].collected)
+		{
+			dot_x = core->minimap.offset_x
+				+ (int)(core->collectibles[i].x * core->minimap.tile_size);
+			dot_y = core->minimap.offset_y
+				+ (int)(core->collectibles[i].y * core->minimap.tile_size);
+			draw_rect(core, dot_x - 4, dot_y - 4, 0x00FFFF00);
+		}
+		i++;
+	}
+}
+
 void	draw_minimap(t_core *core)
 {
 	draw_tiles(core);
+	draw_collectible_dots(core);
 	draw_player_dot(core);
 	draw_dir_line(core);
 }
