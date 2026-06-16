@@ -8,8 +8,8 @@ void	draw_left_arm(t_core *core, int offset, int current)
 	int	y;
 	int	color;
 
-	start_x = 10;
-	start_y = 360 + offset;
+	start_x = (WIDTH / 2) - 600;
+	start_y = HEIGHT - 360 + offset;
 	y = 0;
 	while (y < core->sprites.left_arm[current].height)
 	{
@@ -33,8 +33,8 @@ void	draw_right_arm(t_core *core, int offset, int current)
 	int	y;
 	int	color;
 
-	start_x = 700;
-	start_y = 400 - offset;
+	start_x = (WIDTH / 2);
+	start_y = HEIGHT - 320 - offset;
 	y = 0;
 	while (y < core->sprites.right_arm[current].height)
 	{
