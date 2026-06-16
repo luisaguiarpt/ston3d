@@ -12,7 +12,7 @@ SRCS=srcs/main.c \
 	srcs/parsing/parsing_utils.c \
 	srcs/parsing/validation.c srcs/parsing/validation_utils.c \
 	srcs/rendering/rendering.c srcs/rendering/minimap.c srcs/rendering/raycast.c srcs/rendering/texture_rendering.c \
-	srcs/rendering/sprites.c srcs/rendering/collectibles.c \
+	srcs/rendering/sprites.c srcs/rendering/collectibles.c srcs/rendering/gate.c \
 	srcs/keybinds/keybinds.c \
 	srcs/free/free.c \
 	srcs/utils/utils.c

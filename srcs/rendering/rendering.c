@@ -19,7 +19,7 @@ void	put_pixel(t_core *core, int x, int y, int color)
 	char	*dst;
 
 	if (x > WIDTH || x < 0 || y > HEIGHT || y < 0)
-		return;
+		return ;
 	dst = core->img_addr + (y * core->line_len + x * (core->bpp / 8));
 	*(unsigned int *)dst = color;
 }
@@ -27,7 +27,7 @@ void	put_pixel(t_core *core, int x, int y, int color)
 int	render_frame(t_core *core)
 {
 	//core->anim_tick++;
-	clear_image(core, 0x8ace00);
+	//clear_image(core, 0x8ace00);
 	draw_3d(core);
 	if (BONUS)
 	{

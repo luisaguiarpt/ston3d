@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:40:16 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/16 16:40:27 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/16 23:35:11 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ static int	is_wall(t_core *core, int map_x, int map_y)
 		return (1);
 	if (map_y >= core->map.height)
 		return (1);
-	/* row length may be smaller than map.width; treat outside as wall */
 	if ((int)ft_strlen(core->map.grid[map_y]) <= map_x)
+		return (1);
+	if (BONUS && core->map.grid[map_y][map_x] == 'G')
 		return (1);
 	return (core->map.grid[map_y][map_x] == '1');
 }
@@ -134,6 +135,11 @@ static void	get_texture(t_core *core)
 {
 	t_img	*tex;
 
+	if (BONUS && core->map.grid[core->ray.map_y][core->ray.map_x] == 'G')
+	{
+		core->ray.tex = &core->sprites.gate_img;
+		return ;
+	}
 	if (core->ray.side == 0)
 	{
 		if (core->ray.ray_dir_x > 0)
@@ -246,19 +252,163 @@ static void	draw_to_screen(t_core *core, int x)
 	draw_vertical(core, x, core->ray.draw_end + 1, HEIGHT - 1, core->textures.floor_int);
 }
 
-void	draw_3d(t_core *core)
+static int	is_wall_no_gate(t_core *core, int map_x, int map_y)
 {
-	int		x;
+	char	cell;
+
+	if (map_x < 0 || map_y < 0)
+		return (1);
+	if (map_y >= core->map.height)
+		return (1);
+	if ((int)ft_strlen(core->map.grid[map_y]) <= map_x)
+		return (1);
+	cell = core->map.grid[map_y][map_x];
+	return (cell == '1');
+}
+
+static void	dda_skip_gate(t_core *core)
+{
+	int	hit;
+
+	hit = 0;
+	core->ray.side = 0;
+	while (!hit)
+	{
+		if (core->ray.side_dist_x < core->ray.side_dist_y)
+		{
+			core->ray.side_dist_x += core->ray.delta_dist_x;
+			core->ray.map_x += core->ray.step_x;
+			core->ray.side = 0;
+		}
+		else
+		{
+			core->ray.side_dist_y += core->ray.delta_dist_y;
+			core->ray.map_y += core->ray.step_y;
+			core->ray.side = 1;
+		}
+		if (is_wall_no_gate(core, core->ray.map_x, core->ray.map_y))
+			hit = 1;
+	}
+}
+
+static int	is_gate_cell(t_core *core, int map_x, int map_y)
+{
+	if (map_x < 0 || map_y < 0)
+		return (0);
+	if (map_y >= core->map.height)
+		return (0);
+	if ((int)ft_strlen(core->map.grid[map_y]) <= map_x)
+		return (0);
+	return (core->map.grid[map_y][map_x] == 'G');
+}
+
+static int	dda_to_gate(t_core *core)
+{
+	core->ray.side = 0;
+	while (1)
+	{
+		if (core->ray.side_dist_x < core->ray.side_dist_y)
+		{
+			core->ray.side_dist_x += core->ray.delta_dist_x;
+			core->ray.map_x += core->ray.step_x;
+			core->ray.side = 0;
+		}
+		else
+		{
+			core->ray.side_dist_y += core->ray.delta_dist_y;
+			core->ray.map_y += core->ray.step_y;
+			core->ray.side = 1;
+		}
+		if (is_gate_cell(core, core->ray.map_x, core->ray.map_y))
+			return (1);
+		if (is_wall(core, core->ray.map_x, core->ray.map_y))
+			return (0);
+	}
+}
+
+static void	draw_gate_pixels(t_core *core, int x, int tex_x)
+{
+	double	tex_pos;
+	int		y;
+	int		tex_y;
+	int		color;
+
+	tex_pos = (core->ray.draw_start - core->ray.true_draw_start)
+		* core->ray.draw_step;
+	y = core->ray.draw_start;
+	while (y <= core->ray.draw_end)
+	{
+		tex_y = (int)tex_pos;
+		if (tex_y < 0)
+			tex_y = 0;
+		if (tex_y >= core->ray.tex->height)
+			tex_y = core->ray.tex->height - 1;
+		color = get_pixel_from_texture(core->ray.tex, tex_x, tex_y);
+		if (color != (int)SPRITES_BG_COLOR)
+			put_pixel(core, x, y, color);
+		tex_pos += core->ray.draw_step;
+		y++;
+	}
+}
+
+static void	draw_gate_column(t_core *core, int x)
+{
+	double	wall_x;
+	int		tex_x;
+
+	if (!dda_to_gate(core))
+		return ;
+	calc_perp_wall_dist(core);
+	if (core->ray.perp_wall_dist >= core->zbuffer[x])
+		return ;
+	if (core->ray.side == 0)
+		wall_x = core->player.y + core->ray.perp_wall_dist * core->ray.ray_dir_y;
+	else
+		wall_x = core->player.x + core->ray.perp_wall_dist * core->ray.ray_dir_x;
+	wall_x -= floor(wall_x);
+	tex_x = (int)(wall_x * core->sprites.gate_img.width)
+		- (int)(core->gate.progress * core->sprites.gate_img.width);
+	if (tex_x < 0 || tex_x >= core->sprites.gate_img.width)
+		return ;
+	core->ray.tex = &core->sprites.gate_img;
+	calc_wall_slice(core);
+	core->ray.tex_x = tex_x;
+	get_draw_info(core);
+	draw_gate_pixels(core, x, tex_x);
+}
+
+static void	draw_gate_overlay(t_core *core)
+{
+	int	x;
 
 	x = 0;
 	while (x < WIDTH)
 	{
 		setup_ray(core, x);
 		set_step(core);
-		dda(core);
+		draw_gate_column(core, x);
+		x++;
+	}
+}
+
+void	draw_3d(t_core *core)
+{
+	int	x;
+
+	x = 0;
+	while (x < WIDTH)
+	{
+		setup_ray(core, x);
+		set_step(core);
+		if (BONUS && core->gate.state == GATE_OPENING)
+			dda_skip_gate(core);
+		else
+			dda(core);
 		calc_perp_wall_dist(core);
 		core->zbuffer[x] = core->ray.perp_wall_dist;
 		draw_to_screen(core, x);
 		x++;
 	}
+	if (BONUS && core->gate.state == GATE_OPENING)
+		draw_gate_overlay(core);
 }

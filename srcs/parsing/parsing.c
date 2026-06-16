@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:39:22 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/16 16:39:49 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/16 23:38:13 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	parse_cub_file(t_core *core, char *map_path)
 {
 	int	map_fd;
-	
+
 	if (!is_cub_file(map_path))
 	{
 		ft_printf("error: map must be a .cub file\n");
@@ -30,7 +30,10 @@ void	parse_cub_file(t_core *core, char *map_path)
 	parse_textures(core, map_fd);
 	parse_map(core, map_path, map_fd);
 	if (BONUS)
+	{
 		find_collectibles(core);
+		find_gate(core);
+	}
 	close(map_fd);
 }
 

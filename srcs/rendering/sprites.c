@@ -28,7 +28,8 @@ void	draw_left_arm(t_core *core, int offset, int current)
 		x = 0;
 		while (x < core->sprites.left_arm[current].width)
 		{
-			color = get_pixel_from_texture(&core->sprites.left_arm[current], x, y);
+			color = get_pixel_from_texture(&core->sprites.left_arm[current],
+					x, y);
 			if (color != SPRITES_BG_COLOR)
 				put_pixel(core, start_x + x, start_y + y, color);
 			x++;
@@ -53,7 +54,8 @@ void	draw_right_arm(t_core *core, int offset, int current)
 		x = 0;
 		while (x < core->sprites.right_arm[current].width)
 		{
-			color = get_pixel_from_texture(&core->sprites.right_arm[current], x, y);
+			color = get_pixel_from_texture(&core->sprites.right_arm[current],
+					x, y);
 			if (color != SPRITES_BG_COLOR)
 				put_pixel(core, start_x + x, start_y + y, color);
 			x++;
@@ -67,11 +69,11 @@ int	calculate_animation_offset(t_core *core)
 	static float	offset;
 
 	if (core->input.w
-	 	|| core->input.a
-	 	|| core->input.s
-	 	|| core->input.d)
-		offset += 0.15f; // arm bob speed
-	return ((int)(sinf(offset) * 28.0f)); // arm bob range
+		|| core->input.a
+		|| core->input.s
+		|| core->input.d)
+		offset += ARM_BOB_SPEED;
+	return ((int)(sinf(offset) * ARM_BOB_RANGE));
 }
 
 void	draw_arms(t_core *core)

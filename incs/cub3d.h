@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:41:14 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/16 16:53:56 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/16 23:30:15 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,28 @@
 # define COLLECT_RADIUS 0.5f
 
 # define SPRITES_BG_COLOR 0xFF00FF // magenta to remove from bg
+# define ARM_BOB_SPEED 0.15f
+# define ARM_BOB_RANGE 28.0f
+# define GATE_OPEN_SPEED 0.005f
 
 # ifndef BONUS // TODO - check if guard necessary
 #  define BONUS 0
 # endif
+
+typedef enum e_gate_state
+{
+	GATE_CLOSED,
+	GATE_OPENING,
+	GATE_OPEN
+}	t_gate_state;
+
+typedef struct s_gate
+{
+	int				x;
+	int				y;
+	t_gate_state	state;
+	float			progress;
+}	t_gate;
 
 typedef struct s_collectible
 {
@@ -117,6 +135,7 @@ typedef struct s_sprites
 	t_img	left_arm[2];
 	t_img	right_arm[4];
 	t_img	collectibles[3];
+	t_img	gate_img;
 }			t_sprites;
 
 typedef struct s_spr_data
@@ -183,6 +202,7 @@ typedef struct s_core
 	t_minimap		minimap;
 	t_ray			ray;
 	t_collectible	*collectibles;
+	t_gate			gate;
 }			t_core;
 
 // INIT
@@ -235,6 +255,10 @@ void	draw_arms(t_core *core);
 void	find_collectibles(t_core *core);
 void	update_collectibles(t_core *core);
 void	render_collectibles(t_core *core);
+// gate.c
+void	init_gate(t_core *core);
+void	find_gate(t_core *core);
+void	update_gate(t_core *core);
 
 // *** KEYBINDS ***
 // keybinds.c

@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:38:54 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/16 16:38:55 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/16 23:37:12 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ void	init_core(t_core *core)
 	init_minimap(core);
 	init_player(core); //TODO - init function
 	if (BONUS)
+	{
 		init_sprites(core);
+		init_gate(core);
+	}
 }
 
 void	init_mlx(t_core *core)

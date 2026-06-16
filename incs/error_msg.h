@@ -27,7 +27,7 @@
 # define ERR_TEXTURE "unable to find textures from the .cub file"
 # define ERR_TOO_MANY_PLAYERS "map can't have more than one player spawn point"
 # define ERR_NO_PLAYER "no player found"
-# define ERR_FORBIDDEN_CHAR "only the characters ' ', '0', '1', 'N', 'S', 'E' and 'W' are valid for the map"
+# define ERR_FORBIDDEN_CHAR "only the characters ' ', '0', '1', 'N', 'S', 'E' and 'W' are accepted as valid"
 
 // bonus errors
 # define ERR_COLL_NUM "map must have exactly one 'a', one 'b', one 'c'"

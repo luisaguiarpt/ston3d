@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:30:53 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/16 16:35:44 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/16 23:37:54 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ static void	free_sprites(t_core *core)
 			free_image(core, &core->sprites.collectibles[i]);
 		i++;
 	}
+	if (core->sprites.gate_img.img)
+		free_image(core, &core->sprites.gate_img);
 }
 
 static void	free_textures(t_core *core)

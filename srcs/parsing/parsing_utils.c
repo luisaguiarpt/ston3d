@@ -20,9 +20,9 @@ bool	is_cub_file(char *line)
 	if (len < 4)
 		return (false);
 	if (line[len - 4] != '.'
-	 	|| line[len - 3] != 'c'
-	 	|| line[len - 2] != 'u'
-	 	|| line[len - 1] != 'b')
+		|| line[len - 3] != 'c'
+		|| line[len - 2] != 'u'
+		|| line[len - 1] != 'b')
 		return (false);
 	else
 		return (true);
@@ -38,9 +38,9 @@ bool	is_xpm_file(char *line)
 	while (len > 0 && is_space(line[len]))
 		len--;
 	if (line[len - 3] != '.'
-	 	|| line[len - 2] != 'x'
-	 	|| line[len - 1] != 'p'
-	 	|| line[len] != 'm')
+		|| line[len - 2] != 'x'
+		|| line[len - 1] != 'p'
+		|| line[len] != 'm')
 		return (false);
 	else
 		return (true);
@@ -85,11 +85,11 @@ bool	is_valid_line(char *line)
 		}
 		if (line[i] != ' '
 			&& line[i] != '0'
-	  		&& line[i] != '1'
-	  		&& line[i] != 'N'
-	  		&& line[i] != 'S'
-	  		&& line[i] != 'E'
-	  		&& line[i] != 'W')
+			&& line[i] != '1'
+			&& line[i] != 'N'
+			&& line[i] != 'S'
+			&& line[i] != 'E'
+			&& line[i] != 'W')
 			return (false);
 		i++;
 	}

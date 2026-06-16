@@ -119,7 +119,10 @@ static void	calc_spr_screen(t_spr_data *s)
 	if (s->draw_end_y >= HEIGHT)
 		s->draw_end_y = HEIGHT - 1;
 	s->raw_start_x = -s->width / 2 + s->screen_x;
-	s->draw_start_x = (s->raw_start_x < 0) ? 0 : s->raw_start_x;
+	if (s->draw_start_x < 0)
+		s->draw_start_x = 0;
+	else
+		s->draw_start_x = s->raw_start_x;
 	s->draw_end_x = s->width / 2 + s->screen_x;
 	if (s->draw_end_x >= WIDTH)
 		s->draw_end_x = WIDTH - 1;

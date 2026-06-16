@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:40:09 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/16 16:40:27 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/16 23:36:37 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ int	game_loop(void *param)
 	if (core->input.d)
 		strafe_right(core);
 	if (BONUS)
+	{
 		update_collectibles(core);
+		update_gate(core);
+	}
 	render_frame(core);
 	return (0);
 }
@@ -82,18 +85,26 @@ void	rotate_dir(t_core *core, int turn_dir)
 //
 static int	collides_x(t_core *core, float new_x)
 {
-	if (core->map.grid[(int)(core->player.y)][(int)(new_x)] == '1')
+	char	cell;
+
+	cell = core->map.grid[(int)(core->player.y)][(int)(new_x)];
+	if (cell == '1')
 		return (1);
-	else
-		return (0);
+	if (BONUS && cell == 'G' && core->gate.state != GATE_OPEN)
+		return (1);
+	return (0);
 }
 
 static int	collides_y(t_core *core, float new_y)
 {
-	if (core->map.grid[(int)(new_y)][(int)(core->player.x)] == '1')
+	char	cell;
+
+	cell = core->map.grid[(int)(new_y)][(int)(core->player.x)];
+	if (cell == '1')
 		return (1);
-	else
-		return (0);
+	if (BONUS && cell == 'G' && core->gate.state != GATE_OPEN)
+		return (1);
+	return (0);
 }
 // static int	check_collision(t_core *core, float new_x, float new_y)
 // {
