@@ -55,7 +55,14 @@ static void	check_one(t_core *core, int i)
 	{
 		core->collectibles[i].collected = true;
 		core->collected_count++;
+		core->collected_mask |= (1 << core->collectibles[i].type);
 	}
+}
+
+static void	update_arm_sprite(t_core *core)
+{
+	core->sprites.curr_right = core->collected_mask & 3;
+	core->sprites.curr_left = (core->collected_mask >> 2) & 1;
 }
 
 void	update_collectibles(t_core *core)
@@ -68,6 +75,7 @@ void	update_collectibles(t_core *core)
 		check_one(core, i);
 		i++;
 	}
+	update_arm_sprite(core);
 }
 
 static void	calc_spr_transform(t_core *core, t_collectible *col,

@@ -14,9 +14,9 @@ static void	load_arm_sprites(t_core *core)
 
 static void	load_collectible_sprites(t_core *core)
 {
-	load_xpm(core, &core->sprites.collectibles[0], "sprites/lighter.xpm");
-	load_xpm(core, &core->sprites.collectibles[1], "sprites/papers.xpm");
-	load_xpm(core, &core->sprites.collectibles[2], "sprites/buds.xpm");
+	load_xpm(core, &core->sprites.collectibles[0], "sprites/papers.xpm");
+	load_xpm(core, &core->sprites.collectibles[1], "sprites/buds.xpm");
+	load_xpm(core, &core->sprites.collectibles[2], "sprites/lighter.xpm");
 }
 
 void	load_textures(t_core *core)

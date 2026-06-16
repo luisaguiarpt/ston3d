@@ -42,7 +42,7 @@ typedef struct s_img
 	int		height;
 	int		width;
 	int		bpp;
-	int		line_len; // TODO check
+	int		line_len;
 	int		endian;
 }			t_img;
 
@@ -156,6 +156,7 @@ typedef struct s_core
 	char		*img_addr;
 	int			num_collectibles;
 	int			collected_count;
+	int			collected_mask;
 	int			bpp;
 	int			endian;
 	int			line_len;

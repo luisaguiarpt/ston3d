@@ -79,6 +79,7 @@ void	init_core(t_core *core)
 	core->line_len = 0;
 	core->anim_tick = 0;
 	core->num_collectibles = 0;
+	core->collected_mask = 0;
 	core->collected_count = 0;
 	core->collectibles = NULL;
 	init_textures(core);
