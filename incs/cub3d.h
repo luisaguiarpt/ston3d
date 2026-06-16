@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/16 16:41:14 by josepedr          #+#    #+#             */
+/*   Updated: 2026/06/16 16:53:56 by josepedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include "error_msg.h"
 # include "../libft/libft.h"
 # include "../mlx/mlx.h"
 # include <stdlib.h>
@@ -113,7 +126,7 @@ typedef struct s_spr_data
 	int		screen_x;
 	int		height;
 	int		width;
-	int		raw_start_x;   /* unclamped left edge (for tex-coord math) */
+	int		raw_start_x;
 	int		draw_start_x;
 	int		draw_end_x;
 	int		draw_start_y;
@@ -150,25 +163,25 @@ typedef struct s_input
 
 typedef struct s_core
 {
-	void		*mlx;
-	void		*win;
-	void		*img;
-	char		*img_addr;
-	int			num_collectibles;
-	int			collected_count;
-	int			collected_mask;
-	int			bpp;
-	int			endian;
-	int			line_len;
-	double		zbuffer[WIDTH];
+	void			*mlx;
+	void			*win;
+	void			*img;
+	char			*img_addr;
+	int				num_collectibles;
+	int				collected_count;
+	int				collected_mask;
+	int				bpp;
+	int				endian;
+	int				line_len;
+	double			zbuffer[WIDTH];
 	unsigned int	anim_tick;
-	t_input		input;
-	t_player	player;
-	t_map		map;
-	t_textures	textures;
-	t_sprites	sprites;
-	t_minimap	minimap;
-	t_ray		ray;
+	t_input			input;
+	t_player		player;
+	t_map			map;
+	t_textures		textures;
+	t_sprites		sprites;
+	t_minimap		minimap;
+	t_ray			ray;
 	t_collectible	*collectibles;
 }			t_core;
 

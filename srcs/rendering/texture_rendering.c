@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   texture_rendering.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/16 16:40:15 by josepedr          #+#    #+#             */
+/*   Updated: 2026/06/16 16:54:05 by josepedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../incs/cub3d.h"
 
 void	load_xpm(t_core *core, t_img *img, char *path);
@@ -38,8 +50,8 @@ void	load_xpm(t_core *core, t_img *img, char *path)
 {
 	img->img = mlx_xpm_file_to_image(core->mlx, path, &img->width, &img->height);
 	if (!img->img)
-		exit_error(core, "failed to load XPM texture");
+		exit_error(core, ERR_XPM);
 	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len, &img->endian);
 	if (!img->addr)
-		exit_error(core, "failed to get texture data address");
+		exit_error(core, ERR_DATA_ADDR);
 }

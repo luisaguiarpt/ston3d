@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   collectibles.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/16 16:39:44 by josepedr          #+#    #+#             */
+/*   Updated: 2026/06/16 17:10:35 by josepedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../incs/cub3d.h"
 
 static void	update_distances(t_core *core)
@@ -218,7 +230,7 @@ static void	add_collectible(t_core *core, int x, int y, int type)
 	int	n;
 
 	if (core->num_collectibles >= 3)
-		error_parsing(core, "too many collectibles in map", 0);
+		error_parsing(core, ERR_TOO_MANY_COLL, 0);
 	n = core->num_collectibles;
 	core->collectibles[n].x = (float)x + 0.5f;
 	core->collectibles[n].y = (float)y + 0.5f;
@@ -238,7 +250,7 @@ void	find_collectibles(t_core *core)
 	core->num_collectibles = 0;
 	core->collectibles = ft_calloc(3, sizeof(t_collectible));
 	if (!core->collectibles)
-		error_parsing(core, "not enough memory", 0);
+		error_parsing(core, ERR_MEMORY, 0);
 	y = 0;
 	while (core->map.grid[y])
 	{
@@ -253,5 +265,5 @@ void	find_collectibles(t_core *core)
 		y++;
 	}
 	if (core->num_collectibles != 3)
-		error_parsing(core, "map must have exactly one 'a', one 'b', one 'c'", 0);
+		error_parsing(core, ERR_COLL_NUM, 0);
 }

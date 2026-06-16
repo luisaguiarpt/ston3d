@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   texture_parsing.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/16 16:39:29 by josepedr          #+#    #+#             */
+/*   Updated: 2026/06/16 17:08:54 by josepedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../incs/cub3d.h"
 
 static char	*store_texture(t_core *core, int map_fd, char *line, int i)
@@ -7,14 +19,14 @@ static char	*store_texture(t_core *core, int map_fd, char *line, int i)
 	char	*file;
 
 	if (!is_xpm_file(line))
-		error_parsing(core, "textures must be .xpm files", map_fd);
+		error_parsing(core, ERR_FORMAT, map_fd);
 	while (is_space(line[i]))
 		i++;
 	j = 0;
 	len = ft_strlen(line);
 	file = malloc((len - i + 1) * sizeof(char));
 	if (!file)
-		error_parsing(core, "not enough memory", map_fd);
+		error_parsing(core, ERR_MEMORY, map_fd);
 	while (line[i])
 	{
 		file[j] = line[i];
@@ -41,23 +53,23 @@ static void	load_colour(t_core *core, int map_fd, char *line, int i)
 		if (values_loaded > 0 && values_loaded < 3)
 		{
 			if (line[i++] != ',')
-				error_parsing(core, "comma expected between colour values", map_fd);
+				error_parsing(core, ERR_COMMA, map_fd);
 		}
 		while (is_space(line[i]))
 			i++;
 		if (!line[i])
 			break ;
 		if (!ft_isdigit(line[i]))
-			error_parsing(core, "wrong format, could not load colour", map_fd);
+			error_parsing(core, ERR_COLOR_FORMAT, map_fd);
 		num = 0;
 		while (ft_isdigit(line[i]))
 			num = num * 10 + (line[i++] - '0');
 		if (num < 0 || num > 255)
-			error_parsing(core, "colour values must be between 0 and 255", map_fd);
+			error_parsing(core, ERR_COLOR_VALUE, map_fd);
 		array[values_loaded++] = num;
 	}
 	if (values_loaded != 3)
-		error_parsing(core, "colour definition expects 3 values (R, G, B)", map_fd);
+		error_parsing(core, ERR_COLOR_COUNT, map_fd);
 }
 
 static bool	find_textures(t_core *core, int map_fd, char *line)
@@ -95,7 +107,7 @@ void	parse_textures(t_core *core, int map_fd)
 	{
 		line = get_next_line(map_fd);
 		if (!line)
-			error_parsing(core, "unable to read .cub file", map_fd);
+			error_parsing(core, ERR_READ, map_fd);
 		remove_newline(line);
 		if (is_empty_line(line))
 		{
@@ -105,7 +117,7 @@ void	parse_textures(t_core *core, int map_fd)
 		if (!find_textures(core, map_fd, line))
 		{
 			free(line);
-			error_parsing(core, "unable to find textures from the .cub file", map_fd);
+			error_parsing(core, ERR_TEXTURE, map_fd);
 		}
 		free(line);
 		textures_stored++;

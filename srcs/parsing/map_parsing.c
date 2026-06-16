@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_parsing.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/16 16:39:18 by josepedr          #+#    #+#             */
+/*   Updated: 2026/06/16 17:03:33 by josepedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../incs/cub3d.h"
 
 static void	get_map_width(t_core *core)
@@ -39,7 +51,6 @@ static void	set_planes(t_core *core, char dir)
 		core->player.plane_x = 0;
 		core->player.plane_y = -FOV;
 	}
-	
 }
 
 static void	set_player_direction(t_core *core, char dir)
@@ -86,7 +97,7 @@ static void	get_player_position(t_core *core)
 				|| core->map.grid[y][x] == 'W')
 			{
 				if (player_found)
-					error_parsing(core, "map can't have more than one player spawn point", 0); // TODO mabe use another function that doesnt need to close fds
+					error_parsing(core, ERR_TOO_MANY_PLAYERS, 0);
 				core->player.x = x + 0.5f;
 				core->player.y = y + 0.5f;
 				set_player_direction(core, core->map.grid[y][x]);
@@ -97,7 +108,7 @@ static void	get_player_position(t_core *core)
 		y++;
 	}
 	if (!player_found)
-		error_parsing(core, "No player found", 0);
+		error_parsing(core, ERR_NO_PLAYER, 0);
 }
 
 static void	skip_textures(t_core *core, int fd, int old_fd)
@@ -106,13 +117,13 @@ static void	skip_textures(t_core *core, int fd, int old_fd)
 	char	*line;
 
 	textures_skipped = 0;
-	while (textures_skipped < 6) // TODO change it to handle floor and ceiling colors
+	while (textures_skipped < 6)
 	{
 		line = get_next_line(fd);
 		if (!line)
 		{
 			close(old_fd);
-			error_parsing(core, "not enough memory", fd);
+			error_parsing(core, ERR_MEMORY, fd);
 		}
 		remove_newline(line);
 		if (is_empty_line(line))
@@ -133,7 +144,7 @@ static int	get_map_height(t_core *core, char *map_path, int old_fd)
 
 	new_fd = open(map_path, O_RDONLY);
 	if (new_fd < 0)
-		error_parsing(core, strerror(errno), old_fd); // TODO verify if strerror is correct in this case
+		error_parsing(core, strerror(errno), old_fd);
 	skip_textures(core, new_fd, old_fd);
 	height = 0;
 	while ((line = get_next_line(new_fd)) != NULL)
@@ -158,13 +169,13 @@ static char	*fill_map_grid(t_core *core, int map_fd, char *line)
 	if (!is_valid_line(line))
 	{
 		free(line);
-		error_parsing(core, "only the characters ' ', '0', '1', 'N', 'S', 'E' and 'W' are valid for the map", map_fd);
+		error_parsing(core, ERR_FORBIDDEN_CHAR, map_fd);
 	}
 	grid_line = ft_strdup(line);
 	if (!grid_line)
 	{
 		free(line);
-		error_parsing(core, "not enough memory", map_fd);
+		error_parsing(core, ERR_MEMORY, map_fd);
 	}
 	return (grid_line);
 }
@@ -179,11 +190,11 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 	i = 0;
 	core->map.grid = ft_calloc(core->map.height + 1, sizeof(char *));
 	if (!core->map.grid)
-		error_parsing(core, "not enough memory", map_fd);
+		error_parsing(core, ERR_MEMORY, map_fd);
 	while((line = get_next_line(map_fd)))
 	{
 		if (!line)
-			error_parsing(core, "unable to read map", map_fd);
+			error_parsing(core, ERR_READ, map_fd);
 		remove_newline(line);
 		if (is_empty_line(line) && i == 0)
 		{

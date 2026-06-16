@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validation.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/16 16:39:34 by josepedr          #+#    #+#             */
+/*   Updated: 2026/06/16 17:09:47 by josepedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../incs/cub3d.h"
 
 static int	flood_fill(int y, int x, char **grid, t_core *core);
@@ -8,11 +20,11 @@ int	validate_map(t_core *core)
 
 	validation_map = copy_map(core->map.grid);
 	if (!validation_map)
-		error_parsing(core, "not enough memory", 0);
+		error_parsing(core, ERR_MEMORY, 0);
 	if (flood_fill((int)core->player.y, (int)core->player.x, validation_map, core))
 	{
 		ft_free_tab(validation_map);
-		error_parsing(core, "map must be closed/surrounded by walls", 0);
+		error_parsing(core, ERR_WALLS, 0);
 	}
 	ft_free_tab(validation_map);
 	return (0);
