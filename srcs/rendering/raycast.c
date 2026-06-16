@@ -245,6 +245,7 @@ void	draw_3d(t_core *core)
 		set_step(core);
 		dda(core);
 		calc_perp_wall_dist(core);
+		core->zbuffer[x] = core->ray.perp_wall_dist;
 		draw_to_screen(core, x);
 		x++;
 	}

@@ -2,12 +2,29 @@
 
 void	load_xpm(t_core *core, t_img *img, char *path);
 
+static void	load_arm_sprites(t_core *core)
+{
+	load_xpm(core, &core->sprites.left_arm[0], "sprites/left_arm0.xpm");
+	load_xpm(core, &core->sprites.left_arm[1], "sprites/left_arm1.xpm");
+	load_xpm(core, &core->sprites.right_arm[0], "sprites/right_arm0.xpm");
+	load_xpm(core, &core->sprites.right_arm[1], "sprites/right_arm1.xpm");
+	load_xpm(core, &core->sprites.right_arm[2], "sprites/right_arm2.xpm");
+	load_xpm(core, &core->sprites.right_arm[3], "sprites/right_arm3.xpm");
+}
+
+static void	load_collectible_sprites(t_core *core)
+{
+	load_xpm(core, &core->sprites.collectibles[0], "sprites/lighter.xpm");
+	load_xpm(core, &core->sprites.collectibles[1], "sprites/papers.xpm");
+	load_xpm(core, &core->sprites.collectibles[2], "sprites/buds.xpm");
+}
+
 void	load_textures(t_core *core)
 {
 	if (BONUS)
 	{
-		load_xpm(core, &core->sprites.left_arm, "sprites/left_arm.xpm");
-		load_xpm(core, &core->sprites.right_arm, "sprites/right_arm.xpm");
+		load_arm_sprites(core);
+		load_collectible_sprites(core);
 	}
 	load_xpm(core, &core->textures.no_img, core->textures.no_path);
 	load_xpm(core, &core->textures.so_img, core->textures.so_path);

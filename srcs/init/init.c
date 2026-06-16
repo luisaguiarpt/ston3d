@@ -2,10 +2,26 @@
 
 void	init_sprites(t_core *core)
 {
-	core->sprites.left_arm.img = NULL;
-	core->sprites.left_arm.addr = NULL;
-	core->sprites.right_arm.img = NULL;
-	core->sprites.right_arm.addr = NULL;
+	int	i;
+
+	i = 0;
+	while (i < 2)
+	{
+		core->sprites.left_arm[i].img = NULL;
+		core->sprites.left_arm[i].addr = NULL;
+		i++;
+	}
+	i = 0;
+	while (i < 3)
+	{
+		core->sprites.right_arm[i].img = NULL;
+		core->sprites.right_arm[i].addr = NULL;
+		core->sprites.collectibles[i].img = NULL;
+		core->sprites.collectibles[i].addr = NULL;
+		i++;
+	}
+	core->sprites.curr_left = 0;
+	core->sprites.curr_right = 0;
 }
 
 void	init_textures(t_core *core)
@@ -62,6 +78,9 @@ void	init_core(t_core *core)
 	core->endian = 0;
 	core->line_len = 0;
 	core->anim_tick = 0;
+	core->num_collectibles = 0;
+	core->collected_count = 0;
+	core->collectibles = NULL;
 	init_textures(core);
 	init_map(core);
 	init_minimap(core);

@@ -23,6 +23,8 @@ int	game_loop(void *param)
 		strafe_left(core);
 	if (core->input.d)
 		strafe_right(core);
+	if (BONUS)
+		update_collectibles(core);
 	render_frame(core);
 	return (0);
 }

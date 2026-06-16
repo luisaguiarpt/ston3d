@@ -19,6 +19,7 @@ int	render_frame(t_core *core)
 	draw_3d(core);
 	if (BONUS)
 	{
+		render_collectibles(core);
 		draw_minimap(core);
 		draw_arms(core);
 	}

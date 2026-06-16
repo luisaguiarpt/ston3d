@@ -51,6 +51,14 @@ bool	is_empty_line(char *line)
 	return (true);
 }
 
+static bool	is_bonus_char(char c)
+{
+	if (c == 'a' || c == 'b' || c == 'c' || c == 'G')
+		return (true);
+	else
+		return (false);
+}
+
 bool	is_valid_line(char *line)
 {
 	int	i;
@@ -58,6 +66,11 @@ bool	is_valid_line(char *line)
 	i = 0;
 	while (line[i])
 	{
+		if (BONUS)
+		{
+			if (is_bonus_char(line[i]))
+				return (true);
+		}
 		if (line[i] != ' '
 			&& line[i] != '0'
 	  		&& line[i] != '1'

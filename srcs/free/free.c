@@ -24,10 +24,24 @@ static void	free_image(t_core *core, t_img *img)
 
 static void	free_sprites(t_core *core)
 {
-	if (core->sprites.left_arm.img)
-		free_image(core, &core->sprites.left_arm);
-	if (core->sprites.right_arm.img)
-		free_image(core, &core->sprites.right_arm);
+	int	i;
+
+	i = 0;
+	while (i < 2)
+	{
+		if (core->sprites.left_arm[i].img)
+			free_image(core, &core->sprites.left_arm[i]);
+		i++;
+	}
+	i = 0;
+	while (i < 3)
+	{
+		if (core->sprites.right_arm[i].img)
+			free_image(core, &core->sprites.right_arm[i]);
+		if (core->sprites.collectibles[i].img)
+			free_image(core, &core->sprites.collectibles[i]);
+		i++;
+	}
 }
 
 static void	free_textures(t_core *core)
@@ -53,7 +67,11 @@ static void	free_textures(t_core *core)
 void	free_core(t_core *core)
 {
 	if (BONUS)
+	{
 		free_sprites(core);
+		if (core->collectibles)
+			free(core->collectibles);
+	}
 	free_textures(core);
 	free_map(core);
 	if (core->img)

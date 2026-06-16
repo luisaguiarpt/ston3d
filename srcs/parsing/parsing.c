@@ -17,6 +17,8 @@ void	parse_cub_file(t_core *core, char *map_path)
 	}
 	parse_textures(core, map_fd);
 	parse_map(core, map_path, map_fd);
+	if (BONUS)
+		find_collectibles(core);
 	close(map_fd);
 }
 

@@ -18,6 +18,7 @@
 # define MOUSE_SENSITIVITY 0.00005f
 # define DEGREES_PER_PRESS 2
 # define FOV 0.66
+# define COLLECT_RADIUS 0.5f
 
 # define SPRITES_BG_COLOR 0xFF00FF // magenta to remove from bg
 
@@ -31,6 +32,7 @@ typedef struct s_collectible
 	float	y;
 	bool	collected;
 	double	dist;
+	int		type;
 }			t_collectible;
 
 typedef struct s_img
@@ -97,9 +99,27 @@ typedef struct s_map
 
 typedef struct s_sprites
 {
-	t_img	left_arm;
-	t_img	right_arm;
+	int		curr_left;
+	int		curr_right;
+	t_img	left_arm[2];
+	t_img	right_arm[4];
+	t_img	collectibles[3];
 }			t_sprites;
+
+typedef struct s_spr_data
+{
+	double	transform_x;
+	double	transform_y;
+	int		screen_x;
+	int		height;
+	int		width;
+	int		raw_start_x;   /* unclamped left edge (for tex-coord math) */
+	int		draw_start_x;
+	int		draw_end_x;
+	int		draw_start_y;
+	int		draw_end_y;
+	t_img	*tex;
+}			t_spr_data;
 
 typedef struct s_textures
 {
@@ -135,6 +155,7 @@ typedef struct s_core
 	void		*img;
 	char		*img_addr;
 	int			num_collectibles;
+	int			collected_count;
 	int			bpp;
 	int			endian;
 	int			line_len;
@@ -196,6 +217,10 @@ void	draw_3d(t_core *core);
 int		get_pixel_from_texture(t_img *img, int tex_x, int tex_y);
 //sprites.c
 void	draw_arms(t_core *core);
+// collectibles.c
+void	find_collectibles(t_core *core);
+void	update_collectibles(t_core *core);
+void	render_collectibles(t_core *core);
 
 // *** KEYBINDS ***
 // keybinds.c

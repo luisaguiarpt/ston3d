@@ -1,6 +1,6 @@
 #include "../../incs/cub3d.h"
 
-void	draw_left_arm(t_core *core, int offset)
+void	draw_left_arm(t_core *core, int offset, int current)
 {
 	int	start_x;
 	int	start_y;
@@ -8,16 +8,15 @@ void	draw_left_arm(t_core *core, int offset)
 	int	y;
 	int	color;
 
-	start_x = 0;
-	start_y = 400 + offset;
-	//start_y = (HEIGHT - core->sprites.left_arm.height + offset);
+	start_x = 10;
+	start_y = 360 + offset;
 	y = 0;
-	while (y < core->sprites.left_arm.height)
+	while (y < core->sprites.left_arm[current].height)
 	{
 		x = 0;
-		while (x < core->sprites.left_arm.width)
+		while (x < core->sprites.left_arm[current].width)
 		{
-			color = get_pixel_from_texture(&core->sprites.left_arm, x, y);
+			color = get_pixel_from_texture(&core->sprites.left_arm[current], x, y);
 			if (color != SPRITES_BG_COLOR)
 				put_pixel(core, start_x + x, start_y + y, color);
 			x++;
@@ -26,7 +25,7 @@ void	draw_left_arm(t_core *core, int offset)
 	}
 }
 
-void	draw_right_arm(t_core *core, int offset)
+void	draw_right_arm(t_core *core, int offset, int current)
 {
 	int	start_x;
 	int	start_y;
@@ -34,15 +33,15 @@ void	draw_right_arm(t_core *core, int offset)
 	int	y;
 	int	color;
 
-	start_x = 250;
-	start_y = (350 - offset);
+	start_x = 700;
+	start_y = 400 - offset;
 	y = 0;
-	while (y < core->sprites.right_arm.height)
+	while (y < core->sprites.right_arm[current].height)
 	{
 		x = 0;
-		while (x < core->sprites.right_arm.width)
+		while (x < core->sprites.right_arm[current].width)
 		{
-			color = get_pixel_from_texture(&core->sprites.right_arm, x, y);
+			color = get_pixel_from_texture(&core->sprites.right_arm[current], x, y);
 			if (color != SPRITES_BG_COLOR)
 				put_pixel(core, start_x + x, start_y + y, color);
 			x++;
@@ -68,6 +67,6 @@ void	draw_arms(t_core *core)
 	int	offset;
 
 	offset = calculate_animation_offset(core);
-	draw_left_arm(core, offset);
-	draw_right_arm(core, offset);
+	draw_left_arm(core, offset, core->sprites.curr_left);
+	draw_right_arm(core, offset, core->sprites.curr_right);
 }
