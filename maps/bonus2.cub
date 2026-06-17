@@ -1,10 +1,10 @@
-NO textures/stone.xpm
-SO textures/stone.xpm
-EA textures/stone.xpm
-WE textures/stone.xpm
+NO textures/wall_warning.xpm
+SO textures/wall.xpm
+EA textures/wall_poster.xpm
+WE textures/wall.xpm
 
-F 125,252,0
-C 135, 206, 235
+F 64,76,92
+C 22, 32, 40
 
 111111111111111111111111111111
 100000000000000000000000001001
