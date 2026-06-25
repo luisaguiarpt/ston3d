@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:40:17 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/25 22:09:35 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/25 22:38:20 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	draw_end_card(t_core *core)
 	int	y;
 	int	color;
 
-	start_x = 0;
-	start_y = 0;
+	start_x = (WIDTH - core->sprites.end_card.width) / 2;
+	start_y = ((HEIGHT - core->sprites.end_card.height) / 2) - 150;
 	y = 0;
 	while (y < core->sprites.end_card.height)
 	{
