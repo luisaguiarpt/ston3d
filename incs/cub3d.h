@@ -133,7 +133,7 @@ typedef struct s_sprites
 	int		curr_left;
 	int		curr_right;
 	t_img	left_arm[2];
-	t_img	right_arm[4];
+	t_img	right_arm[5];
 	t_img	collectibles[3];
 	t_img	gate_img;
 }			t_sprites;

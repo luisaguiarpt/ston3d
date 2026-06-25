@@ -48,10 +48,15 @@ static void	free_sprites(t_core *core)
 	i = 0;
 	while (i < 3)
 	{
-		if (core->sprites.right_arm[i].img)
-			free_image(core, &core->sprites.right_arm[i]);
 		if (core->sprites.collectibles[i].img)
 			free_image(core, &core->sprites.collectibles[i]);
+		i++;
+	}
+	i = 0;
+	while (i < 5)
+	{
+		if (core->sprites.right_arm[i].img)
+			free_image(core, &core->sprites.right_arm[i]);
 		i++;
 	}
 	if (core->sprites.gate_img.img)

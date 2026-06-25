@@ -194,6 +194,7 @@ static void	render_one(t_core *core, int i)
 	if (core->collectibles[i].collected)
 		return ;
 	s.tex = &core->sprites.collectibles[core->collectibles[i].type];
+	s.draw_start_x = 0; // initialized here because of valgrind error
 	calc_spr_transform(core, &core->collectibles[i], &s);
 	if (s.transform_y <= 0.0)
 		return ;

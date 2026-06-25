@@ -22,6 +22,7 @@ static void	load_arm_sprites(t_core *core)
 	load_xpm(core, &core->sprites.right_arm[1], "sprites/right_arm1.xpm");
 	load_xpm(core, &core->sprites.right_arm[2], "sprites/right_arm2.xpm");
 	load_xpm(core, &core->sprites.right_arm[3], "sprites/right_arm3.xpm");
+	load_xpm(core, &core->sprites.right_arm[4], "sprites/right_arm4.xpm");
 }
 
 static void	load_collectible_sprites(t_core *core)

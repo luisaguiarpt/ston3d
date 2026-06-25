@@ -26,10 +26,15 @@ void	init_sprites(t_core *core)
 	i = 0;
 	while (i < 3)
 	{
-		core->sprites.right_arm[i].img = NULL;
-		core->sprites.right_arm[i].addr = NULL;
 		core->sprites.collectibles[i].img = NULL;
 		core->sprites.collectibles[i].addr = NULL;
+		i++;
+	}
+	i = 0;
+	while (i < 5)
+	{
+		core->sprites.right_arm[i].img = NULL;
+		core->sprites.right_arm[i].addr = NULL;
 		i++;
 	}
 	core->sprites.curr_left = 0;

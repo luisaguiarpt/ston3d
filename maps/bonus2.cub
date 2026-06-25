@@ -1,7 +1,7 @@
 NO textures/wall_warning.xpm
-SO textures/wall.xpm
+SO textures/wall_fan.xpm
 EA textures/wall_poster.xpm
-WE textures/wall.xpm
+WE textures/wall_moss.xpm
 
 F 64,76,92
 C 22, 32, 40
