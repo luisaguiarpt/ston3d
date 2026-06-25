@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:39:44 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/16 17:10:35 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/25 22:14:06 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ static void	check_one(t_core *core, int i)
 
 static void	update_arm_sprite(t_core *core)
 {
-	core->sprites.curr_right = core->collected_mask & 3;
+	if (core->game_ended == false)
+		core->sprites.curr_right = core->collected_mask & 3;
 	core->sprites.curr_left = (core->collected_mask >> 2) & 1;
 }
 

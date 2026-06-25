@@ -6,13 +6,46 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:40:17 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/16 16:40:27 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/25 22:09:35 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/cub3d.h"
 
-void	clear_image(t_core *core, int color);
+void	draw_end_card(t_core *core)
+{
+	int	start_x;
+	int	start_y;
+	int	x;
+	int	y;
+	int	color;
+
+	start_x = 0;
+	start_y = 0;
+	y = 0;
+	while (y < core->sprites.end_card.height)
+	{
+		x = 0;
+		while (x < core->sprites.end_card.width)
+		{
+			color = get_pixel_from_texture(&core->sprites.end_card,
+					x, y);
+			if (color != SPRITES_BG_COLOR)
+				put_pixel(core, start_x + x, start_y + y, color);
+			x++;
+		}
+		y++;
+	}
+}
+
+void	trigger_end_card(t_core *core)
+{
+	int	target_time;
+
+	target_time = core->end_time + 3000; // 3 second delay
+	if (get_current_time() >= target_time)
+		draw_end_card(core);
+}
 
 void	put_pixel(t_core *core, int x, int y, int color)
 {
@@ -27,15 +60,15 @@ void	put_pixel(t_core *core, int x, int y, int color)
 int	render_frame(t_core *core)
 {
 	//core->anim_tick++;
-	//clear_image(core, 0x8ace00);
 	draw_3d(core);
 	if (BONUS)
 	{
 		render_collectibles(core);
 		draw_minimap(core);
 		draw_arms(core);
+		if (core->game_ended)
+			trigger_end_card(core);
 	}
-	//draw_player(core); TODO - Render player
 	mlx_put_image_to_window(core->mlx, core->win, core->img, 0, 0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:30:53 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/16 23:37:54 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/25 22:08:20 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	free_image(t_core *core, t_img *img)
 	// 	free(img->addr);
 }
 
-static void	free_sprites(t_core *core)
+static void	free_arms(t_core *core)
 {
 	int	i;
 
@@ -46,21 +46,30 @@ static void	free_sprites(t_core *core)
 		i++;
 	}
 	i = 0;
-	while (i < 3)
-	{
-		if (core->sprites.collectibles[i].img)
-			free_image(core, &core->sprites.collectibles[i]);
-		i++;
-	}
-	i = 0;
 	while (i < 5)
 	{
 		if (core->sprites.right_arm[i].img)
 			free_image(core, &core->sprites.right_arm[i]);
 		i++;
 	}
+}
+
+static void	free_sprites(t_core *core)
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		if (core->sprites.collectibles[i].img)
+			free_image(core, &core->sprites.collectibles[i]);
+		i++;
+	}
+	free_arms(core);
 	if (core->sprites.gate_img.img)
 		free_image(core, &core->sprites.gate_img);
+	if (core->sprites.end_card.img)
+		free_image(core, &core->sprites.end_card);
 }
 
 static void	free_textures(t_core *core)

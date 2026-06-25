@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:40:15 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/16 23:39:00 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/25 22:06:11 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	load_textures(t_core *core)
 	{
 		load_arm_sprites(core);
 		load_collectible_sprites(core);
+		load_xpm(core, &core->sprites.gate_img, "sprites/gate.xpm");
+		load_xpm(core, &core->sprites.end_card, "sprites/end_card.xpm");
 	}
 	load_xpm(core, &core->textures.no_img, core->textures.no_path);
 	load_xpm(core, &core->textures.so_img, core->textures.so_path);
@@ -45,7 +47,6 @@ void	load_textures(t_core *core)
 	load_xpm(core, &core->textures.we_img, core->textures.we_path);
 	core->textures.floor_int = rgb_to_int(core->textures.floor);
 	core->textures.ceiling_int = rgb_to_int(core->textures.ceiling);
-	load_xpm(core, &core->sprites.gate_img, "sprites/gate.xpm");
 }
 
 void	load_xpm(t_core *core, t_img *img, char *path)

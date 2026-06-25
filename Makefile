@@ -15,7 +15,7 @@ SRCS=srcs/main.c \
 	srcs/rendering/sprites.c srcs/rendering/collectibles.c srcs/rendering/gate.c \
 	srcs/keybinds/keybinds.c \
 	srcs/free/free.c \
-	srcs/utils/utils.c
+	srcs/utils/utils.c srcs/utils/end.c
 
 OBJS=$(SRCS:%.c=%.o)
 

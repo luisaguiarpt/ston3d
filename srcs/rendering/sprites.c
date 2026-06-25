@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:40:17 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/16 16:40:27 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/25 21:43:37 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	draw_right_arm(t_core *core, int offset, int current)
 
 	start_x = (WIDTH / 2);
 	start_y = HEIGHT - 320 - offset;
+	if (current == 4) // adjustment for right_arm sprite number 4
+		start_y -= 50;
 	y = 0;
 	while (y < core->sprites.right_arm[current].height)
 	{

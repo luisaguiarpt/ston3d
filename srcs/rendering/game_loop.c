@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:40:09 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/16 23:36:37 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/25 21:54:09 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	game_loop(void *param)
 	{
 		update_collectibles(core);
 		update_gate(core);
+		update_end_state(core);
 	}
 	render_frame(core);
 	return (0);

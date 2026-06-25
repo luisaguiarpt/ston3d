@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:38:54 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/16 23:37:12 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/25 22:15:33 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,8 @@ void	init_minimap(t_core *core)
 	core->minimap.height = 10;
 }
 
-void	init_player(t_core *core)
+void	init_input(t_core *core)
 {
-	// TODO - initialize core->player values here and
-	// create a new funciton for the inputs
 	core->input.w = false;
 	core->input.a = false;
 	core->input.s = false;
@@ -87,6 +85,8 @@ void	init_player(t_core *core)
 
 void	init_core(t_core *core)
 {
+	core->game_ended = false;
+	core->end_time = 0;
 	core->mlx = NULL;
 	core->win = NULL;
 	core->img = NULL;
@@ -102,7 +102,7 @@ void	init_core(t_core *core)
 	init_textures(core);
 	init_map(core);
 	init_minimap(core);
-	init_player(core); //TODO - init function
+	init_input(core);
 	if (BONUS)
 	{
 		init_sprites(core);

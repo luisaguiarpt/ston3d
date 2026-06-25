@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:41:14 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/16 23:30:15 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/25 22:05:36 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,17 @@
 # include <string.h>
 # include <X11/keysym.h>
 # include <math.h>
+# include <sys/time.h>
 
 # define HEIGHT 720
 # define WIDTH 1280
 # define SPEED 0.07
+# define WALL_PADDING 0.25f
 # define MOUSE_SENSITIVITY 0.00005f
 # define DEGREES_PER_PRESS 2
 # define FOV 0.66
 # define COLLECT_RADIUS 0.5f
-# define WALL_PADDING 0.25f
+# define END_TRIGGER_RADIUS 0.5f
 
 # define SPRITES_BG_COLOR 0xFF00FF // magenta to remove from bg
 # define ARM_BOB_SPEED 0.15f
@@ -137,6 +139,7 @@ typedef struct s_sprites
 	t_img	right_arm[5];
 	t_img	collectibles[3];
 	t_img	gate_img;
+	t_img	end_card;
 }			t_sprites;
 
 typedef struct s_spr_data
@@ -187,6 +190,8 @@ typedef struct s_core
 	void			*win;
 	void			*img;
 	char			*img_addr;
+	bool			game_ended;
+	int				end_time;
 	int				num_collectibles;
 	int				collected_count;
 	int				collected_mask;
@@ -267,11 +272,16 @@ void	setup_keybinds(t_core *core);
 int		handle_input_press(int key, void *param);
 int		handle_input_release(int key, void *param);
 
-// utils/utils.c
+// *** UTILS ***
+// utils.c
 bool	is_space(char c);
 int		absolute_value(int n);
 int		rgb_to_int(int rgb[3]);
 void	exit_error(t_core *core, char *message);
+// end.c
+void	update_end_state(t_core *core);
+int		get_current_time(void);
+
 
 // free/free.c
 void	free_core(t_core *core);
