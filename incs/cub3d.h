@@ -32,6 +32,7 @@
 # define DEGREES_PER_PRESS 2
 # define FOV 0.66
 # define COLLECT_RADIUS 0.5f
+# define WALL_PADDING 0.25f
 
 # define SPRITES_BG_COLOR 0xFF00FF // magenta to remove from bg
 # define ARM_BOB_SPEED 0.15f

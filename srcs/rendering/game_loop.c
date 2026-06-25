@@ -83,29 +83,45 @@ void	rotate_dir(t_core *core, int turn_dir)
 // 	return (core->map.grid[map_y][map_x] == '1');
 // }
 //
-static int	collides_x(t_core *core, float new_x)
+
+static int	is_solid_cell(t_core *core, float x, float y)
 {
+	int		map_x;
+	int		map_y;
 	char	cell;
 
-	cell = core->map.grid[(int)(core->player.y)][(int)(new_x)];
+	map_x = (int)x;
+	map_y = (int)y;
+	if (map_x < 0 || map_y < 0)
+		return (1);
+	if (map_y >= core->map.height)
+		return (1);
+	if (map_x >= (int)ft_strlen(core->map.grid[map_y]))
+		return (1);
+	cell = core->map.grid[map_y][map_x];
 	if (cell == '1')
 		return (1);
 	if (BONUS && cell == 'G' && core->gate.state != GATE_OPEN)
 		return (1);
 	return (0);
+}
+
+static int	collides_x(t_core *core, float new_x)
+{
+	return (is_solid_cell(core, new_x + WALL_PADDING, core->player.y + WALL_PADDING)
+		|| is_solid_cell(core, new_x + WALL_PADDING, core->player.y - WALL_PADDING)
+		|| is_solid_cell(core, new_x - WALL_PADDING, core->player.y + WALL_PADDING)
+		|| is_solid_cell(core, new_x - WALL_PADDING, core->player.y - WALL_PADDING));
 }
 
 static int	collides_y(t_core *core, float new_y)
 {
-	char	cell;
-
-	cell = core->map.grid[(int)(new_y)][(int)(core->player.x)];
-	if (cell == '1')
-		return (1);
-	if (BONUS && cell == 'G' && core->gate.state != GATE_OPEN)
-		return (1);
-	return (0);
+	return (is_solid_cell(core, core->player.x + WALL_PADDING, new_y + WALL_PADDING)
+		|| is_solid_cell(core, core->player.x + WALL_PADDING, new_y - WALL_PADDING)
+		|| is_solid_cell(core, core->player.x - WALL_PADDING, new_y + WALL_PADDING)
+		|| is_solid_cell(core, core->player.x - WALL_PADDING, new_y - WALL_PADDING));
 }
+
 // static int	check_collision(t_core *core, float new_x, float new_y)
 // {
 // 	float	test_x;
