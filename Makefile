@@ -1,6 +1,6 @@
 CC=cc
 # CFLAGS=-Wall -Wextra -Werror -g
-CFLAGS = -Wall -Wextra -Werror -O3 -march=native
+CFLAGS = -Wall -Wextra -Werror -O3 -march=native -g
 
 NAME=cub3d
 

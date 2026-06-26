@@ -197,6 +197,7 @@ typedef struct s_core
 	int				collected_count;
 	int				collected_mask;
 	int				bpp;
+	int				bpp_bytes;
 	int				endian;
 	int				line_len;
 	double			zbuffer[WIDTH];

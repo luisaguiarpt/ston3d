@@ -67,7 +67,8 @@ void	draw_dir_line(t_core *core)
 	i = 0;
 	while (i < 10) // 10 - line size
 	{
-		put_pixel(core, (int)x, (int)y, 0xFFFF8F);
+		if ((int)x >= 0 && (int)x < WIDTH && (int)y >= 0 && (int)y < HEIGHT)
+			put_pixel(core, (int)x, (int)y, 0xFFFF8F);
 		x += step_x;
 		y += step_y;
 		i++;
@@ -111,7 +112,12 @@ static void	draw_rect(t_core *core, int start_x, int start_y, int color)
 	{
 		x = 0;
 		while (x < core->minimap.tile_size)
-			put_pixel(core, start_x + x++, start_y + y, color);
+		{
+			if (start_x + x >= 0 && start_x + x < WIDTH
+				&& start_y + y >= 0 && start_y + y < HEIGHT)
+				put_pixel(core, start_x + x, start_y + y, color);
+			x++;
+		}
 		y++;
 	}
 }

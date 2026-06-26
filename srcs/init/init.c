@@ -122,4 +122,5 @@ void	init_mlx(t_core *core)
 	if (!core->img)
 		exit(EXIT_FAILURE);
 	core->img_addr = mlx_get_data_addr(core->img, &core->bpp, &core->line_len, &core->endian);
+	core->bpp_bytes = core->bpp / 8;
 }

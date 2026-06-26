@@ -12,56 +12,61 @@
 
 #include "../../incs/cub3d.h"
 
+static void	draw_arm_row(t_core *c, t_img *img, int sx, int sy, int y)
+{
+	unsigned int	*src;
+	int				color;
+	int				x;
+
+	if (sy + y < 0 || sy + y >= HEIGHT)
+		return ;
+	src = (unsigned int *)(img->addr + y * img->line_len);
+	x = 0;
+	if (sx + x < 0 || sx + x >= WIDTH)
+		return ;
+	while (x < img->width)
+	{
+		color = (int)src[x];
+		if (color != SPRITES_BG_COLOR)
+			put_pixel(c, sx + x, sy + y, color);
+		x++;
+	}
+}
+
 void	draw_left_arm(t_core *core, int offset, int current)
 {
-	int	start_x;
-	int	start_y;
-	int	x;
-	int	y;
-	int	color;
+	t_img	*img;
+	int		start_x;
+	int		start_y;
+	int		y;
 
+	img = &core->sprites.left_arm[current];
 	start_x = (WIDTH / 2) - 600;
 	start_y = HEIGHT - 360 + offset;
 	y = 0;
-	while (y < core->sprites.left_arm[current].height)
+	while (y < img->height)
 	{
-		x = 0;
-		while (x < core->sprites.left_arm[current].width)
-		{
-			color = get_pixel_from_texture(&core->sprites.left_arm[current],
-					x, y);
-			if (color != SPRITES_BG_COLOR)
-				put_pixel(core, start_x + x, start_y + y, color);
-			x++;
-		}
+		draw_arm_row(core, img, start_x, start_y, y);
 		y++;
 	}
 }
 
 void	draw_right_arm(t_core *core, int offset, int current)
 {
-	int	start_x;
-	int	start_y;
-	int	x;
-	int	y;
-	int	color;
+	t_img	*img;
+	int		start_x;
+	int		start_y;
+	int		y;
 
+	img = &core->sprites.right_arm[current];
 	start_x = (WIDTH / 2);
 	start_y = HEIGHT - 320 - offset;
 	if (current == 4) // adjustment for right_arm sprite number 4
 		start_y -= 50;
 	y = 0;
-	while (y < core->sprites.right_arm[current].height)
+	while (y < img->height)
 	{
-		x = 0;
-		while (x < core->sprites.right_arm[current].width)
-		{
-			color = get_pixel_from_texture(&core->sprites.right_arm[current],
-					x, y);
-			if (color != SPRITES_BG_COLOR)
-				put_pixel(core, start_x + x, start_y + y, color);
-			x++;
-		}
+		draw_arm_row(core, img, start_x, start_y, y);
 		y++;
 	}
 }

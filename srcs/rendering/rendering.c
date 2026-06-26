@@ -49,12 +49,12 @@ void	trigger_end_card(t_core *core)
 
 void	put_pixel(t_core *core, int x, int y, int color)
 {
-	char	*dst;
+    unsigned int	*dst;
 
-	if (x > WIDTH || x < 0 || y > HEIGHT || y < 0)
-		return ;
-	dst = core->img_addr + (y * core->line_len + x * (core->bpp / 8));
-	*(unsigned int *)dst = color;
+    dst = (unsigned int *)(core->img_addr
+            + (y * core->line_len)
+            + x * core->bpp_bytes);
+    *dst = color;
 }
 
 int	render_frame(t_core *core)
