@@ -18,3 +18,16 @@ void	update_arm_sprite(t_core *core)
 		core->sprites.curr_right = core->collected_mask & 3;
 	core->sprites.curr_left = (core->collected_mask >> 2) & 1;
 }
+
+bool	is_walking(t_core *core)
+{
+	if (core->input.w && core->input.s
+		&& !core->input.a && !core->input.d)
+		return (false);
+	if (core->input.d && core->input.a
+		&& !core->input.w && !core->input.s)
+		return (false);
+	if (core->input.w || core->input.a
+		|| core->input.s || core->input.d)
+		return (true);
+}

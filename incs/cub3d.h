@@ -297,7 +297,7 @@ void	update_arm_sprite(t_core *core);
 int		bonus_char_type(char c);
 void	update_collectibles(t_core *core);
 void	sort_collectibles(t_core *core);
-// arms_utils.c
+// player_utils.c
 void	update_arm_sprite(t_core *core);
 
 // free/free.c
