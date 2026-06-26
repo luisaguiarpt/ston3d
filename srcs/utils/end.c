@@ -12,12 +12,10 @@
 
 #include "../../incs/cub3d.h"
 
-int	get_current_time(void)
+void	exit_game(t_core *core, int exit_code)
 {
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+	free_core(core);
+	exit(exit_code);
 }
 
 static int	check_end_trigger(t_core *core)

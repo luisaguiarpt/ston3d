@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:41:14 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/25 22:05:36 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/06/26 18:27:09 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include <sys/time.h>
 
 # define FPS_TARGET 60
-# define FRAME_TIME (1000 / FPS_TARGET)
 # define HEIGHT 720
 # define WIDTH 1280
 # define SPEED 0.07f
@@ -244,6 +243,10 @@ bool	is_xpm_file(char *line);
 bool	is_empty_line(char *line);
 bool	is_valid_line(char *line);
 void	remove_newline(char *str);
+// player_parsing.c
+void	get_player_position(t_core *core);
+// collectibles_parsing.c
+void	find_collectibles(t_core *core);
 
 // *** RENDERING ***
 //	rendering.c
@@ -258,7 +261,7 @@ int		game_loop(void *param);
 //raycast.c
 void	draw_3d(t_core *core);
 int		get_pixel_from_texture(t_img *img, int tex_x, int tex_y);
-//sprites.c
+//player_arms.c
 void	draw_arms(t_core *core);
 // collectibles.c
 void	find_collectibles(t_core *core);
@@ -268,12 +271,17 @@ void	render_collectibles(t_core *core);
 void	init_gate(t_core *core);
 void	find_gate(t_core *core);
 void	update_gate(t_core *core);
+// sprites.c
+void	calc_spr_screen(t_spr_data *s);
+void	draw_spr(t_core *core, t_spr_data *s);
 
-// *** KEYBINDS ***
+// *** INPUT ***
 // keybinds.c
 void	setup_keybinds(t_core *core);
 int		handle_input_press(int key, void *param);
 int		handle_input_release(int key, void *param);
+// mouse.c
+int	handle_mouse(int x, int y, void *param);
 
 // *** UTILS ***
 // utils.c
@@ -284,7 +292,13 @@ void	exit_error(t_core *core, char *message);
 // end.c
 void	update_end_state(t_core *core);
 int		get_current_time(void);
-
+// collectibles_utils.c
+void	update_arm_sprite(t_core *core);
+int		bonus_char_type(char c);
+void	update_collectibles(t_core *core);
+void	sort_collectibles(t_core *core);
+// arms_utils.c
+void	update_arm_sprite(t_core *core);
 
 // free/free.c
 void	free_core(t_core *core);

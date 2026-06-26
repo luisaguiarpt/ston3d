@@ -10,13 +10,13 @@ SRCS=srcs/main.c \
 	srcs/parsing/parsing.c srcs/parsing/texture_parsing.c srcs/parsing/map_parsing.c \
 	srcs/init/init.c \
 	srcs/rendering/game_loop.c \
-	srcs/parsing/parsing_utils.c \
+	srcs/parsing/parsing_utils.c srcs/parsing/player_parsing.c srcs/parsing/collectibles_parsing.c \
 	srcs/parsing/validation.c srcs/parsing/validation_utils.c \
 	srcs/rendering/rendering.c srcs/rendering/minimap.c srcs/rendering/raycast.c srcs/rendering/texture_rendering.c \
-	srcs/rendering/sprites.c srcs/rendering/collectibles.c srcs/rendering/gate.c \
-	srcs/keybinds/keybinds.c \
+	srcs/rendering/sprites.c srcs/rendering/collectibles.c srcs/rendering/gate.c srcs/rendering/player_arms.c \
+	srcs/input/keybinds.c srcs/input/mouse.c \
 	srcs/free/free.c \
-	srcs/utils/utils.c srcs/utils/end.c
+	srcs/utils/utils.c srcs/utils/end.c srcs/utils/collectibles_utils.c srcs/utils/arms_utils.c
 
 OBJS=$(SRCS:%.c=%.o)
 

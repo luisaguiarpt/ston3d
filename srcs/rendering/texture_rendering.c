@@ -12,7 +12,17 @@
 
 #include "../../incs/cub3d.h"
 
-void	load_xpm(t_core *core, t_img *img, char *path);
+void	load_xpm(t_core *core, t_img *img, char *path)
+{
+	img->img = mlx_xpm_file_to_image(core->mlx, path,
+			&img->width, &img->height);
+	if (!img->img)
+		exit_error(core, ERR_XPM);
+	img->addr = mlx_get_data_addr(img->img, &img->bpp,
+			&img->line_len, &img->endian);
+	if (!img->addr)
+		exit_error(core, ERR_DATA_ADDR);
+}
 
 static void	load_arm_sprites(t_core *core)
 {
@@ -47,16 +57,4 @@ void	load_textures(t_core *core)
 	load_xpm(core, &core->textures.we_img, core->textures.we_path);
 	core->textures.floor_int = rgb_to_int(core->textures.floor);
 	core->textures.ceiling_int = rgb_to_int(core->textures.ceiling);
-}
-
-void	load_xpm(t_core *core, t_img *img, char *path)
-{
-	img->img = mlx_xpm_file_to_image(core->mlx, path,
-			&img->width, &img->height);
-	if (!img->img)
-		exit_error(core, ERR_XPM);
-	img->addr = mlx_get_data_addr(img->img, &img->bpp,
-			&img->line_len, &img->endian);
-	if (!img->addr)
-		exit_error(core, ERR_DATA_ADDR);
 }

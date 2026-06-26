@@ -12,12 +12,6 @@
 
 #include "../../incs/cub3d.h"
 
-void	exit_game(t_core *core, int exit_code)
-{
-	free_core(core);
-	exit(exit_code);
-}
-
 static void	free_map(t_core *core)
 {
 	if (core->map.grid)
@@ -30,8 +24,6 @@ static void	free_map(t_core *core)
 static void	free_image(t_core *core, t_img *img)
 {
 	mlx_destroy_image(core->mlx, img->img);
-	// if (img->addr)
-	// 	free(img->addr);
 }
 
 static void	free_arms(t_core *core)

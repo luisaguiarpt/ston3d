@@ -20,13 +20,15 @@ void	strafe_right(t_core *core);
 
 bool	above_frame_rate(void)
 {
-	static int	last_frame_rendered;
-	int			now;
+	static int	last_frame_time;
+	int			current_time;
+	int			frame_duration_ms;
 
-	now = get_current_time();
-	if (now - last_frame_rendered < FRAME_TIME)
+	current_time = get_current_time();
+	frame_duration_ms = 1000 / FPS_TARGET;
+	if (current_time - last_frame_time < frame_duration_ms)
 		return (true);
-	last_frame_rendered = now;
+	last_frame_time = current_time;
 	return (false);
 }
 
@@ -80,25 +82,6 @@ void	rotate_dir(t_core *core, int turn_dir)
 	core->player.plane_y = old_plane_x * sin + core->player.plane_y * cos;
 }
 
-// static int	is_wall_at(t_core *core, float x, float y)
-// {
-// 	int	map_x;
-// 	int	map_y;
-//
-// 	map_x = (int)x;
-// 	map_y = (int)y;
-// 	if (map_y < 0 || map_x < 0)
-// 		return (1);
-// 	if (map_y >= core->map.height)
-// 		return (1);
-// 	if (map_x >= core->map.width)
-// 		return (1);
-// 	if ((int)ft_strlen(core->map.grid[map_y]) <= map_x)
-// 		return (1);
-// 	return (core->map.grid[map_y][map_x] == '1');
-// }
-//
-
 static int	is_solid_cell(t_core *core, float x, float y)
 {
 	int		map_x;
@@ -137,30 +120,6 @@ static int	collides_y(t_core *core, float new_y)
 		|| is_solid_cell(core, core->player.x - WALL_PADDING, new_y - WALL_PADDING));
 }
 
-// static int	check_collision(t_core *core, float new_x, float new_y)
-// {
-// 	float	test_x;
-// 	float	test_y;
-//
-// 	test_x = new_x;
-// 	test_y = new_y;
-// 	if (is_wall_at(core, test_x, test_y))
-// 		return (1);
-// 	test_x = new_x;
-// 	test_y = new_y;
-// 	if (is_wall_at(core, test_x, test_y))
-// 		return (1);
-// 	test_x = new_x;
-// 	test_y = new_y;
-// 	if (is_wall_at(core, test_x, test_y))
-// 		return (1);
-// 	test_x = new_x;
-// 	test_y = new_y;
-// 	if (is_wall_at(core, test_x, test_y))
-// 		return (1);
-// 	return (0);
-// }
-//
 void	move_forward(t_core *core)
 {
 	float	new_x;
