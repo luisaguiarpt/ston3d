@@ -28,16 +28,17 @@
 
 # define HEIGHT 720
 # define WIDTH 1280
-# define SPEED 0.07
+# define SPEED 0.04f
 # define WALL_PADDING 0.25f
-# define MOUSE_SENSITIVITY 0.00005f
+# define MOUSE_SENSITIVITY 0.0001f
 # define DEGREES_PER_PRESS 2
 # define FOV 0.66
 # define COLLECT_RADIUS 0.5f
 # define END_TRIGGER_RADIUS 0.5f
 
 # define SPRITES_BG_COLOR 0xFF00FF // magenta to remove from bg
-# define ARM_BOB_SPEED 0.15f
+// # define ARM_BOB_SPEED 0.15f
+# define ARM_BOB_SPEED 0.10f
 # define ARM_BOB_RANGE 28.0f
 # define GATE_OPEN_SPEED 0.005f
 
