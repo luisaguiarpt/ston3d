@@ -26,11 +26,13 @@
 # include <math.h>
 # include <sys/time.h>
 
+# define FPS_TARGET 60
+# define FRAME_MS (1000 / FPS_TARGET)
 # define HEIGHT 720
 # define WIDTH 1280
-# define SPEED 0.04f
+# define SPEED 0.07f
 # define WALL_PADDING 0.25f
-# define MOUSE_SENSITIVITY 0.0001f
+# define MOUSE_SENSITIVITY 0.0003f
 # define DEGREES_PER_PRESS 2
 # define FOV 0.66
 # define COLLECT_RADIUS 0.5f
