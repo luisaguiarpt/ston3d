@@ -22,13 +22,14 @@ static void	draw_arm_row(t_core *c, t_img *img, int sx, int sy, int y)
 		return ;
 	src = (unsigned int *)(img->addr + y * img->line_len);
 	x = 0;
-	if (sx + x < 0 || sx + x >= WIDTH)
-		return ;
 	while (x < img->width)
 	{
-		color = (int)src[x];
-		if (color != SPRITES_BG_COLOR)
-			put_pixel(c, sx + x, sy + y, color);
+		if (sx + x >= 0 && sx + x < WIDTH)
+		{
+			color = (int)src[x];
+			if (color != SPRITES_BG_COLOR)
+				put_pixel(c, sx + x, sy + y, color);
+		}
 		x++;
 	}
 }

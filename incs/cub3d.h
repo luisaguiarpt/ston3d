@@ -27,7 +27,7 @@
 # include <sys/time.h>
 
 # define FPS_TARGET 60
-# define FRAME_MS (1000 / FPS_TARGET)
+# define FRAME_TIME (1000 / FPS_TARGET)
 # define HEIGHT 720
 # define WIDTH 1280
 # define SPEED 0.07f
@@ -39,8 +39,7 @@
 # define END_TRIGGER_RADIUS 0.5f
 
 # define SPRITES_BG_COLOR 0xFF00FF // magenta to remove from bg
-// # define ARM_BOB_SPEED 0.15f
-# define ARM_BOB_SPEED 0.10f
+# define ARM_BOB_SPEED 0.12f
 # define ARM_BOB_RANGE 28.0f
 # define GATE_OPEN_SPEED 0.005f
 

@@ -18,17 +18,25 @@ void	move_backward(t_core *core);
 void	strafe_left(t_core *core);
 void	strafe_right(t_core *core);
 
+bool	above_frame_rate(void)
+{
+	static int	last_frame_rendered;
+	int			now;
+
+	now = get_current_time();
+	if (now - last_frame_rendered < FRAME_TIME)
+		return (true);
+	last_frame_rendered = now;
+	return (false);
+}
+
 int	game_loop(void *param)
 {
 	t_core		*core;
-	static int	last_frame;
-	int			now;
 
 	core = (t_core *)param;
-	now = get_current_time();
-	if (now - last_frame < FRAME_MS)
+	if (above_frame_rate())
 		return (0);
-	last_frame = now;
 	if (core->input.left)
 		rotate_dir(core, 1);
 	if (core->input.right)
