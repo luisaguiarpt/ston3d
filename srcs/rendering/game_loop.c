@@ -125,7 +125,7 @@ void	move_forward(t_core *core)
 	float	new_x;
 	float	new_y;
 
-	if (core->input.w == true)
+	if (is_walking(core))
 	{
 		new_x = core->player.x + core->player.dir_x * SPEED;
 		new_y = core->player.y + core->player.dir_y * SPEED;
@@ -142,7 +142,7 @@ void	move_backward(t_core *core)
 	float	new_x;
 	float	new_y;
 
-	if (core->input.s == true)
+	if (is_walking(core))
 	{
 		new_x = core->player.x - core->player.dir_x * SPEED;
 		new_y = core->player.y - core->player.dir_y * SPEED;
@@ -159,7 +159,7 @@ void	strafe_left(t_core *core)
 	float	new_x;
 	float	new_y;
 
-	if (core->input.a == true)
+	if (is_walking(core))
 	{
 		new_x = core->player.x + core->player.dir_y * SPEED;
 		new_y = core->player.y - core->player.dir_x * SPEED;
@@ -176,7 +176,7 @@ void	strafe_right(t_core *core)
 	float	new_x;
 	float	new_y;
 
-	if (core->input.d == true)
+	if (is_walking(core))
 	{
 		new_x = core->player.x - core->player.dir_y * SPEED;
 		new_y = core->player.y + core->player.dir_x * SPEED;

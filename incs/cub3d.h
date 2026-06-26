@@ -299,6 +299,7 @@ void	update_collectibles(t_core *core);
 void	sort_collectibles(t_core *core);
 // player_utils.c
 void	update_arm_sprite(t_core *core);
+bool	is_walking(t_core *core);
 
 // free/free.c
 void	free_core(t_core *core);

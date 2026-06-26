@@ -27,7 +27,11 @@ bool	is_walking(t_core *core)
 	if (core->input.d && core->input.a
 		&& !core->input.w && !core->input.s)
 		return (false);
+	if (core->input.d && core->input.a
+		&& core->input.w && core->input.s)
+		return (false);
 	if (core->input.w || core->input.a
 		|| core->input.s || core->input.d)
 		return (true);
+	return (false);
 }

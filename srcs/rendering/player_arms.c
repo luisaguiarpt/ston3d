@@ -16,10 +16,7 @@ static int	calculate_animation_offset(t_core *core)
 {
 	static float	offset;
 
-	if (core->input.w
-		|| core->input.a
-		|| core->input.s
-		|| core->input.d)
+	if (is_walking(core))
 		offset += ARM_BOB_SPEED;
 	return ((int)(sinf(offset) * ARM_BOB_RANGE));
 }
