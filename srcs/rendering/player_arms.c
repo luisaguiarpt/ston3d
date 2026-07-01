@@ -29,7 +29,7 @@ static void	draw_left_arm(t_core *core, int offset, int current)
 	int		y;
 
 	img = &core->sprites.left_arm[current];
-	start_x = (WIDTH / 2) - 600;
+	start_x = (WIDTH / 2) - 600 - (offset / 2);
 	start_y = HEIGHT - 360 + offset;
 	y = 0;
 	while (y < img->height)
@@ -47,7 +47,7 @@ static void	draw_right_arm(t_core *core, int offset, int current)
 	int		y;
 
 	img = &core->sprites.right_arm[current];
-	start_x = (WIDTH / 2);
+	start_x = (WIDTH / 2) - (offset / 2);
 	start_y = HEIGHT - 320 - offset;
 	// adjustment for right_arm sprite number 4
 	if (current == 4)
