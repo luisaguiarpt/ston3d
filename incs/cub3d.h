@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:41:14 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/26 18:27:09 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/07/01 15:50:17 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,14 @@ typedef struct s_map
 
 typedef struct s_sprites
 {
+	bool	smoke_playing;
+	int		smoke_frame;
 	int		curr_left;
 	int		curr_right;
 	t_img	left_arm[2];
 	t_img	right_arm[5];
 	t_img	collectibles[3];
+	t_img	smoke[17];
 	t_img	gate_img;
 	t_img	end_card;
 }			t_sprites;
@@ -183,6 +186,7 @@ typedef struct s_input
 	bool	s;
 	bool	d;
 	bool	esc;
+	bool	click;
 }				t_input;
 
 typedef struct s_core
@@ -274,6 +278,9 @@ void	update_gate(t_core *core);
 // sprites.c
 void	calc_spr_screen(t_spr_data *s);
 void	draw_spr(t_core *core, t_spr_data *s);
+void	draw_sprites_row(t_core *c, t_img *img, int sx, int sy, int y);
+// smoke.c
+void	smoke_animation(t_core *core);
 
 // *** INPUT ***
 // keybinds.c

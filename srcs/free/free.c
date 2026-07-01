@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:30:53 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/25 22:08:20 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/07/01 14:43:02 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,19 @@ static void	free_arms(t_core *core)
 	}
 }
 
+void	free_smoke(t_core *core)
+{
+	int	i;
+
+	i = 0;
+	while (i < 17)
+	{
+		if (core->sprites.smoke[i].img)
+			free_image(core, &core->sprites.smoke[i]);
+		i++;
+	}
+}
+
 static void	free_sprites(t_core *core)
 {
 	int	i;
@@ -58,6 +71,7 @@ static void	free_sprites(t_core *core)
 		i++;
 	}
 	free_arms(core);
+	free_smoke(core);
 	if (core->sprites.gate_img.img)
 		free_image(core, &core->sprites.gate_img);
 	if (core->sprites.end_card.img)

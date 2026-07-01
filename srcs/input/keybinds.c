@@ -6,11 +6,23 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:39:06 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/26 18:02:28 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/07/01 15:48:44 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/cub3d.h"
+
+int	handle_click(int button, int x, int y, void *param)
+{
+	t_core *core;
+
+	core = (t_core *)param;
+	(void)x;
+	(void)y;
+	if (button == 1)
+		core->input.click = true;
+	return (0);
+}
 
 void	setup_keybinds(t_core *core)
 {
@@ -18,6 +30,7 @@ void	setup_keybinds(t_core *core)
 	{
 		mlx_hook(core->win, 6, 1L << 6, (int (*)())(void *)handle_mouse, core);
 		mlx_mouse_hide(core->mlx, core->win); // TODO mlx function has leaks, evaluate how to deal with this
+		mlx_hook(core->win, 4, 1L << 2, (int (*)())(void *)handle_click, core);
 	}
 	mlx_hook(core->win, 2, 1L << 0, (int (*)())(void *)handle_input_press, core);
 	mlx_hook(core->win, 3, 1L << 1, (int (*)())(void *)handle_input_release, core);

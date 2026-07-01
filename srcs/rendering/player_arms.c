@@ -21,28 +21,6 @@ static int	calculate_animation_offset(t_core *core)
 	return ((int)(sinf(offset) * ARM_BOB_RANGE));
 }
 
-static void	draw_arm_row(t_core *c, t_img *img, int sx, int sy, int y)
-{
-	unsigned int	*src;
-	int				color;
-	int				x;
-
-	if (sy + y < 0 || sy + y >= HEIGHT)
-		return ;
-	src = (unsigned int *)(img->addr + y * img->line_len);
-	x = 0;
-	while (x < img->width)
-	{
-		if (sx + x >= 0 && sx + x < WIDTH)
-		{
-			color = (int)src[x];
-			if (color != SPRITES_BG_COLOR)
-				put_pixel(c, sx + x, sy + y, color);
-		}
-		x++;
-	}
-}
-
 static void	draw_left_arm(t_core *core, int offset, int current)
 {
 	t_img	*img;
@@ -56,7 +34,7 @@ static void	draw_left_arm(t_core *core, int offset, int current)
 	y = 0;
 	while (y < img->height)
 	{
-		draw_arm_row(core, img, start_x, start_y, y);
+		draw_sprites_row(core, img, start_x, start_y, y);
 		y++;
 	}
 }
@@ -77,7 +55,7 @@ static void	draw_right_arm(t_core *core, int offset, int current)
 	y = 0;
 	while (y < img->height)
 	{
-		draw_arm_row(core, img, start_x, start_y, y);
+		draw_sprites_row(core, img, start_x, start_y, y);
 		y++;
 	}
 }

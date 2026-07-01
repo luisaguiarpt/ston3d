@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:40:15 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/25 22:06:11 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/07/01 14:43:52 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,33 @@ static void	load_collectible_sprites(t_core *core)
 	load_xpm(core, &core->sprites.collectibles[2], "sprites/lighter.xpm");
 }
 
+static void load_smoke_sprites(t_core *core)
+{
+	load_xpm(core, &core->sprites.smoke[0], "sprites/smoke01.xpm");
+	load_xpm(core, &core->sprites.smoke[1], "sprites/smoke02.xpm");
+	load_xpm(core, &core->sprites.smoke[2], "sprites/smoke03.xpm");
+	load_xpm(core, &core->sprites.smoke[3], "sprites/smoke04.xpm");
+	load_xpm(core, &core->sprites.smoke[4], "sprites/smoke05.xpm");
+	load_xpm(core, &core->sprites.smoke[5], "sprites/smoke06.xpm");
+	load_xpm(core, &core->sprites.smoke[6], "sprites/smoke07.xpm");
+	load_xpm(core, &core->sprites.smoke[7], "sprites/smoke08.xpm");
+	load_xpm(core, &core->sprites.smoke[8], "sprites/smoke09.xpm");
+	load_xpm(core, &core->sprites.smoke[9], "sprites/smoke10.xpm");
+	load_xpm(core, &core->sprites.smoke[10], "sprites/smoke11.xpm");
+	load_xpm(core, &core->sprites.smoke[11], "sprites/smoke12.xpm");
+	load_xpm(core, &core->sprites.smoke[12], "sprites/smoke13.xpm");
+	load_xpm(core, &core->sprites.smoke[13], "sprites/smoke14.xpm");
+	load_xpm(core, &core->sprites.smoke[14], "sprites/smoke15.xpm");
+	load_xpm(core, &core->sprites.smoke[15], "sprites/smoke16.xpm");
+	load_xpm(core, &core->sprites.smoke[16], "sprites/smoke17.xpm");
+}
+
 void	load_textures(t_core *core)
 {
 	if (BONUS)
 	{
 		load_arm_sprites(core);
+		load_smoke_sprites(core);
 		load_collectible_sprites(core);
 		load_xpm(core, &core->sprites.gate_img, "sprites/gate.xpm");
 		load_xpm(core, &core->sprites.end_card, "sprites/end_card.xpm");

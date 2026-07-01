@@ -66,6 +66,7 @@ int	render_frame(t_core *core)
 		render_collectibles(core);
 		draw_minimap(core);
 		draw_arms(core);
+		smoke_animation(core);
 		if (core->game_ended)
 			trigger_end_card(core);
 	}

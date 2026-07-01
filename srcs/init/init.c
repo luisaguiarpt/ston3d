@@ -12,7 +12,7 @@
 
 #include "../../incs/cub3d.h"
 
-void	init_sprites(t_core *core)
+static void	init_arms(t_core *core)
 {
 	int	i;
 
@@ -24,13 +24,6 @@ void	init_sprites(t_core *core)
 		i++;
 	}
 	i = 0;
-	while (i < 3)
-	{
-		core->sprites.collectibles[i].img = NULL;
-		core->sprites.collectibles[i].addr = NULL;
-		i++;
-	}
-	i = 0;
 	while (i < 5)
 	{
 		core->sprites.right_arm[i].img = NULL;
@@ -39,6 +32,41 @@ void	init_sprites(t_core *core)
 	}
 	core->sprites.curr_left = 0;
 	core->sprites.curr_right = 0;
+}
+
+static void	init_collectibles(t_core *core)
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		core->sprites.collectibles[i].img = NULL;
+		core->sprites.collectibles[i].addr = NULL;
+		i++;
+	}
+}
+
+static void	init_smoke(t_core *core)
+{
+	int	i;
+
+	i = 0;
+	while (i < 17)
+	{
+		core->sprites.smoke[i].img = NULL;
+		core->sprites.smoke[i].addr = NULL;
+		i++;
+	}
+	core->sprites.smoke_frame = 0;
+	core->sprites.smoke_playing = false;
+}
+
+void	init_sprites(t_core *core)
+{
+	init_arms(core);
+	init_collectibles(core);
+	init_smoke(core);
 }
 
 void	init_textures(t_core *core)

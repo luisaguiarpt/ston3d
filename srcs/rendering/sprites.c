@@ -12,6 +12,29 @@
 
 #include "../../incs/cub3d.h"
 
+void	draw_sprites_row(t_core *c, t_img *img, int sx, int sy, int y)
+{
+	unsigned int	*src;
+	int				color;
+	int				x;
+
+	if (sy + y < 0 || sy + y >= HEIGHT)
+		return ;
+	src = (unsigned int *)(img->addr + y * img->line_len);
+	x = 0;
+	while (x < img->width)
+	{
+		if (sx + x >= 0 && sx + x < WIDTH)
+		{
+			color = (int)src[x];
+			if (color != SPRITES_BG_COLOR)
+				put_pixel(c, sx + x, sy + y, color);
+		}
+		x++;
+	}
+}
+
+
 void	calc_spr_screen(t_spr_data *s)
 {
 	s->screen_x = (int)((WIDTH / 2) * (1.0 + s->transform_x / s->transform_y));
