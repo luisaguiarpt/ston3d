@@ -127,6 +127,15 @@ void	init_core(t_core *core)
 	core->collected_mask = 0;
 	core->collected_count = 0;
 	core->collectibles = NULL;
+	core->click_count = 0;
+	core->prev_frame = ft_calloc(WIDTH * HEIGHT, sizeof(unsigned int));
+	if (!core->prev_frame)
+		error_parsing(core, ERR_MEMORY, 0);
+}
+
+void	init_game(t_core *core)
+{
+	init_core(core);
 	init_textures(core);
 	init_map(core);
 	init_minimap(core);

@@ -12,18 +12,6 @@
 
 #include "../../incs/cub3d.h"
 
-int	handle_click(int button, int x, int y, void *param)
-{
-	t_core *core;
-
-	core = (t_core *)param;
-	(void)x;
-	(void)y;
-	if (button == 1)
-		core->input.click = true;
-	return (0);
-}
-
 void	setup_keybinds(t_core *core)
 {
 	if (BONUS)

@@ -12,7 +12,7 @@
 
 #include "../../incs/cub3d.h"
 
-static void	start_smoke(t_core *core)
+static void	init_smoke(t_core *core)
 {
 	if (!core->input.click || core->sprites.smoke_playing || !core->game_ended)
 		return ;
@@ -48,7 +48,7 @@ static void	advance_smoke_frame(t_core *core)
 }
 void	smoke_animation(t_core *core)
 {
-	start_smoke(core);
+	init_smoke(core);
 	if (!core->sprites.smoke_playing)
 		return ;
 	draw_smoke(core, &core->sprites.smoke[core->sprites.smoke_frame]);

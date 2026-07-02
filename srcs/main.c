@@ -21,7 +21,7 @@ int	main(int ac, char **av)
 		ft_printf("usage: ./cub3d <path_to_map>\n");
 		exit(EXIT_FAILURE);
 	}
-	init_core(&core);
+	init_game(&core);
 	parse_cub_file(&core, av[1]);
 	validate_map(&core);
 	init_mlx(&core);

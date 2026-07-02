@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:40:17 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/25 22:38:20 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/07/02 15:40:38 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,13 @@ int	render_frame(t_core *core)
 		render_collectibles(core);
 		draw_minimap(core);
 		draw_arms(core);
-		smoke_animation(core);
 		if (core->game_ended)
+		{
+			if (core->click_count > 0)
+				apply_shutter_effect(core);
+			smoke_animation(core);
 			trigger_end_card(core);
+		}
 	}
 	mlx_put_image_to_window(core->mlx, core->win, core->img, 0, 0);
 	return (0);

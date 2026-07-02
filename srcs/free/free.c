@@ -117,4 +117,6 @@ void	free_core(t_core *core)
 		mlx_destroy_display(core->mlx);
 		free(core->mlx);
 	}
+	if (core->prev_frame)
+		free(core->prev_frame);
 }

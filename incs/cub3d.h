@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:41:14 by josepedr          #+#    #+#             */
-/*   Updated: 2026/07/01 15:50:17 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/07/02 15:36:27 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@
 # define ARM_BOB_SPEED 0.12f
 # define ARM_BOB_RANGE 28.0f
 # define GATE_OPEN_SPEED 0.005f
+
+# define SHUTTER_EFFECT_MIN_ALPHA 0.05f
+# define SHUTTER_EFFECT_MAX_CLICKS 20
 
 # ifndef BONUS // TODO - check if guard necessary
 #  define BONUS 0
@@ -204,8 +207,10 @@ typedef struct s_core
 	int				bpp_bytes;
 	int				endian;
 	int				line_len;
+	int				click_count;
 	double			zbuffer[WIDTH];
-	unsigned int	anim_tick;
+	unsigned int	anim_tick; // probably going to stay unused
+	unsigned int	*prev_frame;
 	t_input			input;
 	t_player		player;
 	t_map			map;
@@ -222,7 +227,7 @@ typedef struct s_core
 void	init_textures(t_core *core);
 void	init_map(t_core *core);
 void	init_minimap(t_core *core);
-void	init_core(t_core *core);
+void	init_game(t_core *core);
 void	init_mlx(t_core *core);
 
 // PARSING
@@ -281,6 +286,8 @@ void	draw_spr(t_core *core, t_spr_data *s);
 void	draw_sprites_row(t_core *c, t_img *img, int sx, int sy, int y);
 // smoke.c
 void	smoke_animation(t_core *core);
+// shutter_effect.c
+void	apply_shutter_effect(t_core *core);
 
 // *** INPUT ***
 // keybinds.c
@@ -289,6 +296,7 @@ int		handle_input_press(int key, void *param);
 int		handle_input_release(int key, void *param);
 // mouse.c
 int	handle_mouse(int x, int y, void *param);
+int	handle_click(int button, int x, int y, void *param);
 
 // *** UTILS ***
 // utils.c
