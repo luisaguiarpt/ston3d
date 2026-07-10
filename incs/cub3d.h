@@ -212,7 +212,6 @@ typedef struct s_core
 	int				line_len;
 	int				click_count;
 	double			zbuffer[WIDTH];
-	unsigned int	anim_tick; // probably going to stay unused
 	unsigned int	*prev_frame;
 	t_input			input;
 	t_player		player;

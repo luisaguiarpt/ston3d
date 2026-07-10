@@ -1,6 +1,8 @@
 CC=cc
-# CFLAGS=-Wall -Wextra -Werror -g
+
 CFLAGS = -Wall -Wextra -Werror -O3 -march=native -g
+# for debugging
+# CFLAGS = -Wall -Wextra -Werror -g
 
 NAME=cub3d
 

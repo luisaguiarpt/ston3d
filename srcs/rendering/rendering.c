@@ -59,12 +59,10 @@ void	put_pixel(t_core *core, int x, int y, int color)
 
 int	render_frame(t_core *core)
 {
-	//core->anim_tick++;
 	draw_3d(core);
 	if (BONUS)
 	{
 		render_collectibles(core);
-		draw_minimap(core);
 		draw_arms(core);
 		if (core->game_ended)
 		{
@@ -73,30 +71,8 @@ int	render_frame(t_core *core)
 			smoke_animation(core);
 			trigger_end_card(core);
 		}
+		draw_minimap(core);
 	}
 	mlx_put_image_to_window(core->mlx, core->win, core->img, 0, 0);
 	return (0);
-}
-
-// TODO - debug only
-void	clear_image(t_core *core, int color)
-{
-	int				y;
-	int				x;
-//	int				bytespp;
-	unsigned int	*row;
-
-	if (!core || !core->img_addr)
-		return ;
-
-//	bytespp = core->bpp / 8;
-	y = 0;
-	while (y < HEIGHT)
-	{
-		row = (unsigned int *)(core->img_addr + y * core->line_len);
-		x = 0;
-		while (x < WIDTH)
-			row[x++] = (unsigned int)color;
-		y++;
-	}
 }

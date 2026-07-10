@@ -67,6 +67,9 @@ void	init_sprites(t_core *core)
 	init_arms(core);
 	init_collectibles(core);
 	init_smoke(core);
+	core->sprites.end_card.img = NULL;
+	core->sprites.end_card.addr = NULL;
+
 }
 
 void	init_textures(t_core *core)
@@ -122,7 +125,6 @@ void	init_core(t_core *core)
 	core->bpp = 0;
 	core->endian = 0;
 	core->line_len = 0;
-	core->anim_tick = 0;
 	core->num_collectibles = 0;
 	core->collected_mask = 0;
 	core->collected_count = 0;
