@@ -65,7 +65,7 @@ bool	is_empty_line(char *line)
 
 static bool	is_bonus_char(char c)
 {
-	if (c == 'a' || c == 'b' || c == 'c' || c == 'G' || c == '0'
+	if (c == 'a' || c == 'b' || c == 'c' || c == 'G' || c == '0' || c == ' '
 		|| c == '1' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		return (true);
 	else
