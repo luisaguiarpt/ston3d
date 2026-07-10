@@ -65,7 +65,8 @@ bool	is_empty_line(char *line)
 
 static bool	is_bonus_char(char c)
 {
-	if (c == 'a' || c == 'b' || c == 'c' || c == 'G')
+	if (c == 'a' || c == 'b' || c == 'c' || c == 'G' || c == '0'
+		|| c == '1' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		return (true);
 	else
 		return (false);
@@ -80,10 +81,10 @@ bool	is_valid_line(char *line)
 	{
 		if (BONUS)
 		{
-			if (is_bonus_char(line[i]))
-				return (true);
+			if (!is_bonus_char(line[i]))
+				return (false);
 		}
-		if (line[i] != ' '
+		else if (line[i] != ' '
 			&& line[i] != '0'
 			&& line[i] != '1'
 			&& line[i] != 'N'
