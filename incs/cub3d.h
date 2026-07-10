@@ -42,8 +42,10 @@
 # define ARM_BOB_RANGE 28.0f
 # define GATE_OPEN_SPEED 0.005f
 
+// # define SMOKE_TICKS_PER_FRAME 1.4
 # define SHUTTER_EFFECT_MIN_ALPHA 0.05f
 # define SHUTTER_EFFECT_MAX_CLICKS 20
+# define SMOKE_FRAME_MS 30
 
 # ifndef BONUS // TODO - check if guard necessary
 #  define BONUS 0
@@ -139,6 +141,7 @@ typedef struct s_sprites
 {
 	bool	smoke_playing;
 	int		smoke_frame;
+	int		smoke_last_tick;
 	int		curr_left;
 	int		curr_right;
 	t_img	left_arm[2];

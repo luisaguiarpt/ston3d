@@ -51,7 +51,7 @@ int	handle_click(int button, int x, int y, void *param)
 	core = (t_core *)param;
 	(void)x;
 	(void)y;
-	if (button == 1 && core->game_ended)
+	if (button == 1 && core->game_ended && !core->sprites.smoke_playing)
 	{
 		if (core->click_count < SHUTTER_EFFECT_MAX_CLICKS)
 			core->click_count++;
