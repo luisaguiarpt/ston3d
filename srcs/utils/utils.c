@@ -14,10 +14,17 @@
 
 int	get_current_time(void)
 {
-	struct timeval	time;
+	struct timeval		time;
+	static time_t		start_sec;
+	static bool			initialized;
 
 	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+	if (!initialized)
+	{
+		start_sec = time.tv_sec;
+		initialized = true;
+	}
+	return ((int)((time.tv_sec - start_sec) * 1000) + (time.tv_usec / 1000));
 }
 
 bool	is_space(char c)
