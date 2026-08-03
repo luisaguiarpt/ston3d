@@ -7,6 +7,7 @@ CFLAGS = -Wall -Wextra -Werror -O3 -march=native -g
 NAME=cub3d
 
 BONUS = 0
+NSFW = 0
 
 SRCS=srcs/main.c \
 	srcs/parsing/parsing.c srcs/parsing/texture_parsing.c srcs/parsing/map_parsing.c \
@@ -36,13 +37,17 @@ MLX_LINK=-L$(MLX_DIR) -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz -g
 all: $(MLX_LIB) $(LIBFT_A) $(NAME)
 
 bonus:
-	make all BONUS=1
+	$(MAKE) fclean all BONUS=1
+
+nsfw:
+	$(MAKE) fclean all BONUS=1 NSFW=1
 
 $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -DBONUS=$(BONUS) $(OBJS) $(MLX_LINK) $(LIBFT_A) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(MLX_LINK) $(LIBFT_A) -o $(NAME)
+#	$(CC) $(CFLAGS) -DBONUS=$(BONUS) -DNSFW=$(NSFW) $(OBJS) $(MLX_LINK) $(LIBFT_A) -o $(NAME)
 
 $(MLX_LIB): 
 	if [ ! -d "$(MLX_DIR)" ]; then \
@@ -51,7 +56,7 @@ $(MLX_LIB):
 	$(MAKE) -C $(MLX_DIR)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -DBONUS=$(BONUS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) -DBONUS=$(BONUS) -DNSFW=$(NSFW) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)

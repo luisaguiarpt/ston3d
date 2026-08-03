@@ -47,9 +47,10 @@
 # define SHUTTER_EFFECT_MAX_CLICKS 20
 # define SMOKE_FRAME_MS 30
 
-# ifndef BONUS // TODO - check if guard necessary
-#  define BONUS 0
-# endif
+// # ifndef BONUS // TODO - check if guard necessary
+// #  define BONUS 0
+// #  define NSFW 0
+// # endif
 
 typedef enum e_gate_state
 {

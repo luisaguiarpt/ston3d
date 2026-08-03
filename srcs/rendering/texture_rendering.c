@@ -26,41 +26,61 @@ void	load_xpm(t_core *core, t_img *img, char *path)
 
 static void	load_arm_sprites(t_core *core)
 {
-	load_xpm(core, &core->sprites.left_arm[0], "sprites/left_arm0.xpm");
-	load_xpm(core, &core->sprites.left_arm[1], "sprites/left_arm1.xpm");
 	load_xpm(core, &core->sprites.right_arm[0], "sprites/right_arm0.xpm");
-	load_xpm(core, &core->sprites.right_arm[1], "sprites/right_arm1.xpm");
-	load_xpm(core, &core->sprites.right_arm[2], "sprites/right_arm2.xpm");
-	load_xpm(core, &core->sprites.right_arm[3], "sprites/right_arm3.xpm");
-	load_xpm(core, &core->sprites.right_arm[4], "sprites/right_arm4.xpm");
+	load_xpm(core, &core->sprites.left_arm[0], "sprites/left_arm0.xpm");
+	if (NSFW)
+	{
+		load_xpm(core, &core->sprites.left_arm[1], "sprites/NSFW/nsfw_left_arm1.xpm");
+		load_xpm(core, &core->sprites.right_arm[1], "sprites/NSFW/nsfw_right_arm1.xpm");
+		load_xpm(core, &core->sprites.right_arm[2], "sprites/NSFW/nsfw_right_arm2.xpm");
+		load_xpm(core, &core->sprites.right_arm[3], "sprites/NSFW/nsfw_right_arm3.xpm");
+		load_xpm(core, &core->sprites.right_arm[4], "sprites/NSFW/nsfw_right_arm4.xpm");
+	}
+	else
+	{
+		load_xpm(core, &core->sprites.left_arm[1], "sprites/PG/pg_left_arm1.xpm");
+		load_xpm(core, &core->sprites.right_arm[1], "sprites/PG/pg_right_arm1.xpm");
+		load_xpm(core, &core->sprites.right_arm[2], "sprites/PG/pg_right_arm2.xpm");
+		load_xpm(core, &core->sprites.right_arm[3], "sprites/PG/pg_right_arm3.xpm");
+	}
+	load_xpm(core, &core->sprites.right_arm[4], "sprites/NSFW/nsfw_right_arm4.xpm"); // TODO find better way to do this
 }
 
 static void	load_collectible_sprites(t_core *core)
 {
-	load_xpm(core, &core->sprites.collectibles[0], "sprites/papers.xpm");
-	load_xpm(core, &core->sprites.collectibles[1], "sprites/buds.xpm");
-	load_xpm(core, &core->sprites.collectibles[2], "sprites/lighter.xpm");
+	if (NSFW)
+	{
+		load_xpm(core, &core->sprites.collectibles[0], "sprites/NSFW/papers.xpm");
+		load_xpm(core, &core->sprites.collectibles[1], "sprites/NSFW/buds.xpm");
+		load_xpm(core, &core->sprites.collectibles[2], "sprites/NSFW/lighter.xpm");
+	}
+	else
+	{
+		load_xpm(core, &core->sprites.collectibles[0], "sprites/PG/tomato.xpm");
+		load_xpm(core, &core->sprites.collectibles[1], "sprites/PG/lettuce.xpm");
+		load_xpm(core, &core->sprites.collectibles[2], "sprites/PG/baguette.xpm");
+	}
 }
 
 static void load_smoke_sprites(t_core *core)
 {
-	load_xpm(core, &core->sprites.smoke[0], "sprites/smoke01.xpm");
-	load_xpm(core, &core->sprites.smoke[1], "sprites/smoke02.xpm");
-	load_xpm(core, &core->sprites.smoke[2], "sprites/smoke03.xpm");
-	load_xpm(core, &core->sprites.smoke[3], "sprites/smoke04.xpm");
-	load_xpm(core, &core->sprites.smoke[4], "sprites/smoke05.xpm");
-	load_xpm(core, &core->sprites.smoke[5], "sprites/smoke06.xpm");
-	load_xpm(core, &core->sprites.smoke[6], "sprites/smoke07.xpm");
-	load_xpm(core, &core->sprites.smoke[7], "sprites/smoke08.xpm");
-	load_xpm(core, &core->sprites.smoke[8], "sprites/smoke09.xpm");
-	load_xpm(core, &core->sprites.smoke[9], "sprites/smoke10.xpm");
-	load_xpm(core, &core->sprites.smoke[10], "sprites/smoke11.xpm");
-	load_xpm(core, &core->sprites.smoke[11], "sprites/smoke12.xpm");
-	load_xpm(core, &core->sprites.smoke[12], "sprites/smoke13.xpm");
-	load_xpm(core, &core->sprites.smoke[13], "sprites/smoke14.xpm");
-	load_xpm(core, &core->sprites.smoke[14], "sprites/smoke15.xpm");
-	load_xpm(core, &core->sprites.smoke[15], "sprites/smoke16.xpm");
-	load_xpm(core, &core->sprites.smoke[16], "sprites/smoke17.xpm");
+	load_xpm(core, &core->sprites.smoke[0], "sprites/smoke/smoke01.xpm");
+	load_xpm(core, &core->sprites.smoke[1], "sprites/smoke/smoke02.xpm");
+	load_xpm(core, &core->sprites.smoke[2], "sprites/smoke/smoke03.xpm");
+	load_xpm(core, &core->sprites.smoke[3], "sprites/smoke/smoke04.xpm");
+	load_xpm(core, &core->sprites.smoke[4], "sprites/smoke/smoke05.xpm");
+	load_xpm(core, &core->sprites.smoke[5], "sprites/smoke/smoke06.xpm");
+	load_xpm(core, &core->sprites.smoke[6], "sprites/smoke/smoke07.xpm");
+	load_xpm(core, &core->sprites.smoke[7], "sprites/smoke/smoke08.xpm");
+	load_xpm(core, &core->sprites.smoke[8], "sprites/smoke/smoke09.xpm");
+	load_xpm(core, &core->sprites.smoke[9], "sprites/smoke/smoke10.xpm");
+	load_xpm(core, &core->sprites.smoke[10], "sprites/smoke/smoke11.xpm");
+	load_xpm(core, &core->sprites.smoke[11], "sprites/smoke/smoke12.xpm");
+	load_xpm(core, &core->sprites.smoke[12], "sprites/smoke/smoke13.xpm");
+	load_xpm(core, &core->sprites.smoke[13], "sprites/smoke/smoke14.xpm");
+	load_xpm(core, &core->sprites.smoke[14], "sprites/smoke/smoke15.xpm");
+	load_xpm(core, &core->sprites.smoke[15], "sprites/smoke/smoke16.xpm");
+	load_xpm(core, &core->sprites.smoke[16], "sprites/smoke/smoke17.xpm");
 }
 
 void	load_textures(t_core *core)

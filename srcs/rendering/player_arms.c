@@ -30,7 +30,7 @@ static void	draw_left_arm(t_core *core, int offset, int current)
 
 	img = &core->sprites.left_arm[current];
 	start_x = (WIDTH / 2) - 600 - (offset / 2);
-	start_y = HEIGHT - 360 + offset;
+	start_y = HEIGHT - 430 + offset;
 	y = 0;
 	while (y < img->height)
 	{
