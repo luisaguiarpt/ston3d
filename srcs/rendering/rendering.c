@@ -68,7 +68,8 @@ int	render_frame(t_core *core)
 		{
 			if (core->click_count > 0)
 				apply_shutter_effect(core);
-			smoke_animation(core);
+			if (NSFW)
+				smoke_animation(core);
 			trigger_end_card(core);
 		}
 		draw_minimap(core);
