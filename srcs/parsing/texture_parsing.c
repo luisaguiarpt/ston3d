@@ -39,10 +39,12 @@ static char	*store_texture(t_core *core, int map_fd, char *line, int i)
 
 static void	load_colour(t_core *core, int map_fd, char *line, int i)
 {
-	int	*array;
-	int	values_loaded;
-	int	rgb_value;
+	int		*array;
+	int		values_loaded;
+	int		rgb_value;
+	char	type;
 
+	type = line[i];
 	if (line[i++] == 'F')
 		array = core->textures.floor;
 	else
@@ -70,6 +72,10 @@ static void	load_colour(t_core *core, int map_fd, char *line, int i)
 	}
 	if (values_loaded != 3)
 		error_parsing(core, ERR_COLOR_COUNT, map_fd);
+	if (type == 'F')
+		core->textures.f_loaded = true;
+	else
+		core->textures.c_loaded = true;
 }
 
 static bool	find_textures(t_core *core, int map_fd, char *line)
@@ -87,9 +93,9 @@ static bool	find_textures(t_core *core, int map_fd, char *line)
 		core->textures.we_path = store_texture(core, map_fd, line, i + 2);
 	else if (line[i] == 'E' && line[i + 1] == 'A' && !core->textures.ea_path)
 		core->textures.ea_path = store_texture(core, map_fd, line, i + 2);
-	else if (line[i] == 'F') // TODO think of the best way to verify there are nor F and C duplicates
+	else if (line[i] == 'F' && !core->textures.f_loaded)
 		load_colour(core, map_fd, line, i);
-	else if (line[i] == 'C')
+	else if (line[i] == 'C' && !core->textures.c_loaded)
 		load_colour(core, map_fd, line, i);
 	else
 		return (false);

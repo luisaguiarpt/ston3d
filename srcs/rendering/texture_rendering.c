@@ -44,7 +44,6 @@ static void	load_arm_sprites(t_core *core)
 		load_xpm(core, &core->sprites.right_arm[2], "sprites/PG/pg_right_arm2.xpm");
 		load_xpm(core, &core->sprites.right_arm[3], "sprites/PG/pg_right_arm3.xpm");
 	}
-	load_xpm(core, &core->sprites.right_arm[4], "sprites/NSFW/nsfw_right_arm4.xpm"); // TODO find better way to do this
 }
 
 static void	load_collectible_sprites(t_core *core)

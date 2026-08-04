@@ -86,13 +86,15 @@ void	init_textures(t_core *core)
 	core->textures.so_img.addr = NULL;
 	core->textures.ea_img.addr = NULL;
 	core->textures.we_img.addr = NULL;
+	core->textures.f_loaded = false;
+	core->textures.c_loaded = false;
 }
 
 void	init_map(t_core *core)
 {
 	core->map.grid = NULL;
-	core->map.width = 0; // TODO maybe initialize right away
-	core->map.height = 0; // TODO maybe initialize right away
+	core->map.width = 0;
+	core->map.height = 0;
 }
 
 void	init_minimap(t_core *core)

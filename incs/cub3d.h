@@ -37,7 +37,7 @@
 # define COLLECT_RADIUS 0.5f
 # define END_TRIGGER_RADIUS 0.5f
 
-# define SPRITES_BG_COLOR 0xFF00FF // magenta to remove from bg
+# define SPRITES_BG_COLOR 0xFF00FF /* magenta to remove from bg */
 # define ARM_BOB_SPEED 0.12f
 # define ARM_BOB_RANGE 28.0f
 # define GATE_OPEN_SPEED 0.005f
@@ -46,11 +46,6 @@
 # define SHUTTER_EFFECT_MIN_ALPHA 0.05f
 # define SHUTTER_EFFECT_MAX_CLICKS 20
 # define SMOKE_FRAME_MS 30
-
-// # ifndef BONUS // TODO - check if guard necessary
-// #  define BONUS 0
-// #  define NSFW 0
-// # endif
 
 typedef enum e_gate_state
 {
@@ -178,6 +173,8 @@ typedef struct s_textures
 	t_img		so_img;
 	t_img		ea_img;
 	t_img		we_img;
+	bool		f_loaded;
+	bool		c_loaded;
 	int			floor[3];
 	int			ceiling[3]; // R, G, B
 	int			floor_int;

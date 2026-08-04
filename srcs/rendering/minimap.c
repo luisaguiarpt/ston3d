@@ -152,12 +152,3 @@ static int	cell_color(char c)
 		return (0x003399FF);
 	return (-1);
 }
-
-//void	draw_line(t_core *core)
-//{
-//	int	span[2];
-//	int	dir[2];
-//	int	err[2];
-//
-//	// TODO - complete function
-//}
