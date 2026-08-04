@@ -132,7 +132,7 @@ static void	draw_cell(t_core *core, int x, int y)
 	if (x < rowlen)
 		cell = core->map.grid[y][x];
 	else 
-		cell = ' ';
+		cell = '1';
 	color = cell_color(cell);
 	if (color == -1)
 		return ;
@@ -148,6 +148,8 @@ static int	cell_color(char c)
 		return (0x00FFFFFF);
 	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		return (0x00333333);
+	if (c == 'G')
+		return (0x003399FF);
 	return (-1);
 }
 
