@@ -32,6 +32,11 @@ static void	draw_left_arm(t_core *core, int offset, int current)
 	start_x = (WIDTH / 2) - 600 - (offset / 2);
 	start_y = HEIGHT - 430 + offset;
 	y = 0;
+	if (current == 2)
+	{
+		start_x += 200;
+		start_y -= 30;
+	}
 	while (y < img->height)
 	{
 		draw_sprites_row(core, img, start_x, start_y, y);
@@ -49,7 +54,7 @@ static void	draw_right_arm(t_core *core, int offset, int current)
 	img = &core->sprites.right_arm[current];
 	start_x = (WIDTH / 2) - (offset / 2);
 	start_y = HEIGHT - 320 - offset;
-	// adjustment for right_arm sprite number 4
+	// adjustment for arm sprite number 4
 	if (current == 4)
 		start_y -= 50;
 	y = 0;
@@ -65,6 +70,11 @@ void	draw_arms(t_core *core)
 	int	offset;
 
 	offset = calculate_animation_offset(core);
-	draw_left_arm(core, offset, core->sprites.curr_left);
-	draw_right_arm(core, offset, core->sprites.curr_right);
+	if (core->game_ended && !NSFW)
+		draw_left_arm(core, offset, 2);
+	else
+	{
+		draw_left_arm(core, offset, core->sprites.curr_left);
+		draw_right_arm(core, offset, core->sprites.curr_right);
+	}
 }

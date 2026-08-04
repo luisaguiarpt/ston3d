@@ -145,7 +145,7 @@ typedef struct s_sprites
 	int		smoke_last_tick;
 	int		curr_left;
 	int		curr_right;
-	t_img	left_arm[2];
+	t_img	left_arm[3];
 	t_img	right_arm[5];
 	t_img	collectibles[3];
 	t_img	smoke[17];
