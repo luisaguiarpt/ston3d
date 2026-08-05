@@ -43,7 +43,8 @@ void	rotate_dir(t_core *core, int turn_dir)
 	core->player.dir_x = core->player.dir_x * cos - core->player.dir_y * sin;
 	core->player.dir_y = old_dir_x * sin + core->player.dir_y * cos;
 	old_plane_x = core->player.plane_x;
-	core->player.plane_x = core->player.plane_x * cos - core->player.plane_y * sin;
+	core->player.plane_x = core->player.plane_x
+		* cos - core->player.plane_y * sin;
 	core->player.plane_y = old_plane_x * sin + core->player.plane_y * cos;
 }
 

@@ -79,7 +79,6 @@ void	draw_dir_line(t_core *core)
 	y = core->minimap.offset_y + (core->player.y) * core->minimap.tile_size;
 	step_x = core->player.dir_x;
 	step_y = core->player.dir_y;
-
 	i = 0;
 	while (i < 10)
 	{

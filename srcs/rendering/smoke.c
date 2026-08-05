@@ -35,17 +35,15 @@ static void	trigger_smoke_start(t_core *core)
 
 static void	draw_smoke(t_core *core, t_img *img)
 {
-	int	start_x;
-	int	start_y;
-	int y;
+	t_row_draw	pos;
 
-	start_x = (WIDTH / 2) - (img->width / 2);
-	start_y = HEIGHT - img->height;
-	y = 0;
-	while (y < img->height)
+	pos.sx = (WIDTH / 2) - (img->width / 2);
+	pos.sy = HEIGHT - img->height;
+	pos.row = 0;
+	while (pos.row < img->height)
 	{
-		draw_sprites_row(core, img, start_x, start_y, y);
-		y++;
+		draw_sprites_row(core, img, &pos);
+		pos.row++;
 	}
 }
 

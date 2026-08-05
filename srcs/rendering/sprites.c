@@ -12,28 +12,27 @@
 
 #include "../../incs/cub3d.h"
 
-void	draw_sprites_row(t_core *c, t_img *img, int sx, int sy, int y)
+void	draw_sprites_row(t_core *c, t_img *img, t_row_draw *pos)
 {
 	unsigned int	*src;
 	int				color;
 	int				x;
 
-	if (sy + y < 0 || sy + y >= HEIGHT)
+	if (pos->sy + pos->row < 0 || pos->sy + pos->row >= HEIGHT)
 		return ;
-	src = (unsigned int *)(img->addr + y * img->line_len);
+	src = (unsigned int *)(img->addr + pos->row * img->line_len);
 	x = 0;
 	while (x < img->width)
 	{
-		if (sx + x >= 0 && sx + x < WIDTH)
+		if (pos->sx + x >= 0 && pos->sx + x < WIDTH)
 		{
 			color = (int)src[x];
 			if (color != SPRITES_BG_COLOR)
-				put_pixel(c, sx + x, sy + y, color);
+				put_pixel(c, pos->sx + x, pos->sy + pos->row, color);
 		}
 		x++;
 	}
 }
-
 
 void	calc_spr_screen(t_spr_data *s)
 {
@@ -55,7 +54,6 @@ void	calc_spr_screen(t_spr_data *s)
 	if (s->draw_end_x >= WIDTH)
 		s->draw_end_x = WIDTH - 1;
 }
-
 
 void	draw_spr(t_core *core, t_spr_data *s)
 {

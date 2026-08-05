@@ -32,15 +32,14 @@ static void	draw_cell(t_core *core, int x, int y)
 	rowlen = (int)ft_strlen(core->map.grid[y]);
 	if (x < rowlen)
 		cell = core->map.grid[y][x];
-	else 
+	else
 		cell = '1';
 	color = cell_color(cell);
 	if (color == -1)
 		return ;
 	draw_rect(core,
-			core->minimap.offset_x + x * core->minimap.tile_size, 
-			core->minimap.offset_y + y * core->minimap.tile_size,
-			color);
+		core->minimap.offset_x + x * core->minimap.tile_size,
+		core->minimap.offset_y + y * core->minimap.tile_size, color);
 }
 
 static void	draw_tiles(t_core *core)

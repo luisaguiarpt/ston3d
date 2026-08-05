@@ -353,7 +353,7 @@ void	strafe_right(t_core *core);
 // sprites.c
 void	calc_spr_screen(t_spr_data *s);
 void	draw_spr(t_core *core, t_spr_data *s);
-void	draw_sprites_row(t_core *c, t_img *img, int sx, int sy, int y);
+void	draw_sprites_row(t_core *c, t_img *img, t_row_draw *pos);
 // sprites_tex.c
 void	draw_spr_stripe(t_core *core, t_spr_data *s, int stripe);
 // smoke.c

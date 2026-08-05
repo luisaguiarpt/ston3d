@@ -42,19 +42,18 @@ void	trigger_end_card(t_core *core)
 {
 	int	target_time;
 
-	target_time = core->end_time + 3000; // 3 second delay
+	target_time = core->end_time + 3000;
 	if (get_current_time() >= target_time)
 		draw_end_card(core);
 }
 
 void	put_pixel(t_core *core, int x, int y, int color)
 {
-    unsigned int	*dst;
+	unsigned int	*dst;
 
-    dst = (unsigned int *)(core->img_addr
-            + (y * core->line_len)
-            + x * core->bpp_bytes);
-    *dst = color;
+	dst = (unsigned int *)(core->img_addr
+			+ (y * core->line_len) + x * core->bpp_bytes);
+	*dst = color;
 }
 
 int	render_frame(t_core *core)
