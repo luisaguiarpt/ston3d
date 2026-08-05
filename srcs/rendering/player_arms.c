@@ -55,7 +55,7 @@ static void	draw_right_arm(t_core *core, int offset, int current)
 	start_x = (WIDTH / 2) - (offset / 2);
 	start_y = HEIGHT - 320 - offset;
 	// adjustment for arm sprite number 4
-	if (current == 4)
+	if (NSFW && current == 4)
 		start_y -= 50;
 	y = 0;
 	while (y < img->height)

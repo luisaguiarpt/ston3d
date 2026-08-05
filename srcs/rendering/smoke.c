@@ -23,9 +23,10 @@ static bool	smoke_ready(t_core *core)
 	return (true);
 }
 
-static void	init_smoke(t_core *core)
+static void	trigger_smoke_start(t_core *core)
 {
-	if (!core->input.click || core->sprites.smoke_playing || !core->game_ended)
+	if (!core->input.click || core->sprites.smoke_playing
+		|| !core->game_ended)
 		return ;
 	core->sprites.smoke_playing = true;
 	core->sprites.smoke_frame = 0;
@@ -57,9 +58,10 @@ static void	advance_smoke_frame(t_core *core)
 		core->sprites.smoke_playing = false;
 	}
 }
+
 void	smoke_animation(t_core *core)
 {
-	init_smoke(core);
+	trigger_smoke_start(core);
 	if (!core->sprites.smoke_playing)
 		return ;
 	draw_smoke(core, &core->sprites.smoke[core->sprites.smoke_frame]);

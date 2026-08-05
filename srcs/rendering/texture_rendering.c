@@ -24,28 +24,6 @@ void	load_xpm(t_core *core, t_img *img, char *path)
 		exit_error(core, ERR_DATA_ADDR);
 }
 
-static void	load_arm_sprites(t_core *core)
-{
-	load_xpm(core, &core->sprites.right_arm[0], "sprites/right_arm0.xpm");
-	load_xpm(core, &core->sprites.left_arm[0], "sprites/left_arm0.xpm");
-	if (NSFW)
-	{
-		load_xpm(core, &core->sprites.left_arm[1], "sprites/NSFW/nsfw_left_arm1.xpm");
-		load_xpm(core, &core->sprites.right_arm[1], "sprites/NSFW/nsfw_right_arm1.xpm");
-		load_xpm(core, &core->sprites.right_arm[2], "sprites/NSFW/nsfw_right_arm2.xpm");
-		load_xpm(core, &core->sprites.right_arm[3], "sprites/NSFW/nsfw_right_arm3.xpm");
-		load_xpm(core, &core->sprites.right_arm[4], "sprites/NSFW/nsfw_right_arm4.xpm");
-	}
-	else
-	{
-		load_xpm(core, &core->sprites.left_arm[1], "sprites/PG/pg_left_arm1.xpm");
-		load_xpm(core, &core->sprites.left_arm[2], "sprites/PG/pg_left_arm2.xpm");
-		load_xpm(core, &core->sprites.right_arm[1], "sprites/PG/pg_right_arm1.xpm");
-		load_xpm(core, &core->sprites.right_arm[2], "sprites/PG/pg_right_arm2.xpm");
-		load_xpm(core, &core->sprites.right_arm[3], "sprites/PG/pg_right_arm3.xpm");
-	}
-}
-
 static void	load_collectible_sprites(t_core *core)
 {
 	if (NSFW)

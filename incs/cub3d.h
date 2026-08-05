@@ -107,6 +107,13 @@ typedef struct s_ray
 	t_img	*tex;
 }			t_ray;
 
+typedef struct s_row_draw
+{
+	int	sx;
+	int	sy;
+	int	row;
+}			t_row_draw;
+
 typedef struct s_vline
 {
 	int	y0;
@@ -304,33 +311,51 @@ unsigned int	get_tex_pixel(t_img *tex, int tex_x, int tex_y);
 void	calc_wall_x(t_core *core);
 
 
-// *** RENDERING ***
-//	rendering.c
-void	put_pixel(t_core *core, int x, int y, int color);
-int		render_frame(t_core *core);
-//	texture_rendering.c
-void	load_textures(t_core *core);
-// minimap.c
-void	draw_minimap(t_core *core);
-// game_loop.c
-int		game_loop(void *param);
-//raycast.c
-void	draw_3d(t_core *core);
-int		get_pixel_from_texture(t_img *img, int tex_x, int tex_y);
-//player_arms.c
-void	draw_arms(t_core *core);
+/**** Rendering ****/
 // collectibles.c
 void	find_collectibles(t_core *core);
 void	update_collectibles(t_core *core);
 void	render_collectibles(t_core *core);
+// game_loop.c
+int		game_loop(void *param);
 // gate.c
 void	init_gate(t_core *core);
 void	find_gate(t_core *core);
 void	update_gate(t_core *core);
+// load_arms.c
+void	load_arm_sprites(t_core *core);
+// minimap.c
+void	draw_minimap(t_core *core);
+// minimap_markers.c
+void	draw_rect(t_core *core, int start_x, int start_y, int color);
+void	draw_collectible_dots(t_core *core);
+void	draw_player_dot(t_core *core);
+void	draw_dir_line(t_core *core);
+// rendering.c
+void	put_pixel(t_core *core, int x, int y, int color);
+int		render_frame(t_core *core);
+// texture_rendering.c
+void	load_xpm(t_core *core, t_img *img, char *path);
+void	load_textures(t_core *core);
+// raycast.c
+void	draw_3d(t_core *core);
+int		get_pixel_from_texture(t_img *img, int tex_x, int tex_y);
+// player_arms.c
+void	draw_arms(t_core *core);
+// player_collision.c
+int	collides_x(t_core *core, float new_x);
+int	collides_y(t_core *core, float new_y);
+// player_movement.c
+void	move_forward(t_core *core);
+void	move_backward(t_core *core);
+void	strafe_left(t_core *core);
+void	strafe_right(t_core *core);
 // sprites.c
 void	calc_spr_screen(t_spr_data *s);
 void	draw_spr(t_core *core, t_spr_data *s);
 void	draw_sprites_row(t_core *c, t_img *img, int sx, int sy, int y);
+// sprites_tex.c
+void	draw_spr_stripe(t_core *core, t_spr_data *s, int stripe);
 // smoke.c
 void	smoke_animation(t_core *core);
 // shutter_effect.c

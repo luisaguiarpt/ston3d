@@ -59,6 +59,7 @@ static void	init_smoke(t_core *core)
 		i++;
 	}
 	core->sprites.smoke_frame = 0;
+	core->sprites.smoke_last_tick = 0;
 	core->sprites.smoke_playing = false;
 }
 

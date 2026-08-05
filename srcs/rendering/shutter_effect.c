@@ -51,7 +51,8 @@ void	apply_shutter_effect(t_core *core)
 		x = 0;
 		while (x < WIDTH)
 		{
-			blended = lerp_color(core->prev_frame[y * WIDTH + x], row[x], alpha);
+			blended = lerp_color(core->prev_frame[y * WIDTH + x],
+				row[x], alpha);
 			row[x] = blended;
 			core->prev_frame[y * WIDTH + x] = blended;
 			x++;

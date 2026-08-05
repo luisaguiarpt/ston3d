@@ -19,6 +19,8 @@ SRCS=srcs/main.c \
 	srcs/rendering/rendering.c srcs/rendering/minimap.c srcs/rendering/draw_3d.c srcs/rendering/texture_rendering.c \
 	srcs/rendering/sprites.c srcs/rendering/collectibles.c srcs/rendering/gate.c srcs/rendering/player_arms.c \
 	srcs/rendering/smoke.c srcs/rendering/shutter_effect.c srcs/rendering/game_loop.c \
+	srcs/rendering/load_arms.c srcs/rendering/minimap_markers.c srcs/rendering/player_collision.c \
+	srcs/rendering/player_movement.c srcs/rendering/sprite_tex.c \
 	srcs/input/keybinds.c srcs/input/mouse.c \
 	srcs/free/free_core.c srcs/free/free_sprites.c\
 	srcs/utils/utils.c srcs/utils/end.c srcs/utils/collectibles_utils.c srcs/utils/player_utils.c
