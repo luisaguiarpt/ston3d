@@ -34,9 +34,19 @@ void	setup_ray(t_core *core, int x)
 		+ core->player.plane_y * core->ray.camera_x;
 	core->ray.map_x = (int)core->player.x;
 	core->ray.map_y = (int)core->player.y;
-	core->ray.delta_dist_x = (core->ray.ray_dir_x == 0.0) ? 1e30 : fabs(1.0 / core->ray.ray_dir_x);
-	core->ray.delta_dist_y = (core->ray.ray_dir_y == 0.0) ? 1e30 : fabs(1.0 / core->ray.ray_dir_y);
+	if (core->ray.ray_dir_x == 0.0)
+		core->ray.delta_dist_x = 1e30;
+	else
+		core->ray.delta_dist_x = fabs(1.0 / core->ray.ray_dir_x);
+	if (core->ray.ray_dir_y == 0.0)
+		core->ray.delta_dist_y = 1e30;
+	else
+		core->ray.delta_dist_y = fabs(1.0 / core->ray.ray_dir_y);
 }
+//core->ray.delta_dist_x = (core->ray.ray_dir_x == 0.0)
+//? 1e30 : fabs(1.0 / core->ray.ray_dir_x);
+//core->ray.delta_dist_y = (core->ray.ray_dir_y == 0.0) ?
+//1e30 : fabs(1.0 / core->ray.ray_dir_y);
 
 void	set_step(t_core *core)
 {
@@ -96,9 +106,11 @@ void	dda(t_core *core)
 void	calc_perp_wall_dist(t_core *core)
 {
 	if (core->ray.side == 0)
-		core->ray.perp_wall_dist = (core->ray.side_dist_x - core->ray.delta_dist_x);
+		core->ray.perp_wall_dist = (core->ray.side_dist_x
+				- core->ray.delta_dist_x);
 	else
-		core->ray.perp_wall_dist = (core->ray.side_dist_y - core->ray.delta_dist_y);
+		core->ray.perp_wall_dist = (core->ray.side_dist_y
+				- core->ray.delta_dist_y);
 	if (core->ray.perp_wall_dist <= 0.1)
 		core->ray.perp_wall_dist = 0.1;
 }
