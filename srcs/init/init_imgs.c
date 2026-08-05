@@ -17,7 +17,7 @@ static void	init_arms(t_core *core)
 	int	i;
 
 	i = 0;
-	while (i < 2)
+	while (i < 3)
 	{
 		core->sprites.left_arm[i].img = NULL;
 		core->sprites.left_arm[i].addr = NULL;
@@ -69,7 +69,6 @@ void	init_sprites(t_core *core)
 	init_smoke(core);
 	core->sprites.end_card.img = NULL;
 	core->sprites.end_card.addr = NULL;
-
 }
 
 void	init_textures(t_core *core)

@@ -22,7 +22,7 @@ static void	free_arms(t_core *core)
 	int	i;
 
 	i = 0;
-	while (i < 2)
+	while (i < 3)
 	{
 		if (core->sprites.left_arm[i].img)
 			free_image(core, &core->sprites.left_arm[i]);

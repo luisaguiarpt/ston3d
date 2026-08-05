@@ -46,7 +46,8 @@ int	validate_map(t_core *core)
 	validation_map = copy_map(core->map.grid);
 	if (!validation_map)
 		error_parsing(core, ERR_MEMORY, 0);
-	if (flood_fill((int)core->player.y, (int)core->player.x, validation_map, core))
+	if (flood_fill((int)core->player.y,
+			(int)core->player.x, validation_map, core))
 	{
 		ft_free_tab(validation_map);
 		error_parsing(core, ERR_WALLS, 0);

@@ -65,16 +65,19 @@ static int	get_map_height(t_core *core, char *map_path, int old_fd)
 		error_parsing(core, strerror(errno), old_fd);
 	skip_textures(core, new_fd, old_fd);
 	height = 0;
-	while ((line = get_next_line(new_fd)) != NULL)
+	line = get_next_line(new_fd);
+	while (line)
 	{
 		remove_newline(line);
 		if (height == 0 && is_empty_line(line))
 		{
 			free(line);
+			line = get_next_line(new_fd);
 			continue ;
 		}
 		height++;
 		free(line);
+		line = get_next_line(new_fd);
 	}
 	close(new_fd);
 	return (height);
@@ -98,7 +101,6 @@ static char	*fill_map_grid(t_core *core, int map_fd, char *line)
 	return (grid_line);
 }
 
-
 void	parse_map(t_core *core, char *map_path, int map_fd)
 {
 	char	*line;
@@ -109,18 +111,19 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 	core->map.grid = ft_calloc(core->map.height + 1, sizeof(char *));
 	if (!core->map.grid)
 		error_parsing(core, ERR_MEMORY, map_fd);
-	while((line = get_next_line(map_fd)))
+	line = get_next_line(map_fd);
+	while (line)
 	{
-		if (!line)
-			error_parsing(core, ERR_READ, map_fd);
 		remove_newline(line);
 		if (is_empty_line(line) && i == 0)
 		{
 			free(line);
+			line = get_next_line(map_fd);
 			continue ;
 		}
 		core->map.grid[i] = fill_map_grid(core, map_fd, line);
 		free(line);
+		line = get_next_line(map_fd);
 		i++;
 	}
 	get_player_position(core);

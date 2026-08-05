@@ -21,4 +21,3 @@ void	init_input(t_core *core)
 	core->input.left = false;
 	core->input.right = false;
 }
-

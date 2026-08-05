@@ -22,10 +22,12 @@ static void	rotate_by_angle(t_core *core, float angle) // mouse_function
 	cos_a = cosf(angle);
 	sin_a = sinf(angle);
 	old_dir_x = core->player.dir_x;
-	core->player.dir_x = core->player.dir_x * cos_a - core->player.dir_y * sin_a;
+	core->player.dir_x = core->player.dir_x
+		* cos_a - core->player.dir_y * sin_a;
 	core->player.dir_y = old_dir_x * sin_a + core->player.dir_y * cos_a;
 	old_plane_x = core->player.plane_x;
-	core->player.plane_x = core->player.plane_x * cos_a - core->player.plane_y * sin_a;
+	core->player.plane_x = core->player.plane_x
+		* cos_a - core->player.plane_y * sin_a;
 	core->player.plane_y = old_plane_x * sin_a + core->player.plane_y * cos_a;
 }
 
@@ -46,7 +48,7 @@ int	handle_mouse(int x, int y, void *param)
 
 int	handle_click(int button, int x, int y, void *param)
 {
-	t_core *core;
+	t_core	*core;
 
 	core = (t_core *)param;
 	(void)x;

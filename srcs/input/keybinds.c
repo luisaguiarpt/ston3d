@@ -59,11 +59,12 @@ void	setup_keybinds(t_core *core)
 	if (BONUS)
 	{
 		mlx_hook(core->win, 6, 1L << 6, (int (*)())(void *)handle_mouse, core);
-		mlx_mouse_hide(core->mlx, core->win); // TODO mlx function has leaks, evaluate how to deal with this
+		//mlx_mouse_hide(core->mlx, core->win); // TODO leaks
 		mlx_hook(core->win, 4, 1L << 2, (int (*)())(void *)handle_click, core);
 	}
-	mlx_hook(core->win, 2, 1L << 0, (int (*)())(void *)handle_input_press, core);
-	mlx_hook(core->win, 3, 1L << 1, (int (*)())(void *)handle_input_release, core);
+	mlx_hook(core->win, 2, 1L << 0,
+		(int (*)())(void *)handle_input_press, core);
+	mlx_hook(core->win, 3, 1L << 1,
+		(int (*)())(void *)handle_input_release, core);
 	mlx_hook(core->win, 17, 1 << 0, (int (*)())(void *)exit_game, core);
 }
-

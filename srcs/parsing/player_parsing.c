@@ -61,6 +61,21 @@ static void	set_player_direction(t_core *core, char dir)
 	set_planes(core, dir);
 }
 
+static bool	is_player_char(char c)
+{
+	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
+}
+
+static void	set_player_cell(t_core *core, int x, int y, bool *found)
+{
+	if (*found)
+		error_parsing(core, ERR_TOO_MANY_PLAYERS, 0);
+	core->player.x = x + 0.5f;
+	core->player.y = y + 0.5f;
+	set_player_direction(core, core->map.grid[y][x]);
+	*found = true;
+}
+
 void	get_player_position(t_core *core)
 {
 	int		x;
@@ -74,18 +89,8 @@ void	get_player_position(t_core *core)
 		x = 0;
 		while (core->map.grid[y][x])
 		{
-			if (core->map.grid[y][x] == 'N'
-				|| core->map.grid[y][x] == 'S'
-				|| core->map.grid[y][x] == 'E'
-				|| core->map.grid[y][x] == 'W')
-			{
-				if (player_found)
-					error_parsing(core, ERR_TOO_MANY_PLAYERS, 0);
-				core->player.x = x + 0.5f;
-				core->player.y = y + 0.5f;
-				set_player_direction(core, core->map.grid[y][x]);
-				player_found = true;
-			}
+			if (is_player_char(core->map.grid[y][x]))
+				set_player_cell(core, x, y, &player_found);
 			x++;
 		}
 		y++;
