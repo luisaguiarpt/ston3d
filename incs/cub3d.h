@@ -222,40 +222,54 @@ typedef struct s_core
 	t_gate			gate;
 }			t_core;
 
-// INIT
-// init.c
-void	init_textures(t_core *core);
-void	init_map(t_core *core);
-void	init_minimap(t_core *core);
+/**** Free ****/
+// free_core.c
+void	free_core(t_core *core);
+// free_sprites.c
+void	free_image(t_core *core, t_img *img);
+void	free_sprites(t_core *core);
+
+/**** Init ****/
+// init_core.c
 void	init_game(t_core *core);
 void	init_mlx(t_core *core);
+// init_imgs.c
+void	init_textures(t_core *core);
+void	init_sprites(t_core *core);
+// init_input.c
+void	init_input(t_core *core);
 
-// PARSING
+/**** Input ****/
+// keybinds.c
+void	setup_keybinds(t_core *core);
+// mouse.c
+int	handle_mouse(int x, int y, void *param);
+int	handle_click(int button, int x, int y, void *param);
+
+/**** Parsing ****/
+// collectibles_parsing.c
+void	find_collectibles(t_core *core);
+//color_parsing.c
+void	load_color(t_core *core, int map_fd, char *line, int i);
+// map_parsing.c
+void	parse_map(t_core *core, char *map_path, int map_fd);
 // parsing.c
 void	parse_cub_file(t_core *core, char *map_path);
 void	error_parsing(t_core *core, char *message, int map_fd);
-
-// VALIDATION
-// validation.c
-int		validate_map(t_core *core);
-
-// PARSING
-// validation_utils.c
-char	**copy_map(char **grid);
-// textures_parsing.c
-void	parse_textures(t_core *core, int map_fd);
-// map_parsing.c
-void	parse_map(t_core *core, char *map_path, int map_fd);
 // parsing_utils.c
 bool	is_cub_file(char *line);
 bool	is_xpm_file(char *line);
 bool	is_empty_line(char *line);
-bool	is_valid_line(char *line);
 void	remove_newline(char *str);
 // player_parsing.c
 void	get_player_position(t_core *core);
-// collectibles_parsing.c
-void	find_collectibles(t_core *core);
+// textures_parsing.c
+void	parse_textures(t_core *core, int map_fd);
+// validation.c
+int		validate_map(t_core *core);
+// validation_utils.c
+char	**copy_map(char **grid);
+bool	is_valid_line(char *line);
 
 // *** RENDERING ***
 //	rendering.c
@@ -289,15 +303,6 @@ void	smoke_animation(t_core *core);
 // shutter_effect.c
 void	apply_shutter_effect(t_core *core);
 
-// *** INPUT ***
-// keybinds.c
-void	setup_keybinds(t_core *core);
-int		handle_input_press(int key, void *param);
-int		handle_input_release(int key, void *param);
-// mouse.c
-int	handle_mouse(int x, int y, void *param);
-int	handle_click(int button, int x, int y, void *param);
-
 // *** UTILS ***
 // utils.c
 bool	is_space(char c);
@@ -305,6 +310,7 @@ int		absolute_value(int n);
 int		rgb_to_int(int rgb[3]);
 void	exit_error(t_core *core, char *message);
 // end.c
+void	exit_game(t_core *core, int exit_code);
 void	update_end_state(t_core *core);
 int		get_current_time(void);
 // collectibles_utils.c
@@ -315,9 +321,5 @@ void	sort_collectibles(t_core *core);
 // player_utils.c
 void	update_arm_sprite(t_core *core);
 bool	is_walking(t_core *core);
-
-// free/free.c
-void	free_core(t_core *core);
-void	exit_game(t_core *core, int exit_code);
 
 #endif

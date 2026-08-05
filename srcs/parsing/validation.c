@@ -12,24 +12,6 @@
 
 #include "../../incs/cub3d.h"
 
-static int	flood_fill(int y, int x, char **grid, t_core *core);
-
-int	validate_map(t_core *core)
-{
-	char	**validation_map;
-
-	validation_map = copy_map(core->map.grid);
-	if (!validation_map)
-		error_parsing(core, ERR_MEMORY, 0);
-	if (flood_fill((int)core->player.y, (int)core->player.x, validation_map, core))
-	{
-		ft_free_tab(validation_map);
-		error_parsing(core, ERR_WALLS, 0);
-	}
-	ft_free_tab(validation_map);
-	return (0);
-}
-
 static int	flood_fill(int y, int x, char **grid, t_core *core)
 {
 	char	cell;
@@ -54,5 +36,21 @@ static int	flood_fill(int y, int x, char **grid, t_core *core)
 		return (1);
 	if (flood_fill(y, x - 1, grid, core))
 		return (1);
+	return (0);
+}
+
+int	validate_map(t_core *core)
+{
+	char	**validation_map;
+
+	validation_map = copy_map(core->map.grid);
+	if (!validation_map)
+		error_parsing(core, ERR_MEMORY, 0);
+	if (flood_fill((int)core->player.y, (int)core->player.x, validation_map, core))
+	{
+		ft_free_tab(validation_map);
+		error_parsing(core, ERR_WALLS, 0);
+	}
+	ft_free_tab(validation_map);
 	return (0);
 }

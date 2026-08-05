@@ -63,40 +63,6 @@ bool	is_empty_line(char *line)
 	return (true);
 }
 
-static bool	is_bonus_char(char c)
-{
-	if (c == 'a' || c == 'b' || c == 'c' || c == 'G' || c == '0' || c == ' '
-		|| c == '1' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
-		return (true);
-	else
-		return (false);
-}
-
-bool	is_valid_line(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (BONUS)
-		{
-			if (!is_bonus_char(line[i]))
-				return (false);
-		}
-		else if (line[i] != ' '
-			&& line[i] != '0'
-			&& line[i] != '1'
-			&& line[i] != 'N'
-			&& line[i] != 'S'
-			&& line[i] != 'E'
-			&& line[i] != 'W')
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
 void	remove_newline(char *str)
 {
 	int	len;

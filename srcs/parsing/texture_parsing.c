@@ -37,47 +37,6 @@ static char	*store_texture(t_core *core, int map_fd, char *line, int i)
 	return (file);
 }
 
-static void	load_colour(t_core *core, int map_fd, char *line, int i)
-{
-	int		*array;
-	int		values_loaded;
-	int		rgb_value;
-	char	type;
-
-	type = line[i];
-	if (line[i++] == 'F')
-		array = core->textures.floor;
-	else
-		array = core->textures.ceiling;
-	values_loaded = 0;
-	while (line[i])
-	{
-		if (values_loaded > 0 && values_loaded < 3)
-		{
-			if (line[i++] != ',')
-				error_parsing(core, ERR_COMMA, map_fd);
-		}
-		while (is_space(line[i]))
-			i++;
-		if (!line[i])
-			break ;
-		if (!ft_isdigit(line[i]))
-			error_parsing(core, ERR_COLOR_FORMAT, map_fd);
-		rgb_value = 0;
-		while (ft_isdigit(line[i]))
-			rgb_value = rgb_value * 10 + (line[i++] - '0');
-		if (rgb_value < 0 || rgb_value > 255)
-			error_parsing(core, ERR_COLOR_VALUE, map_fd);
-		array[values_loaded++] = rgb_value;
-	}
-	if (values_loaded != 3)
-		error_parsing(core, ERR_COLOR_COUNT, map_fd);
-	if (type == 'F')
-		core->textures.f_loaded = true;
-	else
-		core->textures.c_loaded = true;
-}
-
 static bool	find_textures(t_core *core, int map_fd, char *line)
 {
 	int	i;
@@ -94,9 +53,9 @@ static bool	find_textures(t_core *core, int map_fd, char *line)
 	else if (line[i] == 'E' && line[i + 1] == 'A' && !core->textures.ea_path)
 		core->textures.ea_path = store_texture(core, map_fd, line, i + 2);
 	else if (line[i] == 'F' && !core->textures.f_loaded)
-		load_colour(core, map_fd, line, i);
+		load_color(core, map_fd, line, i);
 	else if (line[i] == 'C' && !core->textures.c_loaded)
-		load_colour(core, map_fd, line, i);
+		load_color(core, map_fd, line, i);
 	else
 		return (false);
 	return (true);

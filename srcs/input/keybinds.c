@@ -12,20 +12,7 @@
 
 #include "../../incs/cub3d.h"
 
-void	setup_keybinds(t_core *core)
-{
-	if (BONUS)
-	{
-		mlx_hook(core->win, 6, 1L << 6, (int (*)())(void *)handle_mouse, core);
-		mlx_mouse_hide(core->mlx, core->win); // TODO mlx function has leaks, evaluate how to deal with this
-		mlx_hook(core->win, 4, 1L << 2, (int (*)())(void *)handle_click, core);
-	}
-	mlx_hook(core->win, 2, 1L << 0, (int (*)())(void *)handle_input_press, core);
-	mlx_hook(core->win, 3, 1L << 1, (int (*)())(void *)handle_input_release, core);
-	mlx_hook(core->win, 17, 1 << 0, (int (*)())(void *)exit_game, core);
-}
-
-int	handle_input_press(int key, void *param)
+static int	handle_input_press(int key, void *param)
 {
 	t_core	*core;
 
@@ -47,7 +34,7 @@ int	handle_input_press(int key, void *param)
 	return (0);
 }
 
-int	handle_input_release(int key, void *param)
+static int	handle_input_release(int key, void *param)
 {
 	t_core	*core;
 
@@ -66,3 +53,17 @@ int	handle_input_release(int key, void *param)
 		core->input.d = false;
 	return (0);
 }
+
+void	setup_keybinds(t_core *core)
+{
+	if (BONUS)
+	{
+		mlx_hook(core->win, 6, 1L << 6, (int (*)())(void *)handle_mouse, core);
+		mlx_mouse_hide(core->mlx, core->win); // TODO mlx function has leaks, evaluate how to deal with this
+		mlx_hook(core->win, 4, 1L << 2, (int (*)())(void *)handle_click, core);
+	}
+	mlx_hook(core->win, 2, 1L << 0, (int (*)())(void *)handle_input_press, core);
+	mlx_hook(core->win, 3, 1L << 1, (int (*)())(void *)handle_input_release, core);
+	mlx_hook(core->win, 17, 1 << 0, (int (*)())(void *)exit_game, core);
+}
+
