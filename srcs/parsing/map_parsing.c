@@ -94,6 +94,7 @@ char	*skip_empty_lines(int map_fd)
 		remove_newline(line);
 		if (is_empty_line(line))
 		{
+			free(line);
 			line = get_next_line(map_fd);
 			continue ;
 		}

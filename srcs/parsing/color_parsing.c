@@ -28,12 +28,18 @@ static int	parse_one_rgb(t_core *core, int map_fd, char *line, int *i)
 	if (!line[*i])
 		return (-1);
 	if (!ft_isdigit(line[*i]))
+	{
+		free(line);
 		error_parsing(core, ERR_COLOR_FORMAT, map_fd);
+	}
 	rgb_value = 0;
 	while (ft_isdigit(line[*i]))
 		rgb_value = rgb_value * 10 + (line[(*i)++] - '0');
 	if (rgb_value < 0 || rgb_value > 255)
+	{
+		free(line);
 		error_parsing(core, ERR_COLOR_VALUE, map_fd);
+	}
 	return (rgb_value);
 }
 
