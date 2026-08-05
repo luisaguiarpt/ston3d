@@ -271,6 +271,32 @@ int		validate_map(t_core *core);
 char	**copy_map(char **grid);
 bool	is_valid_line(char *line);
 
+/**** Raycast ****/
+// raycast_core.c
+int		is_wall(t_core *core, int map_x, int map_y);
+void	setup_ray(t_core *core, int x);
+void	set_step(t_core *core);
+void	dda(t_core *core);
+void	calc_perp_wall_dist(t_core *core);
+// raycast_draw.c
+void	get_draw_info(t_core *core);
+void	calc_wall_slice(t_core *core);
+void	draw_to_screen(t_core *core, int x);
+// raycast_gate.c
+void	dda_skip_gate(t_core *core);
+int		dda_to_gate(t_core *core);
+void	draw_gate_pixels(t_core *core, int x, int tex_x);
+// raycast_gate_overlay.c
+void	draw_gate_column(t_core *core, int x);
+void	draw_gate_overlay(t_core *core);
+// raycast_texture.c
+int	get_pixel_from_texture(t_img *img, int tex_x, int tex_y);
+void	get_texture(t_core *core);
+void	calc_tex_x(t_core *core);
+unsigned int	get_tex_pixel(t_img *tex, int tex_x, int tex_y);
+void	calc_wall_x(t_core *core);
+
+
 // *** RENDERING ***
 //	rendering.c
 void	put_pixel(t_core *core, int x, int y, int color);

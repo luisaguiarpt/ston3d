@@ -11,13 +11,14 @@ NSFW = 0
 
 SRCS=srcs/main.c \
 	srcs/parsing/parsing.c srcs/parsing/texture_parsing.c srcs/parsing/map_parsing.c \
-	srcs/init/init_core.c srcs/init/init_imgs.c srcs/init/init_input.c\
-	srcs/rendering/game_loop.c \
+	srcs/init/init_core.c srcs/init/init_imgs.c srcs/init/init_input.c \
 	srcs/parsing/parsing_utils.c srcs/parsing/player_parsing.c srcs/parsing/collectibles_parsing.c \
 	srcs/parsing/validation.c srcs/parsing/validation_utils.c srcs/parsing/color_parsing.c \
-	srcs/rendering/rendering.c srcs/rendering/minimap.c srcs/rendering/raycast.c srcs/rendering/texture_rendering.c \
+	srcs/raycast/raycast_core.c srcs/raycast/raycast_draw.c srcs/raycast/raycast_gate.c \
+	srcs/raycast/raycast_gate_overlay.c srcs/raycast/raycast_texture.c \
+	srcs/rendering/rendering.c srcs/rendering/minimap.c srcs/rendering/draw_3d.c srcs/rendering/texture_rendering.c \
 	srcs/rendering/sprites.c srcs/rendering/collectibles.c srcs/rendering/gate.c srcs/rendering/player_arms.c \
-	srcs/rendering/smoke.c srcs/rendering/shutter_effect.c \
+	srcs/rendering/smoke.c srcs/rendering/shutter_effect.c srcs/rendering/game_loop.c \
 	srcs/input/keybinds.c srcs/input/mouse.c \
 	srcs/free/free_core.c srcs/free/free_sprites.c\
 	srcs/utils/utils.c srcs/utils/end.c srcs/utils/collectibles_utils.c srcs/utils/player_utils.c
