@@ -27,7 +27,7 @@ static char	*store_texture(t_core *core, int map_fd, char *line, int i)
 	file = malloc((len - i + 1) * sizeof(char));
 	if (!file)
 		error_parsing(core, ERR_MEMORY, map_fd);
-	while (line[i])
+	while (line[i] && !is_space(line[i]))
 	{
 		file[j] = line[i];
 		j++;

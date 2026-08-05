@@ -63,6 +63,23 @@ bool	is_empty_line(char *line)
 	return (true);
 }
 
+void	get_map_width(t_core *core)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (core->map.grid[i])
+	{
+		j = 0;
+		while (core->map.grid[i][j])
+			j++;
+		if (j > core->map.width)
+			core->map.width = j;
+		i++;
+	}
+}
+
 void	remove_newline(char *str)
 {
 	int	len;

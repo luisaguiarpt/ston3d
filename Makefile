@@ -1,10 +1,10 @@
 CC=cc
 
-CFLAGS = -Wall -Wextra -Werror -O3 -march=native -g
+#CFLAGS = -Wall -Wextra -Werror -O3 -march=native -g
 # for debugging
-# CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g
 
-NAME=cub3d
+NAME=cub3D
 
 BONUS = 0
 NSFW = 0
@@ -22,8 +22,10 @@ SRCS=srcs/main.c \
 	srcs/rendering/load_arms.c srcs/rendering/minimap_markers.c srcs/rendering/player_collision.c \
 	srcs/rendering/player_movement.c srcs/rendering/sprite_tex.c \
 	srcs/input/keybinds.c srcs/input/mouse.c \
-	srcs/free/free_core.c srcs/free/free_sprites.c\
+	srcs/free/free_core.c srcs/free/free_bonus.c \
 	srcs/utils/utils.c srcs/utils/end.c srcs/utils/collectibles_utils.c srcs/utils/player_utils.c
+
+SRCS_BONUS=srcs/free/free_bonus.c
 
 OBJS=$(SRCS:%.c=%.o)
 

@@ -12,6 +12,11 @@
 
 #include "../../incs/cub3d.h"
 
+void	free_image(t_core *core, t_img *img)
+{
+	mlx_destroy_image(core->mlx, img->img);
+}
+
 static void	free_map(t_core *core)
 {
 	if (core->map.grid)

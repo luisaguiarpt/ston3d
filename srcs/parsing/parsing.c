@@ -23,6 +23,8 @@ void	parse_cub_file(t_core *core, char *map_path)
 		error_parsing(core, "error loading map", 0);
 	parse_textures(core, map_fd);
 	parse_map(core, map_path, map_fd);
+	get_player_position(core);
+	get_map_width(core);
 	if (BONUS)
 	{
 		find_collectibles(core);

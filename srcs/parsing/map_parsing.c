@@ -12,23 +12,6 @@
 
 #include "../../incs/cub3d.h"
 
-static void	get_map_width(t_core *core)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (core->map.grid[i])
-	{
-		j = 0;
-		while (core->map.grid[i][j])
-			j++;
-		if (j > core->map.width)
-			core->map.width = j;
-		i++;
-	}
-}
-
 static void	skip_textures(t_core *core, int fd, int old_fd)
 {
 	int		textures_skipped;
@@ -101,6 +84,25 @@ static char	*fill_map_grid(t_core *core, int map_fd, char *line)
 	return (grid_line);
 }
 
+char	*skip_empty_lines(int map_fd)
+{
+	char	*line;
+
+	line = get_next_line(map_fd);
+	while (line)
+	{
+		remove_newline(line);
+		if (is_empty_line(line))
+		{
+			line = get_next_line(map_fd);
+			continue ;
+		}
+		else
+			break ;
+	}
+	return (line);
+}
+
 void	parse_map(t_core *core, char *map_path, int map_fd)
 {
 	char	*line;
@@ -111,21 +113,21 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 	core->map.grid = ft_calloc(core->map.height + 1, sizeof(char *));
 	if (!core->map.grid)
 		error_parsing(core, ERR_MEMORY, map_fd);
-	line = get_next_line(map_fd);
+	line = skip_empty_lines(map_fd);
 	while (line)
 	{
 		remove_newline(line);
-		if (is_empty_line(line) && i == 0)
+		if (is_empty_line(line))
 		{
-			free(line);
-			line = get_next_line(map_fd);
-			continue ;
+			line = skip_empty_lines(map_fd);
+			if (!line)
+				break ;
+			else
+				error_parsing(core, ERR_CHAR_AFTER_MAP, map_fd);
 		}
 		core->map.grid[i] = fill_map_grid(core, map_fd, line);
 		free(line);
 		line = get_next_line(map_fd);
 		i++;
 	}
-	get_player_position(core);
-	get_map_width(core);
 }

@@ -1,29 +1,33 @@
-NO textures/test/north.xpm
-SO textures/test/south.xpm
-WE textures/test/west.xpm
-EA textures/test/east.xpm
+NO textures/wall_warning.xpm
+SO textures/wall_fan.xpm
+EA textures/wall_poster.xpm
+WE textures/wall_moss.xpm
 
 F 20,20,20
 C 200,200,200
+
+
+
+
+
+
+
 
 11111
 10001
 10S01
 10001
+10a01
+10001
+11b01
+10001
+10c01
 10001
 10001
-11001
 10001
-10001
-10001
-10001
-10001
-11111
-
-
-
-
-
+11G11
+ 101
+ 111
 
 
 

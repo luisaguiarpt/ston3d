@@ -267,6 +267,7 @@ void	find_collectibles(t_core *core);
 void	load_color(t_core *core, int map_fd, char *line, int i);
 // map_parsing.c
 void	parse_map(t_core *core, char *map_path, int map_fd);
+void	get_map_width(t_core *core);
 // parsing.c
 void	parse_cub_file(t_core *core, char *map_path);
 void	error_parsing(t_core *core, char *message, int map_fd);
