@@ -21,7 +21,6 @@ void	move_forward(t_core *core)
 	{
 		new_x = core->player.x + core->player.dir_x * SPEED;
 		new_y = core->player.y + core->player.dir_y * SPEED;
-		
 		if (!collides_x(core, new_x))
 			core->player.x = new_x;
 		if (!collides_y(core, new_y))
@@ -38,7 +37,6 @@ void	move_backward(t_core *core)
 	{
 		new_x = core->player.x - core->player.dir_x * SPEED;
 		new_y = core->player.y - core->player.dir_y * SPEED;
-		
 		if (!collides_x(core, new_x))
 			core->player.x = new_x;
 		if (!collides_y(core, new_y))
@@ -55,7 +53,6 @@ void	strafe_left(t_core *core)
 	{
 		new_x = core->player.x + core->player.dir_y * SPEED;
 		new_y = core->player.y - core->player.dir_x * SPEED;
-		
 		if (!collides_x(core, new_x))
 			core->player.x = new_x;
 		if (!collides_y(core, new_y))
@@ -72,7 +69,6 @@ void	strafe_right(t_core *core)
 	{
 		new_x = core->player.x - core->player.dir_y * SPEED;
 		new_y = core->player.y + core->player.dir_x * SPEED;
-		
 		if (!collides_x(core, new_x))
 			core->player.x = new_x;
 		if (!collides_y(core, new_y))

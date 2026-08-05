@@ -36,20 +36,20 @@ static int	is_solid_cell(t_core *core, float x, float y)
 
 int	collides_x(t_core *core, float new_x)
 {
-	return (is_solid_cell(core, new_x +
-				WALL_PADDING, core->player.y + WALL_PADDING)
-		|| is_solid_cell(core, new_x +
-			WALL_PADDING, core->player.y - WALL_PADDING)
-		|| is_solid_cell(core, new_x -
-			WALL_PADDING, core->player.y + WALL_PADDING)
-		|| is_solid_cell(core, new_x -
-			WALL_PADDING, core->player.y - WALL_PADDING));
+	return (is_solid_cell(core, new_x
+			+ WALL_PADDING, core->player.y + WALL_PADDING)
+		|| is_solid_cell(core, new_x
+			+ WALL_PADDING, core->player.y - WALL_PADDING)
+		|| is_solid_cell(core, new_x
+			- WALL_PADDING, core->player.y + WALL_PADDING)
+		|| is_solid_cell(core, new_x
+			- WALL_PADDING, core->player.y - WALL_PADDING));
 }
 
 int	collides_y(t_core *core, float new_y)
 {
 	return (is_solid_cell(core, core->player.x + WALL_PADDING,
-				new_y + WALL_PADDING)
+			new_y + WALL_PADDING)
 		|| is_solid_cell(core, core->player.x + WALL_PADDING,
 			new_y - WALL_PADDING)
 		|| is_solid_cell(core, core->player.x - WALL_PADDING,

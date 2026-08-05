@@ -45,7 +45,6 @@ static void	draw_right_arm(t_core *core, int offset, int current)
 	img = &core->sprites.right_arm[current];
 	pos.sx = (WIDTH / 2) - (offset / 2);
 	pos.sy = HEIGHT - 320 - offset;
-	// adjustment for arm sprite number 4
 	if (current == 4)
 	{
 		if (NSFW)

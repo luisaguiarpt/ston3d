@@ -54,12 +54,17 @@ static int	handle_input_release(int key, void *param)
 	return (0);
 }
 
+/*
+ * MLX's mouse function leaks memory
+ * here only for testing:
+ * mlx_mouse_hide(core->mlx, core->win)
+ */
+
 void	setup_keybinds(t_core *core)
 {
 	if (BONUS)
 	{
 		mlx_hook(core->win, 6, 1L << 6, (int (*)())(void *)handle_mouse, core);
-		//mlx_mouse_hide(core->mlx, core->win); // TODO leaks
 		mlx_hook(core->win, 4, 1L << 2, (int (*)())(void *)handle_click, core);
 	}
 	mlx_hook(core->win, 2, 1L << 0,

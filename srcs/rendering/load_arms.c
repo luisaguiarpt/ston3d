@@ -15,29 +15,29 @@
 static void	load_arms_nsfw(t_core *core)
 {
 	load_xpm(core, &core->sprites.left_arm[1],
-			"sprites/NSFW/nsfw_left_arm1.xpm");
+		"sprites/NSFW/nsfw_left_arm1.xpm");
 	load_xpm(core, &core->sprites.right_arm[1],
-			"sprites/NSFW/nsfw_right_arm1.xpm");
+		"sprites/NSFW/nsfw_right_arm1.xpm");
 	load_xpm(core, &core->sprites.right_arm[2],
-			"sprites/NSFW/nsfw_right_arm2.xpm");
+		"sprites/NSFW/nsfw_right_arm2.xpm");
 	load_xpm(core, &core->sprites.right_arm[3],
-			"sprites/NSFW/nsfw_right_arm3.xpm");
+		"sprites/NSFW/nsfw_right_arm3.xpm");
 	load_xpm(core, &core->sprites.right_arm[4],
-			"sprites/NSFW/nsfw_right_arm4.xpm");
+		"sprites/NSFW/nsfw_right_arm4.xpm");
 }
 
 static void	load_arms_pg(t_core *core)
 {
 	load_xpm(core, &core->sprites.left_arm[1],
-			"sprites/PG/pg_left_arm1.xpm");
+		"sprites/PG/pg_left_arm1.xpm");
 	load_xpm(core, &core->sprites.right_arm[1],
-			"sprites/PG/pg_right_arm1.xpm");
+		"sprites/PG/pg_right_arm1.xpm");
 	load_xpm(core, &core->sprites.right_arm[2],
-			"sprites/PG/pg_right_arm2.xpm");
+		"sprites/PG/pg_right_arm2.xpm");
 	load_xpm(core, &core->sprites.right_arm[3],
-			"sprites/PG/pg_right_arm3.xpm");
+		"sprites/PG/pg_right_arm3.xpm");
 	load_xpm(core, &core->sprites.right_arm[4],
-			"sprites/PG/pg_right_arm4.xpm");
+		"sprites/PG/pg_right_arm4.xpm");
 }
 
 void	load_arm_sprites(t_core *core)

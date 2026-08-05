@@ -28,19 +28,25 @@ static void	load_collectible_sprites(t_core *core)
 {
 	if (NSFW)
 	{
-		load_xpm(core, &core->sprites.collectibles[0], "sprites/NSFW/papers.xpm");
-		load_xpm(core, &core->sprites.collectibles[1], "sprites/NSFW/buds.xpm");
-		load_xpm(core, &core->sprites.collectibles[2], "sprites/NSFW/lighter.xpm");
+		load_xpm(core, &core->sprites.collectibles[0],
+			"sprites/NSFW/papers.xpm");
+		load_xpm(core, &core->sprites.collectibles[1],
+			"sprites/NSFW/buds.xpm");
+		load_xpm(core, &core->sprites.collectibles[2],
+			"sprites/NSFW/lighter.xpm");
 	}
 	else
 	{
-		load_xpm(core, &core->sprites.collectibles[0], "sprites/PG/tomato.xpm");
-		load_xpm(core, &core->sprites.collectibles[1], "sprites/PG/lettuce.xpm");
-		load_xpm(core, &core->sprites.collectibles[2], "sprites/PG/baguette.xpm");
+		load_xpm(core, &core->sprites.collectibles[0],
+			"sprites/PG/tomato.xpm");
+		load_xpm(core, &core->sprites.collectibles[1],
+			"sprites/PG/lettuce.xpm");
+		load_xpm(core, &core->sprites.collectibles[2],
+			"sprites/PG/baguette.xpm");
 	}
 }
 
-static void load_smoke_sprites(t_core *core)
+static void	load_smoke_sprites(t_core *core)
 {
 	load_xpm(core, &core->sprites.smoke[0], "sprites/smoke/smoke01.xpm");
 	load_xpm(core, &core->sprites.smoke[1], "sprites/smoke/smoke02.xpm");
