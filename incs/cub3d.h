@@ -107,6 +107,13 @@ typedef struct s_ray
 	t_img	*tex;
 }			t_ray;
 
+typedef struct s_vline
+{
+	int	y0;
+	int	y1;
+	int	color;
+}			t_vline;
+
 typedef struct s_player
 {
 	float	x;

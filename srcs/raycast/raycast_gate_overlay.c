@@ -23,9 +23,11 @@ void	draw_gate_column(t_core *core, int x)
 	if (core->ray.perp_wall_dist >= core->zbuffer[x])
 		return ;
 	if (core->ray.side == 0)
-		wall_x = core->player.y + core->ray.perp_wall_dist * core->ray.ray_dir_y;
+		wall_x = core->player.y + core->ray.perp_wall_dist
+			* core->ray.ray_dir_y;
 	else
-		wall_x = core->player.x + core->ray.perp_wall_dist * core->ray.ray_dir_x;
+		wall_x = core->player.x + core->ray.perp_wall_dist
+			* core->ray.ray_dir_x;
 	wall_x -= floor(wall_x);
 	tex_x = (int)(wall_x * core->sprites.gate_img.width)
 		- (int)(core->gate.progress * core->sprites.gate_img.width);

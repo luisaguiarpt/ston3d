@@ -12,29 +12,30 @@
 
 #include "../../incs/cub3d.h"
 
-static void	draw_vertical(t_core *core, int x, int y0, int y1, int color)
+static void	draw_vertical(t_core *core, int x, t_vline *v)
 {
 	int	y;
 
 	if (x < 0 || x >= WIDTH)
-		return;
-	if (y0 < 0)
-		y0 = 0;
-	if (y1 >= HEIGHT)
-		y1 = HEIGHT - 1;
-	y = y0;
-	while (y <= y1)
-		put_pixel(core, x, y++, color);
+		return ;
+	if (v->y0 < 0)
+		v->y0 = 0;
+	if (v->y1 >= HEIGHT)
+		v->y1 = HEIGHT - 1;
+	y = v->y0;
+	while (y <= v->y1)
+		put_pixel(core, x, y++, v->color);
 }
 
-static void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_end)
+static void	draw_vertical_texture(t_core *core, int x,
+		int draw_start, int draw_end)
 {
 	int		tex_y;
 	int		y;
 	float	tex_pos;
-	
+
 	if (x < 0 || x >= WIDTH || draw_start > draw_end)
-		return;
+		return ;
 	tex_pos = (draw_start - core->ray.true_draw_start) * core->ray.draw_step;
 	y = draw_start;
 	while (y <= draw_end)
@@ -44,7 +45,8 @@ static void	draw_vertical_texture(t_core *core, int x, int draw_start, int draw_
 			tex_y = 0;
 		if (tex_y >= core->ray.tex->height)
 			tex_y = core->ray.tex->height - 1;
-		put_pixel(core, x, y, get_tex_pixel(core->ray.tex, core->ray.tex_x, tex_y));
+		put_pixel(core, x, y, get_tex_pixel(core->ray.tex,
+				core->ray.tex_x, tex_y));
 		tex_pos += core->ray.draw_step;
 		y++;
 	}
@@ -73,12 +75,20 @@ void	calc_wall_slice(t_core *core)
 
 void	draw_to_screen(t_core *core, int x)
 {
+	t_vline	v;
+
 	calc_wall_slice(core);
-	calc_wall_x(core); 
+	calc_wall_x(core);
 	get_texture(core);
 	calc_tex_x(core);
 	get_draw_info(core);
-	draw_vertical(core, x, 0, core->ray.draw_start - 1, core->textures.ceiling_int);
+	v.y0 = 0;
+	v.y1 = core->ray.draw_start - 1;
+	v.color = core->textures.ceiling_int;
+	draw_vertical(core, x, &v);
 	draw_vertical_texture(core, x, core->ray.draw_start, core->ray.draw_end);
-	draw_vertical(core, x, core->ray.draw_end + 1, HEIGHT - 1, core->textures.floor_int);
+	v.y0 = core->ray.draw_end + 1;
+	v.y1 = HEIGHT - 1;
+	v.color = core->textures.floor_int;
+	draw_vertical(core, x, &v);
 }

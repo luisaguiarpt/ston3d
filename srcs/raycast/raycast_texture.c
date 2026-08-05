@@ -60,7 +60,7 @@ void	get_texture(t_core *core)
 
 void	calc_tex_x(t_core *core)
 {
-	int	tex_x;
+	int		tex_x;
 	double	wall_x;
 	t_img	*tex;
 
@@ -71,9 +71,9 @@ void	calc_tex_x(t_core *core)
 		tex_x = 0;
 	if (tex_x >= tex->width)
 		tex_x = tex->width - 1;
-	if(core->ray.side == 0 && core->ray.ray_dir_x < 0)
+	if (core->ray.side == 0 && core->ray.ray_dir_x < 0)
 		tex_x = tex->width - tex_x - 1;
-	if(core->ray.side == 1 && core->ray.ray_dir_y > 0)
+	if (core->ray.side == 1 && core->ray.ray_dir_y > 0)
 		tex_x = tex->width - tex_x - 1;
 	core->ray.tex_x = tex_x;
 }
@@ -89,11 +89,13 @@ unsigned int	get_tex_pixel(t_img *tex, int tex_x, int tex_y)
 void	calc_wall_x(t_core *core)
 {
 	double	wall_x;
-	
+
 	if (core->ray.side == 0)
-		wall_x = core->player.y + core->ray.perp_wall_dist * core->ray.ray_dir_y;
+		wall_x = core->player.y + core->ray.perp_wall_dist
+			* core->ray.ray_dir_y;
 	else
-		wall_x = core->player.x + core->ray.perp_wall_dist * core->ray.ray_dir_x;
+		wall_x = core->player.x + core->ray.perp_wall_dist
+			* core->ray.ray_dir_x;
 	wall_x -= floor(wall_x);
 	core->ray.wall_x = wall_x;
 }
