@@ -67,13 +67,13 @@ void	init_mlx(t_core *core)
 {
 	core->mlx = mlx_init();
 	if (!core->mlx)
-		exit(EXIT_FAILURE);
+		error_parsing(core, ERR_MLX, 0);
 	core->win = mlx_new_window(core->mlx, WIDTH, HEIGHT, "ston3d");
 	if (!core->win)
-		exit(EXIT_FAILURE);
+		error_parsing(core, ERR_MLX, 0);
 	core->img = mlx_new_image(core->mlx, WIDTH, HEIGHT);
 	if (!core->img)
-		exit(EXIT_FAILURE);
+		error_parsing(core, ERR_MLX, 0);
 	core->img_addr = mlx_get_data_addr(core->img, &core->bpp, &core->line_len,
 			&core->endian);
 	core->bpp_bytes = core->bpp / 8;

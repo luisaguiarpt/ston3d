@@ -29,6 +29,7 @@
 # define ERR_NO_PLAYER "no player found"
 # define ERR_FORBIDDEN_CHAR "only valid chars:' ', '0', '1', 'N', 'S', 'E', 'W'"
 # define ERR_CHAR_AFTER_MAP "Map must be the last element of the file"
+# define ERR_MLX "Couldn't initialize MLX instance"
 
 /** bonus errors **/
 # define ERR_COLL_NUM "map must have exactly one 'a', one 'b', one 'c'"
