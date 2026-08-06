@@ -110,12 +110,12 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 	int		i;
 
 	core->map.height = get_map_height(core, map_path, map_fd);
-	i = 0;
+	i = -1;
 	core->map.grid = ft_calloc(core->map.height + 1, sizeof(char *));
 	if (!core->map.grid)
 		error_parsing(core, ERR_MEMORY, map_fd);
 	line = skip_empty_lines(map_fd);
-	while (line)
+	while (line && ++i > -1)
 	{
 		remove_newline(line);
 		if (is_empty_line(line))
@@ -124,11 +124,11 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 			if (!line)
 				break ;
 			else
-				error_parsing(core, ERR_CHAR_AFTER_MAP, map_fd);
+				error_parsing_free(core, ERR_CHAR_AFTER_MAP, map_fd, line);
 		}
 		core->map.grid[i] = fill_map_grid(core, map_fd, line);
 		free(line);
 		line = get_next_line(map_fd);
-		i++;
 	}
+	free(line);
 }

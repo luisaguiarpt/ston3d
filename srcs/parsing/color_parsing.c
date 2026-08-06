@@ -54,10 +54,10 @@ void	load_color(t_core *core, int map_fd, char *line, int i)
 	while (values_loaded < 3)
 	{
 		if (values_loaded > 0 && line[i++] != ',')
-			error_parsing(core, ERR_COMMA, map_fd);
+			error_parsing_free(core, ERR_COMMA, map_fd, line);
 		value = parse_one_rgb(core, map_fd, line, &i);
 		if (value == -1)
-			error_parsing(core, ERR_COLOR_COUNT, map_fd);
+			error_parsing_free(core, ERR_COLOR_COUNT, map_fd, line);
 		array[values_loaded++] = value;
 	}
 }
