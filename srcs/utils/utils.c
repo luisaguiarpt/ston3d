@@ -51,6 +51,6 @@ int	rgb_to_int(int rgb[3])
 void	exit_error(t_core *core, char *message)
 {
 	free_core(core);
-	ft_printf("Error\n%s", message);
+	ft_printf("Error\n%s\n", message);
 	exit(EXIT_FAILURE);
 }
