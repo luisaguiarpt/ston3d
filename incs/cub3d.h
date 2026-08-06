@@ -270,6 +270,7 @@ void			get_map_width(t_core *core);
 // parsing.c
 void			parse_cub_file(t_core *core, char *map_path);
 void			error_parsing(t_core *core, char *message, int map_fd);
+void			error_parsing_free(t_core *core, char *message, int map_fd, void *p);
 // parsing_utils.c
 bool			is_cub_file(char *line);
 bool			is_xpm_file(char *line);

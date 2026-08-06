@@ -41,3 +41,9 @@ void	error_parsing(t_core *core, char *message, int map_fd)
 		close(map_fd);
 	exit(EXIT_FAILURE);
 }
+
+void	error_parsing_free(t_core *core, char *message, int map_fd, void *p)
+{
+	free(p);
+	error_parsing(core, message, map_fd);
+}

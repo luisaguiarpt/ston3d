@@ -18,15 +18,15 @@ static char	*store_texture(t_core *core, int map_fd, char *line, int i)
 	int		len;
 	char	*file;
 
-	if (!is_xpm_file(line))
-		error_parsing(core, ERR_FORMAT, map_fd);
+	if (!is_xpm_file(&line[i]))
+		error_parsing_free(core, ERR_FORMAT, map_fd, line);
 	while (is_space(line[i]))
 		i++;
 	j = 0;
 	len = ft_strlen(line);
 	file = malloc((len - i + 1) * sizeof(char));
 	if (!file)
-		error_parsing(core, ERR_MEMORY, map_fd);
+		error_parsing_free(core, ERR_MEMORY, map_fd, line);
 	while (line[i] && !is_space(line[i]))
 	{
 		file[j] = line[i];

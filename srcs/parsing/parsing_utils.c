@@ -30,17 +30,23 @@ bool	is_cub_file(char *line)
 
 bool	is_xpm_file(char *line)
 {
+	int	start;
+	int	end;
 	int	len;
 
-	len = ft_strlen(line) - 1;
+	start = 0;
+	end = ft_strlen(line) - 1;
+	while (is_space(line[start]))
+		start++;
+	while (is_space(line[end]) && end > start)
+		end--;
+	len = end - start + 1;
 	if (len < 4)
 		return (false);
-	while (len > 0 && is_space(line[len]))
-		len--;
-	if (line[len - 3] != '.'
-		|| line[len - 2] != 'x'
-		|| line[len - 1] != 'p'
-		|| line[len] != 'm')
+	if (line[end - 3] != '.'
+		|| line[end - 2] != 'x'
+		|| line[end - 1] != 'p'
+		|| line[end] != 'm')
 		return (false);
 	else
 		return (true);
