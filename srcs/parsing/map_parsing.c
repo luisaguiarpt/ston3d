@@ -84,7 +84,7 @@ static char	*fill_map_grid(t_core *core, int map_fd, char *line)
 	return (grid_line);
 }
 
-char	*skip_empty_lines(int map_fd)
+static char	*skip_empty_lines(int map_fd)
 {
 	char	*line;
 

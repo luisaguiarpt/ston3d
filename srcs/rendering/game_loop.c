@@ -12,7 +12,7 @@
 
 #include "../incs/cub3d.h"
 
-bool	above_frame_rate(void)
+static bool	above_frame_rate(void)
 {
 	static int	last_frame_time;
 	int			current_time;
@@ -26,7 +26,7 @@ bool	above_frame_rate(void)
 	return (false);
 }
 
-void	rotate_dir(t_core *core, int turn_dir)
+static void	rotate_dir(t_core *core, int turn_dir)
 {
 	float	angle;
 	float	cos;
