@@ -120,6 +120,7 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 		remove_newline(line);
 		if (is_empty_line(line))
 		{
+			free(line);
 			line = skip_empty_lines(map_fd);
 			if (!line)
 				break ;
@@ -130,5 +131,4 @@ void	parse_map(t_core *core, char *map_path, int map_fd)
 		free(line);
 		line = get_next_line(map_fd);
 	}
-	free(line);
 }
