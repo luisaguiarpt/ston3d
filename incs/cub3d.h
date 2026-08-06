@@ -42,7 +42,6 @@
 # define ARM_BOB_RANGE 28.0f
 # define GATE_OPEN_SPEED 0.005f
 
-// # define SMOKE_TICKS_PER_FRAME 1.4
 # define SHUTTER_EFFECT_MIN_ALPHA 0.05f
 # define SHUTTER_EFFECT_MAX_CLICKS 20
 # define SMOKE_FRAME_MS 30
@@ -238,147 +237,146 @@ typedef struct s_core
 
 /**** Free ****/
 // free_core.c
-void	free_core(t_core *core);
+void			free_core(t_core *core);
 // free_sprites.c
-void	free_image(t_core *core, t_img *img);
-void	free_sprites(t_core *core);
+void			free_image(t_core *core, t_img *img);
+void			free_sprites(t_core *core);
 
 /**** Init ****/
 // init_core.c
-void	init_game(t_core *core);
-void	init_mlx(t_core *core);
+void			init_game(t_core *core);
+void			init_mlx(t_core *core);
 // init_imgs.c
-void	init_textures(t_core *core);
-void	init_sprites(t_core *core);
+void			init_textures(t_core *core);
+void			init_sprites(t_core *core);
 // init_input.c
-void	init_input(t_core *core);
+void			init_input(t_core *core);
 
 /**** Input ****/
 // keybinds.c
-void	setup_keybinds(t_core *core);
+void			setup_keybinds(t_core *core);
 // mouse.c
-int	handle_mouse(int x, int y, void *param);
-int	handle_click(int button, int x, int y, void *param);
+int				handle_mouse(int x, int y, void *param);
+int				handle_click(int button, int x, int y, void *param);
 
 /**** Parsing ****/
 // collectibles_parsing.c
-void	find_collectibles(t_core *core);
+void			find_collectibles(t_core *core);
 //color_parsing.c
-void	load_color(t_core *core, int map_fd, char *line, int i);
+void			load_color(t_core *core, int map_fd, char *line, int i);
 // map_parsing.c
-void	parse_map(t_core *core, char *map_path, int map_fd);
-void	get_map_width(t_core *core);
+void			parse_map(t_core *core, char *map_path, int map_fd);
+void			get_map_width(t_core *core);
 // parsing.c
-void	parse_cub_file(t_core *core, char *map_path);
-void	error_parsing(t_core *core, char *message, int map_fd);
+void			parse_cub_file(t_core *core, char *map_path);
+void			error_parsing(t_core *core, char *message, int map_fd);
 // parsing_utils.c
-bool	is_cub_file(char *line);
-bool	is_xpm_file(char *line);
-bool	is_empty_line(char *line);
-void	remove_newline(char *str);
+bool			is_cub_file(char *line);
+bool			is_xpm_file(char *line);
+bool			is_empty_line(char *line);
+void			remove_newline(char *str);
 // player_parsing.c
-void	get_player_position(t_core *core);
+void			get_player_position(t_core *core);
 // textures_parsing.c
-void	parse_textures(t_core *core, int map_fd);
+void			parse_textures(t_core *core, int map_fd);
 // validation.c
-int		validate_map(t_core *core);
+int				validate_map(t_core *core);
 // validation_utils.c
-char	**copy_map(char **grid);
-bool	is_valid_line(char *line);
+char			**copy_map(char **grid);
+bool			is_valid_line(char *line);
 
 /**** Raycast ****/
 // raycast_core.c
-int		is_wall(t_core *core, int map_x, int map_y);
-void	setup_ray(t_core *core, int x);
-void	set_step(t_core *core);
-void	dda(t_core *core);
-void	calc_perp_wall_dist(t_core *core);
+int				is_wall(t_core *core, int map_x, int map_y);
+void			setup_ray(t_core *core, int x);
+void			set_step(t_core *core);
+void			dda(t_core *core);
+void			calc_perp_wall_dist(t_core *core);
 // raycast_draw.c
-void	get_draw_info(t_core *core);
-void	calc_wall_slice(t_core *core);
-void	draw_to_screen(t_core *core, int x);
+void			get_draw_info(t_core *core);
+void			calc_wall_slice(t_core *core);
+void			draw_to_screen(t_core *core, int x);
 // raycast_gate.c
-void	dda_skip_gate(t_core *core);
-int		dda_to_gate(t_core *core);
-void	draw_gate_pixels(t_core *core, int x, int tex_x);
+void			dda_skip_gate(t_core *core);
+int				dda_to_gate(t_core *core);
+void			draw_gate_pixels(t_core *core, int x, int tex_x);
 // raycast_gate_overlay.c
-void	draw_gate_column(t_core *core, int x);
-void	draw_gate_overlay(t_core *core);
+void			draw_gate_column(t_core *core, int x);
+void			draw_gate_overlay(t_core *core);
 // raycast_texture.c
-int	get_pixel_from_texture(t_img *img, int tex_x, int tex_y);
-void	get_texture(t_core *core);
-void	calc_tex_x(t_core *core);
+int				get_pixel_from_texture(t_img *img, int tex_x, int tex_y);
+void			get_texture(t_core *core);
+void			calc_tex_x(t_core *core);
 unsigned int	get_tex_pixel(t_img *tex, int tex_x, int tex_y);
-void	calc_wall_x(t_core *core);
-
+void			calc_wall_x(t_core *core);
 
 /**** Rendering ****/
 // collectibles.c
-void	find_collectibles(t_core *core);
-void	update_collectibles(t_core *core);
-void	render_collectibles(t_core *core);
+void			find_collectibles(t_core *core);
+void			update_collectibles(t_core *core);
+void			render_collectibles(t_core *core);
 // game_loop.c
-int		game_loop(void *param);
+int				game_loop(void *param);
 // gate.c
-void	init_gate(t_core *core);
-void	find_gate(t_core *core);
-void	update_gate(t_core *core);
+void			init_gate(t_core *core);
+void			find_gate(t_core *core);
+void			update_gate(t_core *core);
 // load_arms.c
-void	load_arm_sprites(t_core *core);
+void			load_arm_sprites(t_core *core);
 // minimap.c
-void	draw_minimap(t_core *core);
+void			draw_minimap(t_core *core);
 // minimap_markers.c
-void	draw_rect(t_core *core, int start_x, int start_y, int color);
-void	draw_collectible_dots(t_core *core);
-void	draw_player_dot(t_core *core);
-void	draw_dir_line(t_core *core);
+void			draw_rect(t_core *core, int start_x, int start_y, int color);
+void			draw_collectible_dots(t_core *core);
+void			draw_player_dot(t_core *core);
+void			draw_dir_line(t_core *core);
 // rendering.c
-void	put_pixel(t_core *core, int x, int y, int color);
-int		render_frame(t_core *core);
+void			put_pixel(t_core *core, int x, int y, int color);
+int				render_frame(t_core *core);
 // texture_rendering.c
-void	load_xpm(t_core *core, t_img *img, char *path);
-void	load_textures(t_core *core);
+void			load_xpm(t_core *core, t_img *img, char *path);
+void			load_textures(t_core *core);
 // raycast.c
-void	draw_3d(t_core *core);
-int		get_pixel_from_texture(t_img *img, int tex_x, int tex_y);
+void			draw_3d(t_core *core);
+int				get_pixel_from_texture(t_img *img, int tex_x, int tex_y);
 // player_arms.c
-void	draw_arms(t_core *core);
+void			draw_arms(t_core *core);
 // player_collision.c
-int	collides_x(t_core *core, float new_x);
-int	collides_y(t_core *core, float new_y);
+int				collides_x(t_core *core, float new_x);
+int				collides_y(t_core *core, float new_y);
 // player_movement.c
-void	move_forward(t_core *core);
-void	move_backward(t_core *core);
-void	strafe_left(t_core *core);
-void	strafe_right(t_core *core);
+void			move_forward(t_core *core);
+void			move_backward(t_core *core);
+void			strafe_left(t_core *core);
+void			strafe_right(t_core *core);
 // sprites.c
-void	calc_spr_screen(t_spr_data *s);
-void	draw_spr(t_core *core, t_spr_data *s);
-void	draw_sprites_row(t_core *c, t_img *img, t_row_draw *pos);
+void			calc_spr_screen(t_spr_data *s);
+void			draw_spr(t_core *core, t_spr_data *s);
+void			draw_sprites_row(t_core *c, t_img *img, t_row_draw *pos);
 // sprites_tex.c
-void	draw_spr_stripe(t_core *core, t_spr_data *s, int stripe);
+void			draw_spr_stripe(t_core *core, t_spr_data *s, int stripe);
 // smoke.c
-void	smoke_animation(t_core *core);
+void			smoke_animation(t_core *core);
 // shutter_effect.c
-void	apply_shutter_effect(t_core *core);
+void			apply_shutter_effect(t_core *core);
 
-// *** UTILS ***
+/**** Utils ****/
 // utils.c
-bool	is_space(char c);
-int		absolute_value(int n);
-int		rgb_to_int(int rgb[3]);
-void	exit_error(t_core *core, char *message);
+bool			is_space(char c);
+int				absolute_value(int n);
+int				rgb_to_int(int rgb[3]);
+void			exit_error(t_core *core, char *message);
 // end.c
-void	exit_game(t_core *core, int exit_code);
-void	update_end_state(t_core *core);
-int		get_current_time(void);
+void			exit_game(t_core *core, int exit_code);
+void			update_end_state(t_core *core);
+int				get_current_time(void);
 // collectibles_utils.c
-void	update_arm_sprite(t_core *core);
-int		bonus_char_type(char c);
-void	update_collectibles(t_core *core);
-void	sort_collectibles(t_core *core);
+void			update_arm_sprite(t_core *core);
+int				bonus_char_type(char c);
+void			update_collectibles(t_core *core);
+void			sort_collectibles(t_core *core);
 // player_utils.c
-void	update_arm_sprite(t_core *core);
-bool	is_walking(t_core *core);
+void			update_arm_sprite(t_core *core);
+bool			is_walking(t_core *core);
 
 #endif

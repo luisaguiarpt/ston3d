@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:49:50 by josepedr          #+#    #+#             */
-/*   Updated: 2026/06/16 17:09:22 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/08/06 10:49:29 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@
 # define ERR_TEXTURE "unable to find textures from the .cub file"
 # define ERR_TOO_MANY_PLAYERS "map can't have more than one player spawn point"
 # define ERR_NO_PLAYER "no player found"
-# define ERR_FORBIDDEN_CHAR "only the characters ' ', '0', '1', 'N', 'S', 'E' and 'W' are accepted as valid"
+# define ERR_FORBIDDEN_CHAR "only valid chars:' ', '0', '1', 'N', 'S', 'E', 'W'"
 # define ERR_CHAR_AFTER_MAP "Map must be the last element of the file"
 
-// bonus errors
+/** bonus errors **/
 # define ERR_COLL_NUM "map must have exactly one 'a', one 'b', one 'c'"
 # define ERR_TOO_MANY_COLL "too many collectibles in map"
 
