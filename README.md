@@ -3,7 +3,7 @@
 
 # cub3D
 
-<img src="resources/title.png" alt="custom ston3D title screen">
+<img src="resources/header.png" alt="custom ston3D title screen">
 
 ## ston3D
 An unserious little raycaster where your mission is to wander through a maze-like authoritarian hellscape and collect every last ingredient to finally enjoy yourslef a well earned relaxing break.
