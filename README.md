@@ -3,6 +3,7 @@
 
 # cub3D
 
+<img src="resources/title.png" alt="custom ston3D title screen">
 
 ## ston3D
 An unserious little raycaster where your mission is to wander through a maze-like authoritarian hellscape and collect every last ingredient to finally enjoy yourslef a well earned relaxing break.
@@ -83,7 +84,7 @@ The program expects exactly one argument: the map file path.
 
 
 ## Maps
-A few sample maps ship with the project for both the base and bonus versions, located inside the `maps` folder
+A few sample maps ship with the project for both the base and bonus versions.
 
 
 ### Base map rules
@@ -123,17 +124,13 @@ For bonus maps:
 
 
 ## Resources
+42Docs' entry on [MiniLibX](https://harm-smits.github.io/42docs/libs/minilibx) — understandable, straightforward and beginner friendly documentation on MiniLibX.
 
-- 42Docs' entry on [MiniLibX](https://harm-smits.github.io/42docs/libs/minilibx) — understandable, straightforward and beginner friendly documentation on MiniLibX.
 
-
-- [Edvinas Momkus](https://github.com/Edvinas1122/) and his [cub3D project](https://github.com/Edvinas1122/cub3D) for inspiring our 'low shutter speed' trippy effect.
+[Edvinas Momkus](https://github.com/Edvinas1122/) and his [cub3D project](https://github.com/Edvinas1122/cub3D) for inspiring our 'low shutter speed' trippy effect.
 
 ## AI usage
 
 - working through some of the more complex calculations rendering requires
 
 - implementing the low shutter speed effect at the end of the game
-
-- understanding and implementing bitmasks
-
