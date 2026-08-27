@@ -42,9 +42,9 @@ make bonus
 Builds the bonus version of the game which includes everything from the base game, plus:
 
 - collectibles
-- the gate
-- extra visual elements such as the player's hands
+- a map exit
 - a minimap
+- extra visual elements such as the player's hands
 
 ### NSFW version
 
@@ -70,17 +70,21 @@ The program expects exactly one argument: the map file path.
 
 ### Keyboard
 
-- `W` — move forward
-- `A` — strafe left
-- `S` — move backward
-- `D` — strafe right
-- `←` / `→` — rotate left / right
-- `ESC` — exit the game
+| Key | Description |
+| --- | --- |
+|`W`|move forward|
+|`A`|strafe left|
+|`S`|move backward|
+|`D`|strafe right|
+|`←` / `→`|rotate left / right|
+|`ESC`|exit the game|
 
 ### Mouse (bonus)
 
-- Move the mouse horizontally to rotate left or right
-- Left click to consume your 'sandwich' after passing through the gate
+| Key | Description |
+| --- | --- |
+|`Pan horizontally`|Move the mouse horizontally to rotate left or right|
+|Left click|consume 'sandwich' after passing through the gate|
 
 
 ## Maps
@@ -93,15 +97,15 @@ A valid map file must:
 
 - be a `.cub` file
 - define the four wall textures at the beginning (must be `.xpm` files):
-  - `NO` — followed by the texture's path
-  - `SO` — followed by the texture's path
-  - `EA` — followed by the texture's path
-  - `WE` — followed by the texture's path
+  - `NO` followed by the texture's path
+  - `SO` followed by the texture's path
+  - `EA` followed by the texture's path
+  - `WE` followed by the texture's path
 - define floor and ceiling colors `(R, G, B)`
 - contain exactly one player spawn:
   - `N`, `S`, `E`, or `W` (setting the direction the player is facing)
 - use only valid map characters:
-  - spaces (representing a *void* space)
+  - `spaces` (representing a *void* space)
   - `0` (representing a *walkable* space)
   - `1` (representing a *wall*)
 - be properly enclosed so the player cannot escape the map
@@ -113,7 +117,7 @@ When compiling with `make bonus` or `make nsfw`, the map **must** also include b
 
 Valid bonus characters include:
 
-- `a`, `b` and `c` — representing the three different collectibles (exactly one of each)
+- `a`, `b` and `c` representing the three different collectibles (exactly one of each)
 - `G` representing the gate and the exit, once open.
 
 For bonus maps:
