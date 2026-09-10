@@ -43,7 +43,7 @@ int	validate_map(t_core *core)
 {
 	char	**validation_map;
 
-	validation_map = copy_map(core->map.grid);
+	validation_map = copy_map(core->map.grid, core->map.height);
 	if (!validation_map)
 		error_parsing(core, ERR_MEMORY, 0);
 	if (flood_fill((int)core->player.y,

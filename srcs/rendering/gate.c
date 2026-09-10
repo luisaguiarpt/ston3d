@@ -28,7 +28,7 @@ void	find_gate(t_core *core)
 	int	x;
 
 	y = 0;
-	while (core->map.grid[y])
+	while (y < core->map.height)
 	{
 		x = 0;
 		while (core->map.grid[y][x])

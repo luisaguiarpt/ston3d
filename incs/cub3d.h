@@ -283,7 +283,7 @@ void			parse_textures(t_core *core, int map_fd);
 // validation.c
 int				validate_map(t_core *core);
 // validation_utils.c
-char			**copy_map(char **grid);
+char			**copy_map(char **grid, int height);
 bool			is_valid_line(char *line);
 
 /**** Raycast ****/

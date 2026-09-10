@@ -75,7 +75,7 @@ void	get_map_width(t_core *core)
 	int	j;
 
 	i = 0;
-	while (core->map.grid[i])
+	while (i < core->map.height)
 	{
 		j = 0;
 		while (core->map.grid[i][j])

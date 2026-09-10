@@ -46,21 +46,18 @@ bool	is_valid_line(char *line)
 	return (true);
 }
 
-char	**copy_map(char **grid)
+char	**copy_map(char **grid, int height)
 {
 	char	**dup;
 	int		i;
 
 	if (!grid)
 		return (NULL);
-	i = 0;
-	while (grid[i])
-		i++;
-	dup = ft_calloc(i + 1, sizeof(char *));
+	dup = ft_calloc(height + 1, sizeof(char *));
 	if (!dup)
 		return (NULL);
 	i = 0;
-	while (grid[i])
+	while (i < height)
 	{
 		dup[i] = ft_strdup(grid[i]);
 		if (!dup[i])

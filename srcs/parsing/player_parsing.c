@@ -84,7 +84,7 @@ void	get_player_position(t_core *core)
 
 	y = 0;
 	player_found = false;
-	while (core->map.grid[y])
+	while (y < core->map.height)
 	{
 		x = 0;
 		while (core->map.grid[y][x])

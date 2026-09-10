@@ -39,7 +39,7 @@ void	find_collectibles(t_core *core)
 	if (!core->collectibles)
 		error_parsing(core, ERR_MEMORY, 0);
 	y = 0;
-	while (core->map.grid[y])
+	while (y < core->map.height)
 	{
 		x = 0;
 		while (core->map.grid[y][x])
