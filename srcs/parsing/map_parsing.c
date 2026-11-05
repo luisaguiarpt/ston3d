@@ -54,7 +54,7 @@ static int	get_map_height(t_core *core, char *map_path, int old_fd)
 		if (is_empty_line(line))
 		{
 			free(line);
-			break;
+			break ;
 		}
 		height++;
 		free(line);
