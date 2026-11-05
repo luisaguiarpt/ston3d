@@ -43,12 +43,31 @@ static int	parse_one_rgb(t_core *core, int map_fd, char *line, int *i)
 	return (rgb_value);
 }
 
+static int	check_colors_loaded(t_core *core, char c)
+{
+	if (c == 'F')
+	{
+		if (core->textures.f_loaded)
+			return (1);
+		core->textures.f_loaded = true;
+	}
+	else
+	{
+		if (core->textures.c_loaded)
+			return (1);
+		core->textures.c_loaded = true;
+	}
+	return (0);
+}
+
 void	load_color(t_core *core, int map_fd, char *line, int i)
 {
 	int	*array;
 	int	values_loaded;
 	int	value;
 
+	if (check_colors_loaded(core, line[i]))
+			error_parsing_free(core, ERR_COLOR_DUP, map_fd, line);
 	array = select_color_array(core, line[i++]);
 	values_loaded = 0;
 	while (values_loaded < 3)

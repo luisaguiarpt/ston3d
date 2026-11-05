@@ -23,6 +23,7 @@
 # define ERR_COLOR_FORMAT "Wrong format, could not load colour"
 # define ERR_COLOR_VALUE "Colour values must be between 0 and 255"
 # define ERR_COLOR_COUNT "Colour definition expects 3 values (R, G, B)"
+# define ERR_COLOR_DUP "Colors can only be defined once per floor and once per ceiling"
 # define ERR_COMMA "Comma expected between colour values"
 # define ERR_TEXTURE "Unable to find textures from the .cub file"
 # define ERR_TOO_MANY_PLAYERS "Map can't have more than one player spawn point"
@@ -32,6 +33,8 @@
 # define ERR_MLX "Couldn't initialize MLX instance"
 # define ERR_MAP_NOT_CUB "Map must be a .cub file"
 # define ERR_MAP_LOAD "Couldn't load map"
+# define ERR_GATE_UNREACHABLE "Gate can not be accessed by the player"
+# define ERR_GATE_PLACEMENT "Gate must be surrounded by walls on both sides"
 
 /** bonus errors **/
 # define ERR_COLL_NUM "map must have exactly one 'a', one 'b', one 'c'"

@@ -44,9 +44,6 @@ static void	init_core(t_core *core)
 	core->collected_count = 0;
 	core->collectibles = NULL;
 	core->click_count = 0;
-	core->prev_frame = ft_calloc(WIDTH * HEIGHT, sizeof(unsigned int));
-	if (!core->prev_frame)
-		error_parsing(core, ERR_MEMORY, 0);
 }
 
 void	init_game(t_core *core)
@@ -60,6 +57,9 @@ void	init_game(t_core *core)
 	{
 		init_sprites(core);
 		init_gate(core);
+		core->prev_frame = ft_calloc(WIDTH * HEIGHT, sizeof(unsigned int));
+		if (!core->prev_frame)
+			error_parsing(core, ERR_MEMORY, 0);
 	}
 }
 

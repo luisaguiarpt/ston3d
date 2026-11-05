@@ -39,19 +39,44 @@ static int	flood_fill(int y, int x, char **grid, t_core *core)
 	return (0);
 }
 
+static bool	is_wall_at(t_core *core, int x, int y)
+{
+	if (x < 0 || y < 0 || y >= core->map.height
+		|| x >= (int)ft_strlen(core->map.grid[y]))
+		return (false);
+	return (core->map.grid[y][x] == '1');
+}
+
+static char	*check_gate(t_core *core, char **visited)
+{
+	int	x;
+	int	y;
+
+	x = core->gate.x;
+	y = core->gate.y;
+	if (visited[y][x] != 'F')
+		return (ERR_GATE_UNREACHABLE);
+	if ((is_wall_at(core, x - 1, y) && is_wall_at(core, x + 1, y))
+		|| (is_wall_at(core, x, y - 1) && is_wall_at(core, x, y + 1)))
+		return (NULL);
+	return (ERR_GATE_PLACEMENT);
+}
+
 int	validate_map(t_core *core)
 {
-	char	**validation_map;
+	char	**visited;
+	char	*err;
 
-	validation_map = copy_map(core->map.grid, core->map.height);
-	if (!validation_map)
+	visited = copy_map(core->map.grid, core->map.height);
+	if (!visited)
 		error_parsing(core, ERR_MEMORY, 0);
-	if (flood_fill((int)core->player.y,
-			(int)core->player.x, validation_map, core))
-	{
-		ft_free_tab(validation_map);
-		error_parsing(core, ERR_WALLS, 0);
-	}
-	ft_free_tab(validation_map);
+	err = NULL;
+	if (flood_fill((int)core->player.y, (int)core->player.x, visited, core))
+		err = ERR_WALLS;
+	else if (BONUS)
+		err = check_gate(core, visited);
+	ft_free_tab(visited);
+	if (err)
+		error_parsing(core, err, 0);
 	return (0);
 }

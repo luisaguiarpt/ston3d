@@ -52,9 +52,9 @@ static bool	find_textures(t_core *core, int map_fd, char *line)
 		core->textures.we_path = store_texture(core, map_fd, line, i + 2);
 	else if (line[i] == 'E' && line[i + 1] == 'A' && !core->textures.ea_path)
 		core->textures.ea_path = store_texture(core, map_fd, line, i + 2);
-	else if (line[i] == 'F' && !core->textures.f_loaded)
+	else if (line[i] == 'F')
 		load_color(core, map_fd, line, i);
-	else if (line[i] == 'C' && !core->textures.c_loaded)
+	else if (line[i] == 'C')
 		load_color(core, map_fd, line, i);
 	else
 		return (false);
