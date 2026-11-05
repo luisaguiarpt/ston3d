@@ -44,6 +44,7 @@ static void	init_core(t_core *core)
 	core->collected_count = 0;
 	core->collectibles = NULL;
 	core->click_count = 0;
+	core->prev_frame = NULL;
 }
 
 void	init_game(t_core *core)
