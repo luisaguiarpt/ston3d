@@ -81,7 +81,7 @@ The program expects exactly one argument: the map file path.
 
 ### Mouse (bonus)
 
-| Key | Description |
+| Action | Description |
 | --- | --- |
 |`Pan horizontally`|Move the mouse horizontally to rotate left or right|
 |`Left click`|consume 'sandwich' after passing through the gate|
