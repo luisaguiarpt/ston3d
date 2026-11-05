@@ -31,7 +31,7 @@
 # define WIDTH 1280
 # define SPEED 0.07f
 # define WALL_PADDING 0.25f
-# define MOUSE_SENSITIVITY 0.0003f
+# define MOUSE_SENSITIVITY 0.0005f
 # define DEGREES_PER_PRESS 2
 # define FOV 0.66
 # define COLLECT_RADIUS 0.5f
@@ -267,6 +267,7 @@ void			load_color(t_core *core, int map_fd, char *line, int i);
 // map_parsing.c
 void			parse_map(t_core *core, char *map_path, int map_fd);
 void			get_map_width(t_core *core);
+char			*skip_empty_lines(int map_fd);
 // parsing.c
 void			parse_cub_file(t_core *core, char *map_path);
 void			error_parsing(t_core *core, char *message, int map_fd);

@@ -48,19 +48,19 @@ static int	get_map_height(t_core *core, char *map_path, int old_fd)
 		error_parsing(core, strerror(errno), old_fd);
 	skip_textures(core, new_fd, old_fd);
 	height = 0;
-	line = get_next_line(new_fd);
+	line = skip_empty_lines(new_fd);
 	while (line)
 	{
-		remove_newline(line);
-		if (height == 0 && is_empty_line(line))
+		if (is_empty_line(line))
 		{
 			free(line);
-			line = get_next_line(new_fd);
-			continue ;
+			break;
 		}
 		height++;
 		free(line);
 		line = get_next_line(new_fd);
+		if (line)
+			remove_newline(line);
 	}
 	close(new_fd);
 	return (height);
@@ -84,7 +84,7 @@ static char	*fill_map_grid(t_core *core, int map_fd, char *line)
 	return (grid_line);
 }
 
-static char	*skip_empty_lines(int map_fd)
+char	*skip_empty_lines(int map_fd)
 {
 	char	*line;
 
